@@ -1,0 +1,13 @@
+.loginContainer{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+body,
+html,
+#root {
+  height: 100%;
+  margin: 0;
+}
