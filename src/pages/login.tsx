@@ -1,6 +1,10 @@
 import Login from "../components/login";
-
+import "./style.css";
 const LogInPage: React.FC = () => {
-  return <Login />;
+  return (
+    <div className="loginContainer">
+      <Login />
+    </div>
+  );
 };
 export default LogInPage;
