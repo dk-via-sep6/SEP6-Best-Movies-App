@@ -5,13 +5,15 @@ import {
   Button,
   FormControl,
   FormControlLabel,
-  FormLabel,
   Radio,
   RadioGroup,
   TextField,
 } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router";
+
 const Login: FunctionComponent = () => {
+  const navigate = useNavigate();
   const [value, setValue] = React.useState("login");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +56,11 @@ const Login: FunctionComponent = () => {
             className="textField"
             label="repeat password"
           ></TextField>
-          <Button className="loginButton" variant="contained">
+          <Button
+            className="loginButton"
+            variant="contained"
+            onClick={() => navigate("/movies")}
+          >
             Sign Up
           </Button>
         </div>
@@ -70,7 +76,11 @@ const Login: FunctionComponent = () => {
             className="textField"
             label="password"
           ></TextField>
-          <Button className="loginButton" variant="contained">
+          <Button
+            className="loginButton"
+            variant="contained"
+            onClick={() => navigate("/movies")}
+          >
             Login
           </Button>
         </div>

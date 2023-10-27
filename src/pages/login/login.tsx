@@ -1,4 +1,4 @@
-import Login from "../components/login";
+import Login from "../../components/login/login";
 import "./style.css";
 const LogInPage: React.FC = () => {
   return (
