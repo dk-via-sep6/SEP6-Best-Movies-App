@@ -10,3 +10,9 @@
     width: 100%;
     height: 100%;
 }
+.searchBar{
+    width: 350px;
+    height: 20px;
+    margin: 10px;
+    
+}
