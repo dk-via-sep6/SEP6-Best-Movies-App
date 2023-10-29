@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LogInPage from "./pages/login/login";
 import MoviesPage from "./pages/movies/movies";
 import DirectorsPage from "./pages/directors/directors";
-import ActorsPage from "./pages/actors/actos";
+import ActorsPage from "./pages/actors/actors";
 import AccountPage from "./pages/account/account";
 
 function App() {
