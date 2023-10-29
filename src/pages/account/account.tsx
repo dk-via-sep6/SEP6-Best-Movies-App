@@ -2,6 +2,7 @@ import { Card, TextField, Button } from "@mui/material";
 import Sidebar from "../../components/sidebar/sidebar";
 import Topbar from "../../components/topbar/topbar";
 import "./style.css";
+import "../globalStyle.css";
 const AccountPage: React.FC = () => {
   return (
     <div className="pageContainer">
