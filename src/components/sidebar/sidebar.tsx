@@ -1,13 +1,21 @@
-import { Card, List, ListItem } from "@mui/material";
-import { FunctionComponent } from "react";
+import {
+  Autocomplete,
+  AutocompleteRenderInputParams,
+  Card,
+  List,
+  ListItem,
+  TextField,
+} from "@mui/material";
+import { FunctionComponent, ReactNode } from "react";
 import "./style.css";
 import { useNavigate } from "react-router";
+
 const Sidebar: FunctionComponent = () => {
   const navigate = useNavigate();
   return (
     <div className="sidebarContainer">
       <Card className="sidebarCard">
-        <List>
+        <List className="side">
           <ListItem
             className="sidebarItem"
             onClick={() => navigate("../movies")}
