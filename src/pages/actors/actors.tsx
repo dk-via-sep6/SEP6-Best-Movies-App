@@ -3,7 +3,7 @@ import Sidebar from "../../components/sidebar/sidebar";
 import Topbar from "../../components/topbar/topbar";
 import "../globalStyle.css";
 import Carousel from "../../components/carousel/carousel";
-const MoviesPage: React.FC = () => {
+const ActorsPage: React.FC = () => {
   return (
     <div className="pageContainer">
       <Topbar />
@@ -15,16 +15,12 @@ const MoviesPage: React.FC = () => {
           </div>
           <Autocomplete
             className="searchBar"
-            renderInput={(params) => <TextField {...params} label="Movies" />}
-            options={[
-              "The Shawnshark Redepmtion",
-              "Lord of the Rings",
-              "Mission Impossible",
-            ]}
+            renderInput={(params) => <TextField {...params} label="Actors" />}
+            options={["Tobey Maguire", "Robert Downey Jr.", "Tom Cruise"]}
           ></Autocomplete>
         </div>
       </div>
     </div>
   );
 };
-export default MoviesPage;
+export default ActorsPage;

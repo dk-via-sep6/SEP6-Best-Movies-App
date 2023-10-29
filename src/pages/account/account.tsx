@@ -7,7 +7,7 @@ const AccountPage: React.FC = () => {
   return (
     <div className="pageContainer">
       <Topbar />
-      <div className="pageContent">
+      <div className="pageLayout">
         <Sidebar />
         <div className="updateAccountContainer">
           <Card className="accountCard">
