@@ -1,12 +1,11 @@
 .sidebarContainer{
     height: 100%;
     width: 200px;
-    position: fixed;
 }
 .sidebarCard{
     height: 100%;
     width: 100%;
-    border: 1px solid gray;
+   
 }
 .sidebarItem{
     cursor: pointer;
@@ -15,5 +14,4 @@
 }
 .sidebarItem:hover{
     border:1px solid gray;
-    color:blu
 }
