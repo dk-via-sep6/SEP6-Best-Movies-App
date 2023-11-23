@@ -1,13 +1,40 @@
-.loginContainer{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.loginContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 body,
 html,
 #root {
   height: 100%;
   margin: 0;
+}
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+.pageLayout {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+}
+.pageContent {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+  height: 100%;
+}
+.searchBar {
+  width: 350px;
+  height: 20px;
+  margin: 10px;
+}
+.carouselContainer {
+  /* width: 85% !important; */
+  height: 170px;
 }

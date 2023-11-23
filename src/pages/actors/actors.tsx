@@ -1,7 +1,7 @@
 import { Autocomplete, TextField } from "@mui/material";
 import Sidebar from "../../components/sidebar/sidebar";
 import Topbar from "../../components/topbar/topbar";
-import "../globalStyle.css";
+import "../style.css";
 import Carousel from "../../components/carousel/carousel";
 const ActorsPage: React.FC = () => {
   return (
