@@ -18,7 +18,8 @@ const MoviesGrid: React.FC<MoviesGridProps> = ({ movies }) => {
           <MovieCard
             title={movie.title}
             imageUrl={movie.posterPath}
-            // ...other properties
+            rating={movie.voteAverage}
+            year={movie.releaseDate} // ...other properties
           />
         </Grid>
       ))}
