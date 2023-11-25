@@ -1,14 +1,7 @@
-.loginContainer{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-   
-}
-body,
-html,
-#root {
-  height: 100%;
-  margin: 0;
+.loginComponent {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

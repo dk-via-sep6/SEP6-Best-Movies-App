@@ -6,7 +6,6 @@ import { Movie } from "../../model/movie";
 import { placeholderMovies } from "../../pages/movies/placeholderMovies";
 import "./styles.css";
 import { Typography } from "@mui/material";
-import CommentSection from "../commentSection/commentSection";
 import dayjs from "dayjs";
 import MovieRating from "./movieRating";
 const MovieDetail: React.FC = () => {
