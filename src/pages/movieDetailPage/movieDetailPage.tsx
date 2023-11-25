@@ -3,7 +3,8 @@ import MovieDetail from "../../components/movieDetail/movieDetail";
 import Carousel from "../../components/carousel/carousel";
 import Sidebar from "../../components/sidebar/sidebar";
 import Topbar from "../../components/topbar/topbar";
-
+import "./styles.css";
+import CommentSection from "../../components/commentSection/commentSection";
 const MovieDetailPage: React.FC = () => {
   // Fetch the movie details using the id or retrieve it from your state management
   // ...
@@ -18,8 +19,11 @@ const MovieDetailPage: React.FC = () => {
             <Carousel />
           </div>
 
-          <div>
+          <div className="movieDetailContainer">
             <MovieDetail />
+            <div className="commentSectionContainer">
+              <CommentSection />
+            </div>
           </div>
         </div>
       </div>

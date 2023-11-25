@@ -1,0 +1,25 @@
+.commentSection {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  width: 85%;
+}
+.commentSecondary {
+  display: flex;
+  flex-direction: column;
+}
+.commentList {
+  margin-top: 10px;
+  height: 200px;
+  overflow-y: scroll;
+}
+.listItemText {
+  margin-left: 10px;
+}
+.commentInputForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 5px;
+}
