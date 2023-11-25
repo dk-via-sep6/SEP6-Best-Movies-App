@@ -5,5 +5,7 @@ export interface Comment {
     author: string;
     text: string;
     timestamp?: Dayjs|null;
+    likes: number; // New property for likes
+    isLiked: boolean;
     // Add other properties like timestamp if needed
   }
