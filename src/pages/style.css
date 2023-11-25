@@ -1,33 +1,31 @@
-.loginContainer {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 body,
 html,
 #root {
   height: 100%;
   margin: 0;
 }
+.topbarContainer {
+  height: 60px;
+}
 .pageContainer {
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
+  overflow-y: hidden;
 }
 .pageLayout {
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 60px);
 }
 .pageContent {
   display: flex;
   flex-direction: column;
   width: 85%;
   height: 100%;
+  overflow-y: scroll;
 }
 .searchBar {
   width: 350px;

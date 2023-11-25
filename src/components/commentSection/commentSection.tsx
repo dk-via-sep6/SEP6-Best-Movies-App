@@ -128,12 +128,16 @@ const CommentSection: React.FC = () => {
                       </>
                     }
                     secondary={
-                      <div className="commentSecondary">
+                      <>
                         <Typography component="span" color="textSecondary">
-                          {comment.likes ?? ""} likes
+                          {comment.likes} likes
                         </Typography>
-                        {comment.text}
-                      </div>
+                        {" - "}
+                        <Typography component="span">
+                          {" "}
+                          {comment.text}
+                        </Typography>
+                      </>
                     }
                   />
                 </div>
