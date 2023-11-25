@@ -3,6 +3,7 @@ import React from "react";
 import Grid from "@mui/material/Grid";
 import MovieCard from "./movieCard";
 import { Movie } from "../../model/movie";
+import { useNavigate } from "react-router-dom";
 
 // Assuming you have a movie model
 
@@ -11,16 +12,22 @@ interface MoviesGridProps {
 }
 
 const MoviesGrid: React.FC<MoviesGridProps> = ({ movies }) => {
+  const navigate = useNavigate();
+  const handleMovieClick = (movieId: number) => {
+    navigate(`/movie/${movieId}`);
+  };
   return (
     <Grid container spacing={2}>
       {movies.map((movie) => (
         <Grid item xs={12} sm={6} md={4} lg={3} key={movie.id}>
-          <MovieCard
-            title={movie.title}
-            imageUrl={movie.posterPath}
-            rating={movie.voteAverage}
-            year={movie.releaseDate} // ...other properties
-          />
+          <div onClick={() => handleMovieClick(movie.id)}>
+            <MovieCard
+              title={movie.title}
+              imageUrl={movie.posterPath}
+              rating={movie.voteAverage}
+              year={movie.releaseDate} // ...other properties
+            />
+          </div>
         </Grid>
       ))}
     </Grid>
