@@ -2,22 +2,30 @@
   height: 500px;
   width: auto !important;
 }
+.movieDetails {
+  display: flex;
+  flex-direction: column;
+}
+.cast {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: calc(100% - 50px);
+  margin-left: 50px;
+  justify-content: flex-start;
+}
 .movieDetailsComponent {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: 50px;
-  margin-bottom: 50px;
 }
 .movieTextDetails {
   height: 100%;
   display: flex;
   flex-direction: column;
-  /* align-items: start; */
   justify-content: flex-start;
   margin-left: 50px;
-  margin-right: 50px;
   align-items: flex-start;
 }
 .ratingContainer {
