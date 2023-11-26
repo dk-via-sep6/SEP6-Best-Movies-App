@@ -25,5 +25,6 @@ export const placeholderActors: Actor[] = [
         character: 'Professor Brand',
         profilePath: 'https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg', // Replace with actual image path
       },
+      
   ];
   
