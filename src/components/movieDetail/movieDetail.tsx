@@ -12,6 +12,7 @@ import ActorCast from "../actorCast/actorCast";
 import { placeholderActors } from "../../pages/actors/placeholderActors";
 import DirectorCast from "../directorCast/directorCast";
 import { placeholderDirectors } from "../../pages/directors/placeholderDirectors";
+import UserRating from "./userRating";
 const MovieDetail: React.FC = () => {
   let { id } = useParams();
   const [movie, setMovie] = useState<Movie | null>(null);
@@ -44,9 +45,10 @@ const MovieDetail: React.FC = () => {
 
           <div className="ratingContainer">
             <Typography fontSize={"1.2em"}>
-              Rating: {movie.voteAverage} ({movie.voteCount} votes)
+              Best Movies Rating: {movie.voteAverage} ({movie.voteCount} votes)
             </Typography>
             <MovieRating rating={movie.voteAverage} />
+            <UserRating rating={0} />
           </div>
 
           <Typography>{movie.overview}</Typography>
