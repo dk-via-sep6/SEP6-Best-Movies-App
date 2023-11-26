@@ -8,7 +8,7 @@
 }
 .cast {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: flex-start;
   width: calc(100% - 50px);
   margin-left: 50px;
