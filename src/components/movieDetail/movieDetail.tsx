@@ -8,6 +8,8 @@ import "./styles.css";
 import { Typography } from "@mui/material";
 import dayjs from "dayjs";
 import MovieRating from "./movieRating";
+import ActorCast from "../actorCast/actorCast";
+import { placeholderActors } from "../../pages/actors/placeholderActors";
 const MovieDetail: React.FC = () => {
   let { id } = useParams();
   const [movie, setMovie] = useState<Movie | null>(null);
@@ -30,19 +32,26 @@ const MovieDetail: React.FC = () => {
         src={movie.posterPath}
         alt={movie.title}
       />
-      <div className="movieTextDetails">
-        <Typography fontSize={"2em"}>{movie.title}</Typography>
-        <Typography fontSize={"1.1em"}>
-          Release Date: {dayjs(movie.releaseDate).format("DD MMMM YYYY")}
-        </Typography>
-        <div className="ratingContainer">
-          <Typography fontSize={"1.2em"}>
-            Rating: {movie.voteAverage} ({movie.voteCount} votes)
+      <div className="movieDetails">
+        <div className="movieTextDetails">
+          <Typography fontSize={"2em"}>{movie.title}</Typography>
+          <Typography fontSize={"0.9em"}>{movie.genres.join(", ")}</Typography>
+          <Typography fontSize={"1em"}>
+            Release Date: {dayjs(movie.releaseDate).format("DD MMMM YYYY")}
           </Typography>
-          <MovieRating rating={movie.voteAverage} />
-        </div>
 
-        <Typography>{movie.overview}</Typography>
+          <div className="ratingContainer">
+            <Typography fontSize={"1.2em"}>
+              Rating: {movie.voteAverage} ({movie.voteCount} votes)
+            </Typography>
+            <MovieRating rating={movie.voteAverage} />
+          </div>
+
+          <Typography>{movie.overview}</Typography>
+        </div>
+        <div className="cast">
+          <ActorCast actors={placeholderActors} />
+        </div>
       </div>
     </div>
   );
