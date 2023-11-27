@@ -5,7 +5,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import "./style.css";
-interface ActorCardProps {
+interface DirectorCardProps {
   imageUrl: string;
   name: string;
   age: number;
@@ -13,7 +13,7 @@ interface ActorCardProps {
   // ...other properties like rating, year, etc.
 }
 
-const ActorCard: React.FC<ActorCardProps> = ({
+const DirectorCard: React.FC<DirectorCardProps> = ({
   imageUrl,
   name,
   age,
@@ -21,12 +21,12 @@ const ActorCard: React.FC<ActorCardProps> = ({
 }) => {
   return (
     <Card>
-      <div className="actorContent">
-        <div className="moviePosterContainer">
-          <img className="actorPoster" src={imageUrl} alt={name} />
+      <div className="directorContent">
+        <div className="directorPosterContainer">
+          <img className="directorPoster" src={imageUrl} alt={name} />
         </div>
         <CardContent>
-          <div className="actorText">
+          <div className="directorText">
             <Typography
               align="center"
               gutterBottom
@@ -44,4 +44,4 @@ const ActorCard: React.FC<ActorCardProps> = ({
   );
 };
 
-export default ActorCard;
+export default DirectorCard;

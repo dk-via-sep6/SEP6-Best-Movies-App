@@ -1,12 +1,18 @@
 import React from "react";
-import { Container, Grid, Autocomplete, TextField, Pagination } from "@mui/material";
+import {
+  Container,
+  Grid,
+  Autocomplete,
+  TextField,
+  Pagination,
+} from "@mui/material";
 import Carousel from "../../components/carousel/carousel";
 import ActorGrid from "../../components/actorGrid/actorGrid";
 import { placeholderActors } from "./placeholderActors";
 
 const ActorsPage: React.FC = () => {
   return (
-    <Container maxWidth="xl">
+    <Container>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Carousel />
@@ -22,7 +28,8 @@ const ActorsPage: React.FC = () => {
           <ActorGrid actors={placeholderActors} />
         </Grid>
         <Grid item xs={12}>
-          <Pagination count={10} color="primary" /> {/* Adjust the count as per your pagination logic */}
+          <Pagination count={10} color="primary" />{" "}
+          {/* Adjust the count as per your pagination logic */}
         </Grid>
       </Grid>
     </Container>

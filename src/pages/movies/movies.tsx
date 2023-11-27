@@ -1,6 +1,12 @@
 // movies.tsx
 import React, { useState } from "react";
-import { Autocomplete, TextField, Pagination, Grid, Container } from "@mui/material";
+import {
+  Autocomplete,
+  TextField,
+  Pagination,
+  Grid,
+  Container,
+} from "@mui/material";
 import Carousel from "../../components/carousel/carousel";
 import MovieGrid from "../../components/movieGrid/movieGrid";
 import { placeholderMovies } from "./placeholderMovies";
@@ -11,7 +17,10 @@ const MoviesPage: React.FC = () => {
   const [page, setPage] = useState(1);
   const pageCount = Math.ceil(placeholderMovies.length / ITEMS_PER_PAGE);
 
-  const handleChangePage = (event: React.ChangeEvent<unknown>, newPage: number) => {
+  const handleChangePage = (
+    event: React.ChangeEvent<unknown>,
+    newPage: number
+  ) => {
     setPage(newPage);
   };
 
@@ -21,7 +30,7 @@ const MoviesPage: React.FC = () => {
   );
 
   return (
-    <Container maxWidth="xl">
+    <Container>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Carousel />

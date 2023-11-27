@@ -2,7 +2,6 @@ import React from "react";
 import { Container, Grid } from "@mui/material";
 import Carousel from "../../components/carousel/carousel";
 import DirectorDetail from "../../components/directorDetail/directorDetail";
-
 const DirectorDetailPage: React.FC = () => {
   return (
     <Container maxWidth="xl">
