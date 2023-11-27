@@ -74,7 +74,7 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <AppBar position="static" component="nav">
+      <AppBar position="fixed" component="nav">
         <Toolbar disableGutters>
           <div className="left-section">
             <Box className="menu-box">
@@ -136,6 +136,7 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
           </div>
         </Toolbar>
       </AppBar>
+      <Toolbar/>
     </ThemeProvider>
   );
 };

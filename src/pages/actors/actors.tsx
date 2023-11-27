@@ -1,33 +1,32 @@
-import { Autocomplete, Pagination, TextField } from "@mui/material";
-import Sidebar from "../../components/sidebar/sidebar";
-import Topbar from "../../components/topbar/topbar";
-import "../style.css";
+import React from "react";
+import { Container, Grid, Autocomplete, TextField, Pagination } from "@mui/material";
 import Carousel from "../../components/carousel/carousel";
 import ActorGrid from "../../components/actorGrid/actorGrid";
 import { placeholderActors } from "./placeholderActors";
+
 const ActorsPage: React.FC = () => {
   return (
-    <div className="pageContainer">
-   
-      <div className="pageLayout">
-   
-        <div className="pageContent">
-          <div className="carouselContainer">
-            <Carousel />
-          </div>
-
+    <Container maxWidth="xl">
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Carousel />
+        </Grid>
+        <Grid item xs={12}>
           <Autocomplete
-            className="searchBar"
+            fullWidth
             renderInput={(params) => <TextField {...params} label="Actors" />}
-            options={placeholderActors.map((actor) => actor.name)} // assuming you want to search by title
-          ></Autocomplete>
-          <div className="gridContainer">
-            <ActorGrid actors={placeholderActors} />
-            <Pagination></Pagination>
-          </div>
-        </div>
-      </div>
-    </div>
+            options={placeholderActors.map((actor) => actor.name)}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <ActorGrid actors={placeholderActors} />
+        </Grid>
+        <Grid item xs={12}>
+          <Pagination count={10} color="primary" /> {/* Adjust the count as per your pagination logic */}
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
+
 export default ActorsPage;
