@@ -4,10 +4,10 @@ html,
   height: 100%;
   margin: 0;
 }
-.topbarContainer {
+/* .topbarContainer {
   height: 60px;
-}
-.pageContainer {
+} */
+/* .pageContainer {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -26,7 +26,7 @@ html,
   width: 85%;
   height: 100%;
   overflow-y: scroll;
-}
+} */
 .searchBar {
   width: 350px;
   height: 20px;
@@ -35,4 +35,13 @@ html,
 .carouselContainer {
   /* width: 85% !important; */
   height: 170px;
+}
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  /* height: calc(100% - 170px); */
+  margin-top: 30px;
 }

@@ -30,11 +30,13 @@ const MovieDetail: React.FC = () => {
 
   return (
     <div className="movieDetailsComponent">
-      <img
-        className="movieDetailImage"
-        src={movie.posterPath}
-        alt={movie.title}
-      />
+      <div className="movieImageContainer">
+        <img
+          className="movieDetailImage"
+          src={movie.posterPath}
+          alt={movie.title}
+        />
+      </div>
       <div className="movieDetails">
         <div className="movieTextDetails">
           <Typography fontSize={"2em"}>{movie.title}</Typography>

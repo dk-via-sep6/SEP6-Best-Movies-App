@@ -9,7 +9,7 @@ const MovieDetailPage: React.FC = () => {
   // ...
 
   return (
-    <Container maxWidth="xl">
+    <Container>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Carousel />
@@ -17,7 +17,7 @@ const MovieDetailPage: React.FC = () => {
         <Grid item xs={12}>
           <MovieDetail />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} className="commentSectionContainer">
           <CommentSection />
         </Grid>
       </Grid>

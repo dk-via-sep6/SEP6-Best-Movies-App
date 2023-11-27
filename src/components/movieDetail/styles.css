@@ -19,6 +19,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  margin-top: 30px;
 }
 .movieTextDetails {
   height: 100%;
@@ -33,4 +34,9 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+}
+.movieImageContainer {
+  display: flex;
+  height: 100%;
+  align-self: flex-start;
 }
