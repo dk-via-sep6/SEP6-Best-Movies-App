@@ -34,12 +34,13 @@ const ActorMovies: React.FC<ActorMovieProps> = ({ movies }) => {
               </div>
               <CardContent>
                 <div className="cardContent">
-                  <Typography gutterBottom variant="h6" component="div">
-                    {movie.title +
-                      ", " +
-                      dayjs(movie.releaseDate).format("YYYY")}
-                  </Typography>
-
+                  <div className="movieTitle">
+                    <Typography variant="h6" component="div">
+                      {movie.title +
+                        ", " +
+                        dayjs(movie.releaseDate).format("YYYY")}
+                    </Typography>
+                  </div>
                   <div className="rating">
                     <Typography variant="body2">
                       Rating: {movie.voteAverage} ({movie.voteCount} votes)
