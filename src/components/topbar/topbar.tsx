@@ -22,6 +22,12 @@ import {
   TextField,
 } from "@mui/material";
 import { placeholderMovies } from "../../pages/movies/placeholderMovies";
+import { placeholderActors } from "../../pages/actors/placeholderActors";
+import { placeholderDirectors } from "../../pages/directors/placeholderDirectors";
+import { type } from "os";
+import { Actor } from "../../model/actor";
+import { Director } from "../../model/director";
+import { Movie } from "../../model/movie";
 
 interface TopBarProps {
   onMenuClick: () => void;
@@ -49,6 +55,39 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  interface SearchItem {
+    type: string;
+
+    name: string;
+    id: number;
+  }
+
+  const searchData: SearchItem[] = [
+    ...placeholderMovies.map((movie: Movie) => {
+      return {
+        type: "movie",
+
+        name: movie.title,
+        id: movie.id,
+      };
+    }),
+    ...placeholderActors.map((actor: Actor) => {
+      return {
+        type: "actor",
+
+        name: actor.name,
+        id: actor.id,
+      };
+    }),
+    ...placeholderDirectors.map((director: Director) => {
+      return {
+        type: "director",
+
+        name: director.name,
+        id: director.id,
+      };
+    }),
+  ];
 
   const handleMenuItemClick = (setting: string) => {
     handleCloseUserMenu();
@@ -68,7 +107,27 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
   const handleIconClick = () => {
     navigate("/movies");
   };
+  const handleSearchSelect = (
+    event: React.SyntheticEvent<Element, Event>,
+    value: SearchItem | null
+  ) => {
+    if (!value) return; // Do nothing if no value is selected
 
+    // Navigate based on the type of the selected item
+    switch (value.type) {
+      case "movie":
+        navigate(`/movie/${value.id}`);
+        break;
+      case "actor":
+        navigate(`/actor/${value.id}`);
+        break;
+      case "director":
+        navigate(`/director/${value.id}`);
+        break;
+      default:
+        break;
+    }
+  };
   return (
     <ThemeProvider theme={darkTheme}>
       <AppBar position="fixed" component="nav">
@@ -98,13 +157,29 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
             <div>
               <Autocomplete
                 className="searchbar"
+                options={searchData}
+                onChange={handleSearchSelect}
                 sx={{
                   width: 400,
                 }}
                 renderInput={(params) => (
                   <TextField {...params} label="Search Movies" />
                 )}
-                options={placeholderMovies.map((movie) => movie.title)}
+                getOptionLabel={(option: SearchItem) => {
+                  return option.name;
+                }}
+                clearOnEscape
+                noOptionsText=""
+                filterOptions={(options, { inputValue }) => {
+                  // Only show options if there is some input
+                  if (inputValue === "") {
+                    return [];
+                  }
+                  // Filter options based on the input value
+                  return options.filter((option) =>
+                    option.name.toLowerCase().includes(inputValue.toLowerCase())
+                  );
+                }}
               />
             </div>
           </div>
