@@ -1,13 +1,10 @@
 import { Card, TextField, Button } from "@mui/material";
-import Sidebar from "../../components/sidebar/sidebar";
-import Topbar from "../../components/topbar/topbar";
+
 import "./style.css";
 const AccountPage: React.FC = () => {
   return (
     <div className="pageContainer">
-  
       <div className="pageLayout">
-
         <div className="updateAccountContainer">
           <Card className="accountCard">
             <TextField className="textField" label="name" />

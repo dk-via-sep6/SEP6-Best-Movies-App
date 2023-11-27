@@ -18,11 +18,10 @@ const ActorsPage: React.FC = () => {
           <Carousel />
         </Grid>
         <Grid item xs={12}>
-          <Autocomplete
-            fullWidth
+          {/* <Autocomplete
             renderInput={(params) => <TextField {...params} label="Actors" />}
             options={placeholderActors.map((actor) => actor.name)}
-          />
+          /> */}
         </Grid>
         <Grid item xs={12}>
           <ActorGrid actors={placeholderActors} />

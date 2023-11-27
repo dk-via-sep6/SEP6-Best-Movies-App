@@ -18,7 +18,10 @@ import {
   Typography,
   ThemeProvider,
   createTheme,
+  Autocomplete,
+  TextField,
 } from "@mui/material";
+import { placeholderMovies } from "../../pages/movies/placeholderMovies";
 
 interface TopBarProps {
   onMenuClick: () => void;
@@ -91,7 +94,21 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
               onClick={handleIconClick}
               style={{ cursor: "pointer" }}
             />
+
+            <div>
+              <Autocomplete
+                className="searchbar"
+                sx={{
+                  width: 400,
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Search Movies" />
+                )}
+                options={placeholderMovies.map((movie) => movie.title)}
+              />
+            </div>
           </div>
+
           <div className="right-section">
             <Box className="user-box">
               <Tooltip title="Open settings">

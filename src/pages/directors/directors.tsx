@@ -17,14 +17,14 @@ const DirectorsPage: React.FC = () => {
         <Carousel />
       </Grid>
       <Grid item xs={12}>
-        <Autocomplete
+        {/* <Autocomplete
           className="searchBar"
           fullWidth
           renderInput={(params) => (
             <TextField {...params} label="Search Directors" />
           )}
           options={placeholderDirectors.map((director) => director.name)}
-        />
+        /> */}
       </Grid>
       <Grid item xs={12}>
         <DirectorGrid directors={placeholderDirectors} />

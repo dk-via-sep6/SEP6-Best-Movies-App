@@ -84,7 +84,7 @@ const CommentSection: React.FC = () => {
       {/* Form for new comment */}
       <form onSubmit={handleCommentSubmit} className="commentInputForm">
         <TextField
-          fullWidth
+          sx={{ width: "100%" }}
           label="Leave a comment"
           variant="outlined"
           multiline
