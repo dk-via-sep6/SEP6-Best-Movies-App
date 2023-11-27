@@ -1,0 +1,16 @@
+.directorImage {
+  height: 500px;
+  width: auto !important;
+}
+.directorDetailsContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  width: calc(100% - 20px);
+}
+.rating {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}

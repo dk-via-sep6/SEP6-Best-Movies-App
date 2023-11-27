@@ -2,11 +2,17 @@ import React from "react";
 import { Grid, Card, CardMedia, CardContent, Typography } from "@mui/material";
 import { Director } from "../../model/director";
 import "./styles.css";
+import { useNavigate } from "react-router-dom";
 interface DirectorCastProps {
   directors: Director[];
 }
 
 const DirectorCast: React.FC<DirectorCastProps> = ({ directors }) => {
+  const navigate = useNavigate();
+
+  const navigateToDirectorPage = (directorId: number) => {
+    navigate(`/director/${directorId}`);
+  };
   return (
     <div className="directorsCastContainer">
       <Typography variant="h5">Directors</Typography>
@@ -14,7 +20,12 @@ const DirectorCast: React.FC<DirectorCastProps> = ({ directors }) => {
         <Grid container spacing={2}>
           {directors.map((director) => (
             <Grid item key={director.id}>
-              <div className="directorCard">
+              <div
+                className="directorCard"
+                onClick={() => {
+                  navigateToDirectorPage(director.id);
+                }}
+              >
                 <Card
                   sx={{
                     display: "flex",
