@@ -68,7 +68,10 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
         break;
     }
   };
-
+  const handleIconClick = () => {
+    navigate('/');
+  };
+  
 
 
   return (
@@ -89,7 +92,8 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
                 <MenuIcon />
               </IconButton>
             </Box>
-            <img src={Icon} alt="BMD" className="icon" />
+            <img src={Icon} alt="BMD" className="icon" onClick={handleIconClick} />
+
           </div>
           <div className="right-section">
             <Box className="user-box">
