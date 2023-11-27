@@ -9,11 +9,18 @@ import {
 } from "@mui/material";
 import { Actor } from "../../model/actor";
 import "./styles.css";
+import { useNavigate } from "react-router-dom";
 interface ActorCastProps {
   actors: Actor[];
 }
 
 const ActorCast: React.FC<ActorCastProps> = ({ actors }) => {
+  const navigate = useNavigate();
+
+  const handleActorClick = (actorId: number) => {
+    navigate(`/actor/${actorId}`);
+  };
+
   return (
     <div>
       <Typography variant="h5">Cast</Typography>
@@ -21,7 +28,10 @@ const ActorCast: React.FC<ActorCastProps> = ({ actors }) => {
         <Grid container spacing={2}>
           {actors.map((actor) => (
             <Grid item key={actor.id}>
-              <div className="actorCard">
+              <div
+                className="actorCard"
+                onClick={() => handleActorClick(actor.id)}
+              >
                 <Card
                   sx={{
                     display: "flex",
@@ -51,17 +61,17 @@ const ActorCast: React.FC<ActorCastProps> = ({ actors }) => {
                           ))}
                         </Typography>
                       </Tooltip>
-                      <div className="actorCharacter">
-                        <Tooltip title={actor.character} placement="bottom">
+                      {/* <div className="actorCharacter">
+                        <Tooltip title={actor.name} placement="bottom">
                           <Typography
                             variant="body2"
                             color="textSecondary"
                             className="actorCharacter"
                           >
-                            as {actor.character}
+                            as {actor.name}
                           </Typography>
                         </Tooltip>
-                      </div>
+                      </div> */}
                     </CardContent>
                   </div>
                 </Card>
