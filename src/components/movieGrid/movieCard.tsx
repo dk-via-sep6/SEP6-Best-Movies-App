@@ -23,21 +23,6 @@ const MovieCard: React.FC<MovieCardProps> = ({
   voteCount,
 }) => {
   return (
-    // <Card>
-    //   <CardActionArea className="movieCardArea">
-    //     <CardMedia component="img" height="200" image={imageUrl} alt={title} />
-    //     <CardContent>
-    //       <Typography gutterBottom variant="h6" component="div">
-    //         {title}
-    //       </Typography>
-
-    //       <Typography component="div">Rating: {rating}</Typography>
-    //       <Typography component="div">Release Date:{year}</Typography>
-    //       {/* Additional movie information can go here */}
-    //     </CardContent>
-    //   </CardActionArea>
-    // </Card>
-
     <Card>
       <div className="cardContent">
         <div className="moviePosterContainer">
