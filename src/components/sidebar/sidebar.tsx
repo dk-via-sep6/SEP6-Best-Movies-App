@@ -3,13 +3,11 @@ import { Card, List, ListItem } from "@mui/material";
 import { FunctionComponent } from "react";
 import "./style.css";
 import { useNavigate } from "react-router";
-import logo from "../../assets/images/best_movie_32x32.png";
 
 const Sidebar: FunctionComponent<{ isOpen: boolean }> = ({ isOpen }) => {
   const navigate = useNavigate();
   return (
-    <div className={`sidebarContainer ${isOpen ? 'sidebarOpen' : ''}`}>
-  
+    <div className={`sidebarContainer ${isOpen ? "sidebarOpen" : ""}`}>
       <Card className="sidebarCard">
         <List className="side">
           <ListItem

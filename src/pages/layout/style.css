@@ -1,15 +1,15 @@
+/*layout style.css*/
 .layout {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .layout-body {
-    display: flex;
-    height: 100vh;
-  }
-  
-  .main-content {
-    flex-grow: 1;
-    /* Add any additional styling needed for main content */
-  }
-  
+  display: flex;
+  flex-direction: column;
+}
+
+.layout-body {
+  display: flex;
+  height: 100vh;
+}
+
+.main-content {
+  flex-grow: 1;
+  /* Add any additional styling needed for main content */
+}

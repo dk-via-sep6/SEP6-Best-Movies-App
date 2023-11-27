@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 import Icon from "../../assets/images/best_movie_invert_16x16.png";
 import "./style.css";
@@ -28,9 +28,9 @@ const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const darkTheme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: "dark",
     primary: {
-      main: '#1976d2',
+      main: "#1976d2",
     },
   },
 });
@@ -51,17 +51,17 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
     handleCloseUserMenu();
     switch (setting) {
       case "Profile":
-        navigate('/profile');
+        navigate("/profile");
         break;
       case "Account":
-        navigate('/account');
+        navigate("/account");
         break;
       case "Dashboard":
-        navigate('/dashboard');
+        navigate("/dashboard");
         break;
       case "Logout":
         // Handle logout logic here
-        navigate('/login');
+        navigate("/login");
         break;
       default:
         // Default action or navigation if needed
@@ -69,10 +69,8 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
     }
   };
   const handleIconClick = () => {
-    navigate('/');
+    navigate("/");
   };
-  
-
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -92,8 +90,12 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
                 <MenuIcon />
               </IconButton>
             </Box>
-            <img src={Icon} alt="BMD" className="icon" onClick={handleIconClick} />
-
+            <img
+              src={Icon}
+              alt="BMD"
+              className="icon"
+              onClick={handleIconClick}
+            />
           </div>
           <div className="right-section">
             <Box className="user-box">
@@ -122,7 +124,10 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
                 className="menu-dropdown"
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={()=> handleMenuItemClick(setting)}>
+                  <MenuItem
+                    key={setting}
+                    onClick={() => handleMenuItemClick(setting)}
+                  >
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}
