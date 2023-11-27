@@ -1,13 +1,22 @@
 // sidebar.tsx
+import React, { forwardRef } from "react"; // Import forwardRef
 import { Card, List, ListItem } from "@mui/material";
-import { FunctionComponent } from "react";
 import "./style.css";
 import { useNavigate } from "react-router";
 
-const Sidebar: FunctionComponent<{ isOpen: boolean }> = ({ isOpen }) => {
+interface SidebarProps {
+  isOpen: boolean;
+}
+// Update the component to use forwardRef
+const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(({ isOpen }, ref) => {
   const navigate = useNavigate();
+
   return (
-    <div className={`sidebarContainer ${isOpen ? "sidebarOpen" : ""}`}>
+    // Attach the ref to the div element that you want to reference
+    <div
+      className={`sidebarContainer ${isOpen ? "sidebarOpen" : ""}`}
+      ref={ref}
+    >
       <Card className="sidebarCard">
         <List className="side">
           <ListItem
@@ -32,5 +41,6 @@ const Sidebar: FunctionComponent<{ isOpen: boolean }> = ({ isOpen }) => {
       </Card>
     </div>
   );
-};
+});
+
 export default Sidebar;

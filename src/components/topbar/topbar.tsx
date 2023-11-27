@@ -24,7 +24,7 @@ interface TopBarProps {
   onMenuClick: () => void;
 }
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Profile", "Logout"];
 
 const darkTheme = createTheme({
   palette: {
@@ -51,13 +51,7 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
     handleCloseUserMenu();
     switch (setting) {
       case "Profile":
-        navigate("/profile");
-        break;
-      case "Account":
         navigate("/account");
-        break;
-      case "Dashboard":
-        navigate("/dashboard");
         break;
       case "Logout":
         // Handle logout logic here
@@ -69,7 +63,7 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
     }
   };
   const handleIconClick = () => {
-    navigate("/");
+    navigate("/movies");
   };
 
   return (
@@ -95,6 +89,7 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
               alt="BMD"
               className="icon"
               onClick={handleIconClick}
+              style={{ cursor: "pointer" }}
             />
           </div>
           <div className="right-section">
@@ -136,7 +131,7 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
           </div>
         </Toolbar>
       </AppBar>
-      <Toolbar/>
+      <Toolbar />
     </ThemeProvider>
   );
 };
