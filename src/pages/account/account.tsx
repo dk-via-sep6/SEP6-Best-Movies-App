@@ -5,9 +5,9 @@ import "./style.css";
 const AccountPage: React.FC = () => {
   return (
     <div className="pageContainer">
-      <Topbar />
+  
       <div className="pageLayout">
-        <Sidebar />
+
         <div className="updateAccountContainer">
           <Card className="accountCard">
             <TextField className="textField" label="name" />

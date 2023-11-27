@@ -1,33 +1,27 @@
 import React from "react";
-import MovieDetail from "../../components/movieDetail/movieDetail";
+import { Container, Grid } from "@mui/material";
 import Carousel from "../../components/carousel/carousel";
-import Sidebar from "../../components/sidebar/sidebar";
-import Topbar from "../../components/topbar/topbar";
-import "./styles.css";
+import MovieDetail from "../../components/movieDetail/movieDetail";
 import CommentSection from "../../components/commentSection/commentSection";
+
 const MovieDetailPage: React.FC = () => {
   // Fetch the movie details using the id or retrieve it from your state management
   // ...
 
   return (
-    <div className="pageContainer">
-      <Topbar />
-      <div className="pageLayout">
-        <Sidebar />
-        <div className="pageContent">
-          <div className="carouselContainer">
-            <Carousel />
-          </div>
-
-          <div className="movieDetailContainer">
-            <MovieDetail />
-            <div className="commentSectionContainer">
-              <CommentSection />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Container maxWidth="xl">
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Carousel />
+        </Grid>
+        <Grid item xs={12}>
+          <MovieDetail />
+        </Grid>
+        <Grid item xs={12}>
+          <CommentSection />
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 
