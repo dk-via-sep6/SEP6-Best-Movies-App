@@ -30,4 +30,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 120px;
+}
+.movieTitle {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limit to two lines, for example */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+
+  min-height: 5em; /* Adjust based on your line-height and font-size */
 }
