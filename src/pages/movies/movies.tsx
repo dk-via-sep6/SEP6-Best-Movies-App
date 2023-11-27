@@ -36,13 +36,13 @@ const MoviesPage: React.FC = () => {
           <Carousel />
         </Grid>
         <Grid item xs={12}>
-          <Autocomplete
+          {/* <Autocomplete
             fullWidth
             renderInput={(params) => (
               <TextField {...params} label="Search Movies" />
             )}
             options={placeholderMovies.map((movie) => movie.title)}
-          />
+          /> */}
         </Grid>
         <Grid item xs={12}>
           <MovieGrid movies={moviesToShow} />

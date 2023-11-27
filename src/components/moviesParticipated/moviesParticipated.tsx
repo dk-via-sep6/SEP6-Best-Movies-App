@@ -30,7 +30,7 @@ const MoviesParticipated: React.FC<MoviesParticipatedProps> = ({ movies }) => {
                   height="140"
                   src={movie.posterPath}
                   alt={movie.title}
-                />{" "}
+                />
               </div>
               <CardContent>
                 <div className="cardContent">

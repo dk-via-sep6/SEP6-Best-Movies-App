@@ -25,3 +25,10 @@
   align-items: center;
   justify-content: end;
 }
+
+.MuiAutocomplete-root,
+.MuiAutocomplete-inputRoot,
+.MuiAutocomplete-inputRoot[class*="MuiInput-root"] {
+  padding: 0px !important;
+  height: 45px;
+}
