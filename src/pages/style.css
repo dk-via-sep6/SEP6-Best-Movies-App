@@ -25,7 +25,6 @@ html,
   flex-direction: column;
   width: 85%;
   height: 100%;
-  overflow-y: scroll;
 }
 .searchBar {
   width: 350px;

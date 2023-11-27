@@ -1,0 +1,22 @@
+.actorContent {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.actorPosterConainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.actorPoster {
+  height: 250px;
+  width: auto !important;
+}
+.actorText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

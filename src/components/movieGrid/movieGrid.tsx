@@ -4,6 +4,7 @@ import Grid from "@mui/material/Grid";
 import MovieCard from "./movieCard";
 import { Movie } from "../../model/movie";
 import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 
 // Assuming you have a movie model
 
@@ -25,7 +26,8 @@ const MoviesGrid: React.FC<MoviesGridProps> = ({ movies }) => {
               title={movie.title}
               imageUrl={movie.posterPath}
               rating={movie.voteAverage}
-              year={movie.releaseDate} // ...other properties
+              year={dayjs(movie.releaseDate).format("YYYY")}
+              voteCount={movie.voteCount}
             />
           </div>
         </Grid>
