@@ -1,7 +1,7 @@
-//App.tsx
+// App.tsx
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LogInPage from "./pages/login/loginPage";
 import MoviesPage from "./pages/movies/movies";
 import DirectorsPage from "./pages/directors/directors";
@@ -15,18 +15,24 @@ import DirectorDetailPage from "./pages/directorDetailPage/directorDetailpage";
 function App() {
   return (
     <Router>
-      <Layout>
-        <Routes>
+      <Routes>
+        {/* Route for LogInPage without the Layout */}
         <Route path="/login" element={<LogInPage />} />
-        <Route path="/movies" element={<MoviesPage />} />
-        <Route path="/actors" element={<ActorsPage />} />
-        <Route path="/directors" element={<DirectorsPage />} />
-        <Route path="/account" element={<AccountPage />} />
-        <Route path="/movie/:id" element={<MovieDetailPage />} />
-        <Route path="/actor/:actorId" element={<ActorDetailPage />} />
-        <Route path="/director/:directorId" element={<DirectorDetailPage />} />
-        </Routes>
-      </Layout>
+
+        {/* Wrap all other routes with the Layout */}
+        <Route element={<Layout />}>
+          <Route path="/movies" element={<MoviesPage />} />
+          <Route path="/actors" element={<ActorsPage />} />
+          <Route path="/directors" element={<DirectorsPage />} />
+          <Route path="/account" element={<AccountPage />} />
+          <Route path="/movie/:id" element={<MovieDetailPage />} />
+          <Route path="/actor/:actorId" element={<ActorDetailPage />} />
+          <Route
+            path="/director/:directorId"
+            element={<DirectorDetailPage />}
+          />
+        </Route>
+      </Routes>
     </Router>
   );
 }

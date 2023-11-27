@@ -1,15 +1,12 @@
 // layout.tsx
 import React, { useState, useRef } from "react";
+import { Outlet } from "react-router-dom"; // Import Outlet
 import TopBar from "../../components/topbar/topbar";
 import Sidebar from "../../components/sidebar/sidebar";
 import useOutsideClick from "../../hooks/useOutsideClick"; // Import the hook
 import "./style.css";
 
-interface LayoutProps {
-  children: React.ReactNode;
-}
-
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
 
@@ -26,7 +23,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <TopBar onMenuClick={toggleSidebar} />
       <div className="layout-body">
         <Sidebar isOpen={isSidebarOpen} ref={sidebarRef} />
-        <main className="main-content">{children}</main>
+        <main className="main-content">
+          <Outlet /> {/* Use Outlet here to render the child routes */}
+        </main>
       </div>
     </div>
   );
