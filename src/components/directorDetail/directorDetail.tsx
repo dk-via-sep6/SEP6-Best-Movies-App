@@ -9,6 +9,8 @@ const sampleDirector: Director = {
     "https://m.media-amazon.com/images/M/MV5BMTgyMjI3ODA3Nl5BMl5BanBnXkFtZTcwNzY2MDYxOQ@@._V1_FMjpg_UX1000_.jpg",
   description:
     "An acclaimed director known for her visionary storytelling and innovative techniques.",
+  nationality: "American",
+  dateOfBirth: "1980-01-01",
   movies: [
     // Array of movies directed by Jane Smith
     {

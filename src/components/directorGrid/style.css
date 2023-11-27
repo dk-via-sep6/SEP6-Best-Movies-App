@@ -1,0 +1,21 @@
+.directorContent {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+.directorPosterContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.directorPoster {
+  height: 250px;
+  width: auto !important;
+}
+.directorText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
