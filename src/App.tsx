@@ -1,3 +1,5 @@
+//App.tsx
+import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LogInPage from "./pages/login/loginPage";
@@ -6,20 +8,21 @@ import DirectorsPage from "./pages/directors/directors";
 import ActorsPage from "./pages/actors/actors";
 import AccountPage from "./pages/account/account";
 import MovieDetailPage from "./pages/movieDetailPage/movieDetailPage";
+import Layout from "./pages/layout/layout"; // Import the Layout component
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/login" element={<LogInPage />} />
-        <Route path="/movies" element={<MoviesPage />} />
-        <Route path="/actors" element={<ActorsPage />} />
-        <Route path="/directors" element={<DirectorsPage />} />
-        <Route path="/account" element={<AccountPage />} />
-        <Route path="/movie/:id" element={<MovieDetailPage />} />
-      </Routes>
-
-      <div className="App"></div>
+      <Layout>
+        <Routes>
+          <Route path="/login" element={<LogInPage />} />
+          <Route path="/movies" element={<MoviesPage />} />
+          <Route path="/actors" element={<ActorsPage />} />
+          <Route path="/directors" element={<DirectorsPage />} />
+          <Route path="/account" element={<AccountPage />} />
+          <Route path="/movie/:id" element={<MovieDetailPage />} />
+        </Routes>
+      </Layout>
     </Router>
   );
 }

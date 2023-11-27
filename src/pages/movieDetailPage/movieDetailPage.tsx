@@ -11,9 +11,9 @@ const MovieDetailPage: React.FC = () => {
 
   return (
     <div className="pageContainer">
-      <Topbar />
+      
       <div className="pageLayout">
-        <Sidebar />
+ 
         <div className="pageContent">
           <div className="carouselContainer">
             <Carousel />

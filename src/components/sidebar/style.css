@@ -1,12 +1,23 @@
+/* sidebar style.css  */
 .sidebarContainer {
   height: 100%;
   display: flex;
   flex-direction: column;
   min-width: 15% !important;
   position: sticky; /* Add sticky positioning */
-  top: 0; /* Stick to the top */
+  top: 1; /* Stick to the top */
   z-index: 100;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%);
+  position: fixed; /* Ensures sidebar is positioned relative to the viewport */
+  left: 0;
+  height: 100vh; /* Adjust as necessary */
 }
+
+.sidebarOpen {
+  transform: translateX(0);
+}
+
 .sidebarCard {
   height: 100%;
   width: 100% !important;
