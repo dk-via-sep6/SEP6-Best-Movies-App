@@ -9,10 +9,10 @@ import { Typography } from "@mui/material";
 import dayjs from "dayjs";
 import MovieRating from "./movieRating";
 import ActorCast from "../actorCast/actorCast";
-import { placeholderActors } from "../../pages/actors/placeholderActors";
 import DirectorCast from "../directorCast/directorCast";
 import { placeholderDirectors } from "../../pages/directors/placeholderDirectors";
 import UserRating from "./userRating";
+import { placeholderActors } from "../../pages/actors/placeholderActors";
 const MovieDetail: React.FC = () => {
   let { id } = useParams();
   const [movie, setMovie] = useState<Movie | null>(null);

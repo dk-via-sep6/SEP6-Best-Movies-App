@@ -1,0 +1,33 @@
+.actorImage {
+  height: 500px;
+  width: auto !important;
+}
+.actorDetailsContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  width: calc(100% - 20px);
+}
+.rating {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.moviePosterContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.moviePoster {
+  height: 250px;
+
+  width: auto !important;
+}
+.cardContent {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
