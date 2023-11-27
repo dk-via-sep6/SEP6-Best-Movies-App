@@ -7,9 +7,9 @@ import DirectorDetail from "../../components/directorDetail/directorDetail";
 const DirectorDetailPage: React.FC = () => {
   return (
     <div className="pageContainer">
-      <Topbar />
+  
       <div className="pageLayout">
-        <Sidebar />
+     
         <div className="pageContent">
           <div className="carouselContainer">
             <Carousel />

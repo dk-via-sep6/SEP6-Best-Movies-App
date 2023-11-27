@@ -7,8 +7,8 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
-
 import Icon from "../../assets/images/best_movie_invert_16x16.png";
+
 import "./style.css";
 import {
   Tooltip,
