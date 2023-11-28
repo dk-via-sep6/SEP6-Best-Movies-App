@@ -1,13 +1,13 @@
 import { Typography } from "@mui/material";
 import { Movie } from "../../model/movie";
 import "./style.css";
-import { DataGrid } from "@mui/x-data-grid";
 import { columns } from "./columns";
 import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import { DataGrid } from "@mui/x-data-grid/DataGrid/DataGrid";
 interface MovieWathclistProps {
   listName: string;
   movies: Movie[];
@@ -50,7 +50,7 @@ const MovieWatchlist: React.FC<MovieWathclistProps> = ({
           <DataGrid
             rows={rows}
             columns={columns}
-            onRowClick={(params) => handleMovieClick(params.row.id)}
+            onRowClick={(params: any) => handleMovieClick(params.row.id)}
             pageSizeOptions={[10, 20, 30, 100]}
           />
         </div>
