@@ -13,6 +13,7 @@ import DirectorCast from "../directorCast/directorCast";
 import { placeholderDirectors } from "../../pages/directors/placeholderDirectors";
 import UserRating from "./userRating";
 import { placeholderActors } from "../../pages/actors/placeholderActors";
+import AddMovieToWatchlist from "../../addMovieToWatchlist/addToWatchlist";
 const MovieDetail: React.FC = () => {
   let { id } = useParams();
   const [movie, setMovie] = useState<Movie | null>(null);
@@ -50,7 +51,10 @@ const MovieDetail: React.FC = () => {
               Best Movies Rating: {movie.voteAverage} ({movie.voteCount} votes)
             </Typography>
             <MovieRating rating={movie.voteAverage} />
-            <UserRating rating={0} />
+            <div className="userRatingDiv">
+              <UserRating rating={0} />
+              <AddMovieToWatchlist movieId={movie.id} />
+            </div>
           </div>
 
           <Typography>{movie.overview}</Typography>

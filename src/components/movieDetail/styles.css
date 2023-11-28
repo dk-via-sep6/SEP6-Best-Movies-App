@@ -40,3 +40,7 @@
   height: 100%;
   align-self: flex-start;
 }
+.userRatingDiv {
+  display: flex;
+  flex-direction: row;
+}
