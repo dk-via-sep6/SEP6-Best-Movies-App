@@ -24,7 +24,6 @@ import {
 import { placeholderMovies } from "../../pages/movies/placeholderMovies";
 import { placeholderActors } from "../../pages/actors/placeholderActors";
 import { placeholderDirectors } from "../../pages/directors/placeholderDirectors";
-import { type } from "os";
 import { Actor } from "../../model/actor";
 import { Director } from "../../model/director";
 import { Movie } from "../../model/movie";
