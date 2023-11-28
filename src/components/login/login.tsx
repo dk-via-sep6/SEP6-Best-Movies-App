@@ -11,12 +11,19 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router";
 import logo from "../../assets/images/best_movie_192x192.png";
-import { login, signUp } from "../../hooks/useAuth";
-
+import {
+  login,
+  signInAnonymously,
+  signInWithGoogle,
+  signUp,
+} from "../../hooks/useAuth";
+import GoogleIcon from "@mui/icons-material/Google"; // Import Google icon
+import IncognitoIcon from "@mui/icons-material/VisibilityOff"; // Example icon for anonymous login
 const Login: FunctionComponent = () => {
   const navigate = useNavigate();
   const [value, setValue] = useState("login");
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [error, setError] = useState("");
@@ -52,7 +59,24 @@ const Login: FunctionComponent = () => {
       }
     }
   };
-
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithGoogle();
+      navigate("/movies");
+    } catch (error) {
+      console.error(error);
+      // Handle errors here, such as displaying a notification to the user
+    }
+  };
+  const handleAnonymousSignIn = async () => {
+    try {
+      await signInAnonymously();
+      navigate("/movies");
+    } catch (error) {
+      console.error(error);
+      // Handle errors here, such as displaying a notification to the user
+    }
+  };
   const handleLogin = async () => {
     if (validateInputs()) {
       try {
@@ -93,6 +117,13 @@ const Login: FunctionComponent = () => {
         {value === "signup" ? (
           <div className="loginContent">
             <TextField
+              type="text"
+              className="textField"
+              label="Name"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            ></TextField>
+            <TextField
               type="email"
               className="textField"
               label="Email"
@@ -115,10 +146,26 @@ const Login: FunctionComponent = () => {
             />
             <Button
               className="loginButton"
-              variant="contained"
+              variant="outlined"
               onClick={handleSignUp}
             >
               Sign Up
+            </Button>
+            <Button
+              className="loginButton"
+              variant="outlined"
+              startIcon={<GoogleIcon />}
+              onClick={handleGoogleSignIn}
+            >
+              Login with Google
+            </Button>
+            <Button
+              className="loginButton"
+              variant="outlined"
+              onClick={handleAnonymousSignIn}
+              startIcon={<IncognitoIcon />}
+            >
+              Continue Anonymously
             </Button>
           </div>
         ) : (
@@ -139,10 +186,26 @@ const Login: FunctionComponent = () => {
             />
             <Button
               className="loginButton"
-              variant="contained"
+              variant="outlined"
               onClick={handleLogin}
             >
               Login
+            </Button>
+            <Button
+              className="loginButton"
+              startIcon={<GoogleIcon />}
+              variant="outlined"
+              onClick={handleGoogleSignIn}
+            >
+              Login with Google
+            </Button>
+            <Button
+              className="loginButton"
+              variant="outlined"
+              onClick={handleAnonymousSignIn}
+              startIcon={<IncognitoIcon />}
+            >
+              Continue Anonymously
             </Button>
           </div>
         )}
