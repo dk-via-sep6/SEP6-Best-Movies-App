@@ -1,26 +1,9 @@
-/* .updateAccountCard{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.closeIcon {
+  display: flex;
+  width: 100%;
+  align-items: flex-end;
+  justify-content: flex-end;
 }
-
-.updateAccountContainer{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-.accountCard{
-    width: 450px;
-    height: 600px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
-    justify-content: center;
-} */
-
 .accountContainer {
   display: flex;
   align-items: center;
@@ -28,7 +11,9 @@
   width: 100%;
 }
 .accountCard {
+  margin-top: 100px;
   width: 450px;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,4 +21,26 @@
   align-content: center;
 
   justify-content: center;
+}
+.movieLists {
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  justify-content: center;
+  width: 100%;
+}
+.updateAccountContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  justify-content: center;
+  width: 100%;
+}
+.updateButton {
+  margin-top: 20px !important;
 }
