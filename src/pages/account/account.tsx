@@ -14,14 +14,14 @@ import {
 import { useAuth } from "../../context/authContext"; // Adjust the path as needed
 
 const AccountPage: React.FC = () => {
-  const [showAccountCard, setShowAccountCard] = useState(false);
+  const [showAccountDialog, setShowAccountDialog] = useState(false);
   const { currentUser } = useAuth();
   const handleUpdateClick = () => {
-    setShowAccountCard(true);
+    setShowAccountDialog(true);
   };
 
   const handleCancelClick = () => {
-    setShowAccountCard(false);
+    setShowAccountDialog(false);
   };
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const handleDeleteDialogOpen = () => {
@@ -75,54 +75,55 @@ const AccountPage: React.FC = () => {
           </DialogActions>
         </Dialog>
       )}
-      {!showAccountCard && (
-        <Button
-          className="updateButton"
-          variant="contained"
-          onClick={handleUpdateClick}
-        >
-          Update Account
-        </Button>
-      )}
-      {showAccountCard && (
-        <div className="updateAccountContainer">
-          <Card className="accountCard">
-            <div className="closeIcon">
-              <IconButton className="loginButton">
-                <CloseIcon fontSize="large" onClick={handleCancelClick} />
-              </IconButton>
-            </div>
-            <TextField className="textField" label="name" />
-            <TextField type="email" className="textField" label="email" />
-            <TextField type="password" className="textField" label="password" />
-            <TextField
-              type="password"
-              className="textField"
-              label="repeat password"
-            />
-            <Button
-              className="loginButton"
-              variant="contained"
-              onClick={() => {
-                alert("Account updated");
-              }}
-            >
-              Update
-            </Button>
-            <Button
-              sx={{
-                color: "red",
-                borderColor: "red",
-              }}
-              className="loginButton"
-              variant="outlined"
-              onClick={handleDeleteDialogOpen}
-            >
-              Delete Account
-            </Button>
-          </Card>
-        </div>
-      )}
+      <Button variant="contained" onClick={handleUpdateClick}>
+        Update Account
+      </Button>
+
+      <Dialog
+        open={showAccountDialog}
+        onClose={handleCancelClick}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle align="right">
+          <IconButton className="closeButton" onClick={handleCancelClick}>
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+
+        <DialogContent>
+          <TextField label="name" fullWidth margin="dense" />
+          <TextField type="email" label="email" fullWidth margin="dense" />
+          <TextField
+            type="password"
+            label="password"
+            fullWidth
+            margin="dense"
+          />
+          <TextField
+            type="password"
+            label="repeat password"
+            fullWidth
+            margin="dense"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => alert("Account updated")}
+            color="primary"
+            variant="contained"
+          >
+            Update
+          </Button>
+          <Button
+            onClick={handleDeleteDialogOpen}
+            color="warning"
+            variant="outlined"
+          >
+            Delete Account
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 };

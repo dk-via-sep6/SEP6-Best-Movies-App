@@ -1,16 +1,16 @@
-.closeIcon {
+/* .closeIcon {
   display: flex;
   width: 100%;
   align-items: flex-end;
   justify-content: flex-end;
-}
-.accountContainer {
+} */
+/* .accountContainer {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-}
-.accountCard {
+} */
+/* .accountCard {
   margin-top: 100px;
   width: 450px;
   height: fit-content;
@@ -21,7 +21,7 @@
   align-content: center;
 
   justify-content: center;
-}
+} */
 .movieLists {
   margin-top: 100px;
   display: flex;
