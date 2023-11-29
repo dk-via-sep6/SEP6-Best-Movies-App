@@ -19,6 +19,7 @@ import { auth } from "../firebase/firebase"; // adjust the path as needed
 // Define the shape of your context data
 interface AuthContextType {
   currentUser: User | null;
+  loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
@@ -26,6 +27,7 @@ interface AuthContextType {
 
 const defaultAuthContext: AuthContextType = {
   currentUser: null,
+  loading: true,
   login: async () => {}, // Provide a default no-op async function
   signUp: async () => {},
   logout: async () => {},
@@ -44,10 +46,11 @@ type Props = {
 // Provider component
 export const AuthProvider: React.FC<Props> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
+      setLoading(false);
     });
 
     // Cleanup subscription on unmount
@@ -75,6 +78,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   // Provide the current state and functions to the context
   const value = {
     currentUser,
+    loading,
     login,
     signUp,
     logout,
