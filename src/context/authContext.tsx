@@ -15,6 +15,8 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase"; // adjust the path as needed
+import { deleteUser as firebaseDeleteUser } from "firebase/auth";
+// ... other imports
 
 // Define the shape of your context data
 interface AuthContextType {
@@ -24,6 +26,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  deleteUser: () => Promise<void>;
 }
 
 const defaultAuthContext: AuthContextType = {
@@ -34,6 +37,7 @@ const defaultAuthContext: AuthContextType = {
   login: async () => {}, // Provide a default no-op async function
   signUp: async () => {},
   logout: async () => {},
+  deleteUser: async () => {},
 };
 // Create the context with a default value that matches the shape
 export const AuthContext = createContext<AuthContextType>(defaultAuthContext!);
@@ -81,6 +85,19 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     // Call the logout function from your authServices and return the promise
   };
 
+  const deleteUser = async (): Promise<void> => {
+    if (auth.currentUser) {
+      try {
+        await firebaseDeleteUser(auth.currentUser);
+        // Optionally, handle any post-deletion logic here
+        // e.g., logging out the user, redirecting, showing a message, etc.
+      } catch (error) {
+        // Handle any errors that occur during deletion
+        console.error("Error deleting account: ", error);
+        throw error; // Re-throw the error if needed
+      }
+    }
+  };
   // Provide the current state and functions to the context
   const value = {
     currentUser,
@@ -89,6 +106,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     login,
     signUp,
     logout,
+    deleteUser,
   };
 
   // Render the context provider with the state and functions

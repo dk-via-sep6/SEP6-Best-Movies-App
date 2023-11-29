@@ -15,7 +15,7 @@ import { useAuth } from "../../context/authContext"; // Adjust the path as neede
 
 const AccountPage: React.FC = () => {
   const [showAccountDialog, setShowAccountDialog] = useState(false);
-  const { currentUser } = useAuth();
+  const { currentUser, deleteUser } = useAuth();
   const handleUpdateClick = () => {
     setShowAccountDialog(true);
   };
@@ -32,10 +32,17 @@ const AccountPage: React.FC = () => {
     setShowDeleteDialog(false);
   };
 
-  const handleConfirmDelete = () => {
-    // Handle the account deletion logic here
-    alert("Account deleted");
-    handleDeleteDialogClose();
+  const handleConfirmDelete = async () => {
+    try {
+      await deleteUser();
+      alert("Account deleted");
+      handleDeleteDialogClose();
+      // Redirect to login or another appropriate page
+      // navigate('/login'); // Uncomment this if you have useNavigate
+    } catch (error) {
+      console.error("Error deleting account: ", error);
+      // Handle error (show error message)
+    }
   };
 
   return (
