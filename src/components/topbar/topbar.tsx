@@ -32,18 +32,19 @@ interface TopBarProps {
   onMenuClick: () => void;
 }
 
-const settings = ["Profile", "Logout"];
-
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-    primary: {
-      main: "#1976d2",
-    },
-  },
-});
-
 const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
+  const { isAnonymous } = useAuth();
+  const settings = !isAnonymous ? ["Profile", "Logout"] : ["Login"];
+
+  const darkTheme = createTheme({
+    palette: {
+      mode: "dark",
+      primary: {
+        main: "#1976d2",
+      },
+    },
+  });
+
   const navigate = useNavigate();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
@@ -102,6 +103,10 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
         break;
       default:
         // Default action or navigation if needed
+        break;
+      case "Login":
+        await logout();
+        navigate("/login");
         break;
     }
   };

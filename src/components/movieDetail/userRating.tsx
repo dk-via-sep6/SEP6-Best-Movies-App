@@ -6,21 +6,36 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useAuth } from "../../context/authContext";
+import FeatureRestrictedDialog from "../featureRestrictedDialog/featureRestrictedDialog";
 
 interface MovieRatingProps {
-  rating: number; // assuming the rating is out of 10
+  rating: number | null; // assuming the rating is out of 10
 }
 
 const UserRating: React.FC<MovieRatingProps> = ({ rating }) => {
   const [open, setOpen] = useState(false);
-  const [userRating, setUserRating] = useState<number | null>(rating / 2); // User's rating
+  const [userRating, setUserRating] = useState<number | null>(null); // User's rating
+  const { isAnonymous } = useAuth();
+  const [guestUserDialog, setGuestUserDialog] = useState(false);
 
   const handleOpen = () => {
-    setOpen(true);
+    if (!isAnonymous) {
+      setOpen(true);
+    } else {
+      handleGuestUserDialogOpen();
+    }
   };
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleGuestUserDialogOpen = () => {
+    setGuestUserDialog(true);
+  };
+  const handleGuestUserDialogClose = () => {
+    setGuestUserDialog(false);
   };
 
   const handleRatingChange = (
@@ -37,6 +52,10 @@ const UserRating: React.FC<MovieRatingProps> = ({ rating }) => {
       alignItems={"center"}
       flexDirection={"row"}
     >
+      <FeatureRestrictedDialog
+        open={guestUserDialog}
+        onClose={handleGuestUserDialogClose}
+      />
       Your Rating: {userRating}
       <Button
         sx={{
