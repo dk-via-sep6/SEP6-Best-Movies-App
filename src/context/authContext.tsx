@@ -7,7 +7,13 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import { User, onAuthStateChanged } from "firebase/auth";
+import {
+  User,
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 import { auth } from "../firebase/firebase"; // adjust the path as needed
 
 // Define the shape of your context data
@@ -18,8 +24,14 @@ interface AuthContextType {
   logout: () => Promise<void>;
 }
 
+const defaultAuthContext: AuthContextType = {
+  currentUser: null,
+  login: async () => {}, // Provide a default no-op async function
+  signUp: async () => {},
+  logout: async () => {},
+};
 // Create the context with a default value that matches the shape
-export const AuthContext = createContext<AuthContextType>(null!);
+export const AuthContext = createContext<AuthContextType>(defaultAuthContext!);
 
 // Hook to use the auth context
 export const useAuth = () => useContext(AuthContext);
@@ -45,15 +57,18 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   // Implement the login function
   const login = async (email: string, password: string): Promise<void> => {
     // Call the login function from your authServices and return the promise
+    await signInWithEmailAndPassword(auth, email, password);
   };
 
   // Implement the signUp function
   const signUp = async (email: string, password: string): Promise<void> => {
     // Call the signUp function from your authServices and return the promise
+    await createUserWithEmailAndPassword(auth, email, password);
   };
 
   // Implement the logout function
   const logout = async (): Promise<void> => {
+    await signOut(auth);
     // Call the logout function from your authServices and return the promise
   };
 

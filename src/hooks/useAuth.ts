@@ -1,4 +1,4 @@
-// src/firebase/authServices.ts
+// src/hooks/useAuth.ts
 
 import {
   createUserWithEmailAndPassword,
@@ -7,6 +7,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signInAnonymously as firebaseSignInAnonymously,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 import { deleteUser as firebaseDeleteUser } from "firebase/auth";
@@ -39,5 +40,13 @@ export const deleteUser = async (): Promise<void> => {
   // Assuming 'auth' is the Firebase auth instance and currentUser is the current user
   if (auth.currentUser) {
     await firebaseDeleteUser(auth.currentUser);
+  }
+};
+export const updateUserProfile = async (
+  displayName: string,
+  photoURL: string
+): Promise<void> => {
+  if (auth.currentUser) {
+    await updateProfile(auth.currentUser, { displayName, photoURL });
   }
 };
