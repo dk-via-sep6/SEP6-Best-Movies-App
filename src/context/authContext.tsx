@@ -13,6 +13,10 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  updateEmail,
+  updatePassword,
+  updateProfile,
+  sendEmailVerification,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase"; // adjust the path as needed
 import { deleteUser as firebaseDeleteUser } from "firebase/auth";
@@ -27,6 +31,10 @@ interface AuthContextType {
   signUp: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   deleteUser: () => Promise<void>;
+  updateUserProfile: (displayName: string, photoURL?: string) => Promise<void>;
+  updateUserEmail: (newEmail: string) => Promise<void>;
+  updateUserPassword: (newPassword: string) => Promise<void>;
+  reAuthenticate: (email: string, password: string) => Promise<void>;
 }
 
 const defaultAuthContext: AuthContextType = {
@@ -38,6 +46,10 @@ const defaultAuthContext: AuthContextType = {
   signUp: async () => {},
   logout: async () => {},
   deleteUser: async () => {},
+  updateUserProfile: async () => {},
+  updateUserEmail: async () => {},
+  updateUserPassword: async () => {},
+  reAuthenticate: async () => {},
 };
 // Create the context with a default value that matches the shape
 export const AuthContext = createContext<AuthContextType>(defaultAuthContext!);
@@ -98,6 +110,39 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       }
     }
   };
+
+  const updateUserProfile = async (
+    displayName: string,
+    photoURL?: string
+  ): Promise<void> => {
+    if (auth.currentUser) {
+      await updateProfile(auth.currentUser, {
+        displayName,
+        photoURL: photoURL || auth.currentUser.photoURL, // Keep existing photoURL if not provided
+      });
+    }
+  };
+
+  const updateUserEmail = async (newEmail: string): Promise<void> => {
+    if (auth.currentUser) {
+      await updateEmail(auth.currentUser, newEmail);
+      await sendEmailVerification(auth.currentUser);
+    }
+  };
+  const updateUserPassword = async (newPassword: string): Promise<void> => {
+    if (auth.currentUser) {
+      await updatePassword(auth.currentUser, newPassword);
+    }
+  };
+  // Inside AuthProvider component
+
+  const reAuthenticate = async (
+    email: string,
+    password: string
+  ): Promise<void> => {
+    await signInWithEmailAndPassword(auth, email, password);
+  };
+
   // Provide the current state and functions to the context
   const value = {
     currentUser,
@@ -107,6 +152,10 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     signUp,
     logout,
     deleteUser,
+    updateUserProfile, // Add this
+    updateUserEmail,
+    updateUserPassword,
+    reAuthenticate,
   };
 
   // Render the context provider with the state and functions
