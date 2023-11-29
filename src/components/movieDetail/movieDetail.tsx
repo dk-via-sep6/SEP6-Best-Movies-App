@@ -52,7 +52,7 @@ const MovieDetail: React.FC = () => {
             </Typography>
             <MovieRating rating={movie.voteAverage} />
             <div className="userRatingDiv">
-              <UserRating rating={0} />
+              <UserRating rating={null} />
               <AddMovieToWatchlist movieId={movie.id} />
             </div>
           </div>

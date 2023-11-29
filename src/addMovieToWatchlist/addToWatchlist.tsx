@@ -13,6 +13,8 @@ import {
   Tooltip,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { useAuth } from "../context/authContext";
+import FeatureRestrictedDialog from "../components/featureRestrictedDialog/featureRestrictedDialog";
 
 interface AddMovieToWatchlistProps {
   movieId: number; // Assuming you pass the movie ID as a prop
@@ -22,18 +24,30 @@ const AddMovieToWatchlist: React.FC<AddMovieToWatchlistProps> = ({
   movieId,
 }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [guestUserDialog, setGuestUserDialog] = useState(false);
   const [watchlists, setWatchlists] = useState<string[]>([
     "Watchlist 1",
     "Watchlist 2",
   ]); // Example watchlists
   const [newWatchlistName, setNewWatchlistName] = useState("");
+  const { isAnonymous } = useAuth();
 
   const handleDialogOpen = () => {
-    setDialogOpen(true);
+    if (!isAnonymous) {
+      setDialogOpen(true);
+    } else {
+      handleGuestUserDialogOpen();
+    }
   };
 
   const handleDialogClose = () => {
     setDialogOpen(false);
+  };
+  const handleGuestUserDialogOpen = () => {
+    setGuestUserDialog(true);
+  };
+  const handleGuestUserDialogClose = () => {
+    setGuestUserDialog(false);
   };
 
   const handleAddToWatchlist = (watchlistName: string) => {
@@ -51,6 +65,10 @@ const AddMovieToWatchlist: React.FC<AddMovieToWatchlistProps> = ({
 
   return (
     <>
+      <FeatureRestrictedDialog
+        open={guestUserDialog}
+        onClose={handleGuestUserDialogClose}
+      />
       <IconButton onClick={handleDialogOpen}>
         <Tooltip
           title="Add to watchlist"

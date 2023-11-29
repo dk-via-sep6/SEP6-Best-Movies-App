@@ -19,6 +19,8 @@ import dayjs from "dayjs";
 import "./styles.css";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"; // New import for the unliked icon
 import relativeTime from "dayjs/plugin/relativeTime";
+import { useAuth } from "../../context/authContext";
+import FeatureRestrictedDialog from "../featureRestrictedDialog/featureRestrictedDialog";
 
 dayjs.extend(relativeTime);
 const initialComments: Comment[] = [
@@ -44,44 +46,65 @@ const initialComments: Comment[] = [
 const CommentSection: React.FC = () => {
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [newComment, setNewComment] = useState("");
-
+  const { isAnonymous } = useAuth();
+  const [guestUserDialog, setGuestUserDialog] = useState(false);
   const handleCommentChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNewComment(event.target.value);
   };
 
+  const handleGuestUserDialogOpen = () => {
+    setGuestUserDialog(true);
+  };
+  const handleGuestUserDialogClose = () => {
+    setGuestUserDialog(false);
+  };
+
   const handleCommentSubmit = (event: FormEvent) => {
-    event.preventDefault();
-    if (!newComment.trim()) return;
+    event.preventDefault(); // Prevent default form submission behavior
 
-    const newCommentObj: Comment = {
-      id: Date.now().toString(),
-      author: "Current User",
-      text: newComment.trim(),
-      timestamp: dayjs(),
-      likes: 0,
-      isLiked: false,
-    };
+    if (isAnonymous) {
+      handleGuestUserDialogOpen();
+    } else {
+      if (!newComment.trim()) return;
 
-    setComments([...comments, newCommentObj]);
-    setNewComment("");
+      const newCommentObj: Comment = {
+        id: Date.now().toString(),
+        author: "Current User", // You might want to replace this with the actual user's name
+        text: newComment.trim(),
+        timestamp: dayjs(),
+        likes: 0,
+        isLiked: false,
+      };
+
+      setComments([...comments, newCommentObj]);
+      setNewComment("");
+    }
   };
 
   const handleLike = (id: string) => {
-    setComments(
-      comments.map((comment) =>
-        comment.id === id
-          ? {
-              ...comment,
-              likes: comment.isLiked ? comment.likes - 1 : comment.likes + 1,
-              isLiked: !comment.isLiked,
-            }
-          : comment
-      )
-    );
+    if (!isAnonymous) {
+      setComments(
+        comments.map((comment) =>
+          comment.id === id
+            ? {
+                ...comment,
+                likes: comment.isLiked ? comment.likes - 1 : comment.likes + 1,
+                isLiked: !comment.isLiked,
+              }
+            : comment
+        )
+      );
+    } else {
+      handleGuestUserDialogOpen();
+    }
   };
   return (
     <Box className="commentSection">
       {/* Form for new comment */}
+      <FeatureRestrictedDialog
+        open={guestUserDialog}
+        onClose={handleGuestUserDialogClose}
+      />
       <form onSubmit={handleCommentSubmit} className="commentInputForm">
         <TextField
           sx={{ width: "100%" }}
