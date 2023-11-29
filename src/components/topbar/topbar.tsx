@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 import Icon from "../../assets/images/best_movie_invert_16x16.png";
-
+import { useAuth } from "../../context/authContext";
 import "./style.css";
 import {
   Tooltip,
@@ -54,6 +54,7 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const { logout } = useAuth();
   interface SearchItem {
     type: string;
 
@@ -88,7 +89,7 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
     }),
   ];
 
-  const handleMenuItemClick = (setting: string) => {
+  const handleMenuItemClick = async (setting: string) => {
     handleCloseUserMenu();
     switch (setting) {
       case "Profile":
@@ -96,6 +97,7 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
         break;
       case "Logout":
         // Handle logout logic here
+        await logout();
         navigate("/login");
         break;
       default:

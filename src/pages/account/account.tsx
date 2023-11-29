@@ -11,10 +11,11 @@ import {
   DialogContentText,
   DialogActions,
 } from "@mui/material";
+import { useAuth } from "../../context/authContext"; // Adjust the path as needed
 
 const AccountPage: React.FC = () => {
   const [showAccountCard, setShowAccountCard] = useState(false);
-
+  const { currentUser } = useAuth();
   const handleUpdateClick = () => {
     setShowAccountCard(true);
   };
@@ -39,6 +40,8 @@ const AccountPage: React.FC = () => {
 
   return (
     <Container className="accountContainer">
+      <h2>Hello, {currentUser ? currentUser.email : "Guest"}!</h2>
+      {/* Display the user's email */}
       <div className="movieLists">
         <MovieWatchlist listName="Watchlist" movies={placeholderMovies} />
         <MovieWatchlist
@@ -81,7 +84,6 @@ const AccountPage: React.FC = () => {
           Update Account
         </Button>
       )}
-
       {showAccountCard && (
         <div className="updateAccountContainer">
           <Card className="accountCard">
