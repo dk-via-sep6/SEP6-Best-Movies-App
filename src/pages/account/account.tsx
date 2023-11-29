@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, TextField, Button, Container, IconButton } from "@mui/material";
+import { TextField, Button, Container, IconButton } from "@mui/material";
 import "./style.css";
 import { placeholderMovies } from "../movies/placeholderMovies";
 import MovieWatchlist from "../../components/movieWatchlist/movieWatchlist";
@@ -14,14 +14,52 @@ import {
 import { useAuth } from "../../context/authContext"; // Adjust the path as needed
 
 const AccountPage: React.FC = () => {
-  const [showAccountCard, setShowAccountCard] = useState(false);
-  const { currentUser } = useAuth();
+  const [showAccountDialog, setShowAccountDialog] = useState(false);
+  const { updateUserPassword, updateUserEmail } = useAuth();
+  const { currentUser, deleteUser, reAuthenticate } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState("");
+  const [showReAuthDialog, setShowReAuthDialog] = useState(false);
+
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const validate = () => {
+    if (!emailPattern.test(email)) {
+      alert("Please enter a valid email address.");
+      return false;
+    }
+    if (password !== repeatPassword) {
+      alert("Passwords do not match.");
+      return false;
+    }
+    return true;
+  };
+  const handleProfileUpdate = async () => {
+    if (validate()) {
+      try {
+        await updateUserEmail(email);
+        alert(
+          "A verification email has been sent to your new email address. Please verify to complete the update."
+        );
+        await updateUserPassword(password);
+        alert("Account updated successfully");
+        // Reset state or additional logic
+      } catch (error: any) {
+        if (error.code === "auth/requires-recent-login") {
+          setShowReAuthDialog(true); // Show re-authentication dialog
+        } else {
+          console.error("Error updating account: ", error);
+          alert("Error updating account");
+        }
+      }
+    }
+  };
   const handleUpdateClick = () => {
-    setShowAccountCard(true);
+    setShowAccountDialog(true);
   };
 
   const handleCancelClick = () => {
-    setShowAccountCard(false);
+    setShowAccountDialog(false);
   };
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const handleDeleteDialogOpen = () => {
@@ -32,14 +70,71 @@ const AccountPage: React.FC = () => {
     setShowDeleteDialog(false);
   };
 
-  const handleConfirmDelete = () => {
-    // Handle the account deletion logic here
-    alert("Account deleted");
-    handleDeleteDialogClose();
+  const handleConfirmDelete = async () => {
+    try {
+      await deleteUser();
+      alert("Account deleted");
+      handleDeleteDialogClose();
+      // Redirect to login or another appropriate page
+      // navigate('/login'); // Uncomment this if you have useNavigate
+    } catch (error) {
+      console.error("Error deleting account: ", error);
+      // Handle error (show error message)
+    }
+  };
+  const handleReAuthenticate = async () => {
+    try {
+      // Assuming you have a reAuthenticate method in your authContext
+      await reAuthenticate(email, password);
+      setShowReAuthDialog(false);
+      // Retry the sensitive operation here, like updating email or password
+    } catch (error) {
+      console.error("Re-authentication failed: ", error);
+      // Handle re-authentication errors
+    }
   };
 
   return (
     <Container className="accountContainer">
+      <Dialog
+        open={showReAuthDialog}
+        onClose={() => setShowReAuthDialog(false)}
+      >
+        <DialogTitle>Re-authenticate</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please enter your credentials to update your account settings.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Email Address"
+            type="email"
+            fullWidth
+            variant="outlined"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            margin="dense"
+            label="Password"
+            type="password"
+            fullWidth
+            variant="outlined"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShowReAuthDialog(false)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleReAuthenticate} color="primary">
+            Re-authenticate
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <h2>Hello, {currentUser ? currentUser.email : "Guest"}!</h2>
       {/* Display the user's email */}
       <div className="movieLists">
@@ -75,54 +170,63 @@ const AccountPage: React.FC = () => {
           </DialogActions>
         </Dialog>
       )}
-      {!showAccountCard && (
-        <Button
-          className="updateButton"
-          variant="contained"
-          onClick={handleUpdateClick}
-        >
-          Update Account
-        </Button>
-      )}
-      {showAccountCard && (
-        <div className="updateAccountContainer">
-          <Card className="accountCard">
-            <div className="closeIcon">
-              <IconButton className="loginButton">
-                <CloseIcon fontSize="large" onClick={handleCancelClick} />
-              </IconButton>
-            </div>
-            <TextField className="textField" label="name" />
-            <TextField type="email" className="textField" label="email" />
-            <TextField type="password" className="textField" label="password" />
-            <TextField
-              type="password"
-              className="textField"
-              label="repeat password"
-            />
-            <Button
-              className="loginButton"
-              variant="contained"
-              onClick={() => {
-                alert("Account updated");
-              }}
-            >
-              Update
-            </Button>
-            <Button
-              sx={{
-                color: "red",
-                borderColor: "red",
-              }}
-              className="loginButton"
-              variant="outlined"
-              onClick={handleDeleteDialogOpen}
-            >
-              Delete Account
-            </Button>
-          </Card>
-        </div>
-      )}
+      <Button variant="contained" onClick={handleUpdateClick}>
+        Update Account
+      </Button>
+
+      <Dialog
+        open={showAccountDialog}
+        onClose={handleCancelClick}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle align="right">
+          <IconButton className="closeButton" onClick={handleCancelClick}>
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+
+        <DialogContent>
+          <TextField label="name" fullWidth margin="dense" />
+          <TextField
+            type="email"
+            label="email"
+            fullWidth
+            margin="dense"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            type="password"
+            label="password"
+            fullWidth
+            margin="dense"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <TextField
+            type="password"
+            label="repeat password"
+            fullWidth
+            margin="dense"
+            onChange={(e) => setRepeatPassword(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={handleProfileUpdate}
+            color="primary"
+            variant="contained"
+          >
+            Update
+          </Button>
+          <Button
+            onClick={handleDeleteDialogOpen}
+            color="warning"
+            variant="outlined"
+          >
+            Delete Account
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 };
