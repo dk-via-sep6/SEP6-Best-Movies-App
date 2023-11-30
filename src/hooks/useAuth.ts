@@ -8,6 +8,7 @@ import {
   signInWithPopup,
   signInAnonymously as firebaseSignInAnonymously,
   updateProfile,
+  UserCredential,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 import { deleteUser as firebaseDeleteUser } from "firebase/auth";
@@ -20,8 +21,9 @@ export const login = async (email: string, password: string): Promise<void> => {
 export const signUp = async (
   email: string,
   password: string
-): Promise<void> => {
-  await createUserWithEmailAndPassword(auth, email, password);
+): Promise<UserCredential> => {
+  const response = await createUserWithEmailAndPassword(auth, email, password);
+  return response; // Explicitly return the response
 };
 
 export const logout = async (): Promise<void> => {

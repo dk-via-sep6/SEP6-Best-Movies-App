@@ -13,8 +13,8 @@ import {
   Tooltip,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { useAuth } from "../context/authContext";
-import FeatureRestrictedDialog from "../components/featureRestrictedDialog/featureRestrictedDialog";
+import { useAuth } from "../../context/authContext";
+import FeatureRestrictedDialog from "../featureRestrictedDialog/featureRestrictedDialog";
 
 interface AddMovieToWatchlistProps {
   movieId: number; // Assuming you pass the movie ID as a prop
