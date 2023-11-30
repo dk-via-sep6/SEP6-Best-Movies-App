@@ -13,7 +13,8 @@ import DirectorCast from "../directorCast/directorCast";
 import { placeholderDirectors } from "../../pages/directors/placeholderDirectors";
 import UserRating from "./userRating";
 import { placeholderActors } from "../../pages/actors/placeholderActors";
-import AddMovieToWatchlist from "../../addMovieToWatchlist/addToWatchlist";
+import AddMovieToWatchlist from "../addMovieToWatchlist/addToWatchlist";
+
 const MovieDetail: React.FC = () => {
   let { id } = useParams();
   const [movie, setMovie] = useState<Movie | null>(null);

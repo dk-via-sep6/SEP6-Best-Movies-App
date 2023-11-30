@@ -20,6 +20,7 @@ import {
 import GoogleIcon from "@mui/icons-material/Google"; // Import Google icon
 import IncognitoIcon from "@mui/icons-material/VisibilityOff"; // Example icon for anonymous login
 import { useAuth } from "../../context/authContext";
+import { sendUserToServer } from "../../api";
 const Login: FunctionComponent = () => {
   const navigate = useNavigate();
   const [value, setValue] = useState("login");
@@ -53,13 +54,20 @@ const Login: FunctionComponent = () => {
   const handleSignUp = async () => {
     if (validateInputs()) {
       try {
-        await signUp(email, password);
+        const userCredential = await signUp(email, password);
+        const user = {
+          id: userCredential.user?.uid,
+          email: email,
+          username: username,
+        };
+        await sendUserToServer(user);
         navigate("/movies");
       } catch (error: any) {
         setError(error.message);
       }
     }
   };
+
   const handleGoogleSignIn = async () => {
     try {
       await signInWithGoogle();
