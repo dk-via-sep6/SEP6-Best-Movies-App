@@ -19,6 +19,7 @@ import {
 } from "../../hooks/useAuth";
 import GoogleIcon from "@mui/icons-material/Google"; // Import Google icon
 import IncognitoIcon from "@mui/icons-material/VisibilityOff"; // Example icon for anonymous login
+import { useAuth } from "../../context/authContext";
 const Login: FunctionComponent = () => {
   const navigate = useNavigate();
   const [value, setValue] = useState("login");
@@ -27,11 +28,11 @@ const Login: FunctionComponent = () => {
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [error, setError] = useState("");
-
+  const { sendForgotPasswordEmail } = useAuth();
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
   };
-
+  const [infoMessage, setInfoMessage] = useState("");
   const validateInputs = () => {
     if (!email) {
       setError("Email is required.");
@@ -87,7 +88,15 @@ const Login: FunctionComponent = () => {
       }
     }
   };
-
+  const handleForgotPasswordClick = async () => {
+    try {
+      await sendForgotPasswordEmail(email);
+      alert("Password reset email sent. Please check your email.");
+    } catch (error) {
+      console.error(error);
+      setInfoMessage("Please enter your email address.");
+    }
+  };
   return (
     <div className="loginContainer">
       <img className="loginLogo" src={logo} alt="logo" />
@@ -171,6 +180,7 @@ const Login: FunctionComponent = () => {
         ) : (
           <div className="loginContent">
             <TextField
+              helperText={infoMessage}
               type="email"
               className="textField"
               label="Email"
@@ -184,6 +194,24 @@ const Login: FunctionComponent = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-end",
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
+              <Button
+                sx={{ alignContent: "right" }}
+                className="loginButton"
+                variant="text"
+                onClick={handleForgotPasswordClick}
+              >
+                Forgot Password?
+              </Button>
+            </div>
             <Button
               className="loginButton"
               variant="outlined"

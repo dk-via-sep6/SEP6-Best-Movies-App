@@ -17,6 +17,7 @@ import {
   updatePassword,
   updateProfile,
   sendEmailVerification,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase"; // adjust the path as needed
 import { deleteUser as firebaseDeleteUser } from "firebase/auth";
@@ -35,6 +36,7 @@ interface AuthContextType {
   updateUserEmail: (newEmail: string) => Promise<void>;
   updateUserPassword: (newPassword: string) => Promise<void>;
   reAuthenticate: (email: string, password: string) => Promise<void>;
+  sendForgotPasswordEmail: (email: string) => Promise<void>;
 }
 
 const defaultAuthContext: AuthContextType = {
@@ -50,6 +52,7 @@ const defaultAuthContext: AuthContextType = {
   updateUserEmail: async () => {},
   updateUserPassword: async () => {},
   reAuthenticate: async () => {},
+  sendForgotPasswordEmail: async () => {},
 };
 // Create the context with a default value that matches the shape
 export const AuthContext = createContext<AuthContextType>(defaultAuthContext!);
@@ -142,6 +145,14 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   ): Promise<void> => {
     await signInWithEmailAndPassword(auth, email, password);
   };
+  // Inside AuthProvider component
+
+  const sendForgotPasswordEmail = async (email: string): Promise<void> => {
+    if (!email) {
+      throw new Error("Email is required.");
+    }
+    await sendPasswordResetEmail(auth, email);
+  };
 
   // Provide the current state and functions to the context
   const value = {
@@ -152,10 +163,11 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     signUp,
     logout,
     deleteUser,
-    updateUserProfile, // Add this
+    updateUserProfile,
     updateUserEmail,
     updateUserPassword,
     reAuthenticate,
+    sendForgotPasswordEmail,
   };
 
   // Render the context provider with the state and functions
