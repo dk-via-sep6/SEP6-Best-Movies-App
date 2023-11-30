@@ -26,7 +26,7 @@ dayjs.extend(relativeTime);
 const initialComments: Comment[] = [
   {
     id: "1",
-    author: "User 1",
+    author: "Zser 1",
     text: "Great movie, had a lot of fun watching it!",
     timestamp: dayjs("2021-10-01T12:00:00Z"),
     likes: 0,
@@ -46,7 +46,7 @@ const initialComments: Comment[] = [
 const CommentSection: React.FC = () => {
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [newComment, setNewComment] = useState("");
-  const { isAnonymous } = useAuth();
+  const { isAnonymous, currentUser } = useAuth();
   const [guestUserDialog, setGuestUserDialog] = useState(false);
   const handleCommentChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNewComment(event.target.value);
@@ -69,7 +69,7 @@ const CommentSection: React.FC = () => {
 
       const newCommentObj: Comment = {
         id: Date.now().toString(),
-        author: "Current User", // You might want to replace this with the actual user's name
+        author: currentUser?.email || "Anonymous", // Use email as author
         text: newComment.trim(),
         timestamp: dayjs(),
         likes: 0,
@@ -79,6 +79,9 @@ const CommentSection: React.FC = () => {
       setComments([...comments, newCommentObj]);
       setNewComment("");
     }
+  };
+  const getAvatarLetter = (author: string) => {
+    return author.charAt(0).toUpperCase();
   };
 
   const handleLike = (id: string) => {
@@ -139,7 +142,7 @@ const CommentSection: React.FC = () => {
                   </IconButton>
                 }
               >
-                <Avatar>{comment.author.charAt(0).toUpperCase()}</Avatar>
+                <Avatar>{getAvatarLetter(comment.author)}</Avatar>
                 <div className="listItemText">
                   <ListItemText
                     primary={
