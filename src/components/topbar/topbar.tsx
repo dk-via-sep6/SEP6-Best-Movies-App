@@ -33,7 +33,7 @@ interface TopBarProps {
 }
 
 const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
-  const { isAnonymous } = useAuth();
+  const { currentUser, isAnonymous } = useAuth();
   const settings = !isAnonymous ? ["Profile", "Logout"] : ["Login"];
 
   const darkTheme = createTheme({
@@ -44,7 +44,13 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
       },
     },
   });
-
+  const getAvatarContent = () => {
+    if (isAnonymous) {
+      return "?";
+    } else {
+      return currentUser?.email?.charAt(0).toUpperCase() || "";
+    }
+  };
   const navigate = useNavigate();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
@@ -197,7 +203,7 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
                   onClick={handleOpenUserMenu}
                   className="avatar-icon"
                 >
-                  <Avatar alt="User Avatar" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt="User Avatar">{getAvatarContent()}</Avatar>
                 </IconButton>
               </Tooltip>
               <Menu
