@@ -61,6 +61,7 @@ const Login: FunctionComponent = () => {
           username: username,
         };
         await sendUserToServer(user);
+
         navigate("/movies");
       } catch (error: any) {
         setError(error.message);
