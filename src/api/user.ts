@@ -13,7 +13,7 @@ export const sendUserToServer = async (user: User) => {
   }
   // Remember to replace the URL below with your own API URL
   try {
-    const response = await fetch("https://your-backend-api.com/users", {
+    const response = await fetch("https://localhost:32768/api/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
