@@ -70,7 +70,7 @@ export const updateUser = createAsyncThunk(
         throw new Error("No Firebase ID token available");
       }
 
-      const response = await fetch(`${apiBaseUrl}/user/${userData.id}`, {
+      const response = await fetch(`${apiBaseUrl}/user/${userData.Id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
