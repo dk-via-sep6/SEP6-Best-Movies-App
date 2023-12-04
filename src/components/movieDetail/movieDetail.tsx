@@ -1,9 +1,6 @@
 // MovieDetail.tsx
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Movie } from "../../model/movie";
-import { placeholderMovies } from "../../pages/movies/placeholderMovies";
 import "./styles.css";
 import { Typography } from "@mui/material";
 import dayjs from "dayjs";
@@ -14,20 +11,33 @@ import { placeholderDirectors } from "../../pages/directors/placeholderDirectors
 import UserRating from "./userRating";
 import { placeholderActors } from "../../pages/actors/placeholderActors";
 import AddMovieToWatchlist from "../addMovieToWatchlist/addToWatchlist";
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store';
+import { fetchMovie } from '../../thunks/movieThunks';
 
 const MovieDetail: React.FC = () => {
   let { id } = useParams();
-  const [movie, setMovie] = useState<Movie | null>(null);
+  const dispatch = useDispatch<AppDispatch>();
+  const movie = useSelector((state: RootState) => state.movie.currentMovie);
+  const loading = useSelector((state: RootState) => state.movie.loading);
+  const error = useSelector((state: RootState) => state.movie.error);
 
   useEffect(() => {
-    // In a real app, you would fetch the details from a backend service.
-    // Here we are finding the movie in the placeholder data based on the ID.
-    const movieDetail = placeholderMovies.find((m) => m.id.toString() === id);
-    setMovie(movieDetail ?? null);
-  }, [id]);
+    if (id) {
+      dispatch(fetchMovie(id));
+    }
+  }, [id, dispatch]);
+
+  if (loading) {
+    return <div>Loading...</div>; // Loading indicator
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>; // Error message
+  }
 
   if (!movie) {
-    return <div>Loading...</div>; // Or some loading component
+    return <div>Movie not found</div>; // Movie not found message
   }
 
   return (
@@ -35,14 +45,14 @@ const MovieDetail: React.FC = () => {
       <div className="movieImageContainer">
         <img
           className="movieDetailImage"
-          src={movie.posterPath}
+          src={"https://image.tmdb.org/t/p/w500"+movie.posterPath}
           alt={movie.title}
         />
       </div>
       <div className="movieDetails">
         <div className="movieTextDetails">
           <Typography fontSize={"2em"}>{movie.title}</Typography>
-          <Typography fontSize={"0.9em"}>{movie.genres.join(", ")}</Typography>
+      {/*     <Typography fontSize={"0.9em"}>{movie.genres.join(", ")}</Typography> */}
           <Typography fontSize={"1em"}>
             Release Date: {dayjs(movie.releaseDate).format("DD MMMM YYYY")}
           </Typography>

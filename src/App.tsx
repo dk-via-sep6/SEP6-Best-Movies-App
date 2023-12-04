@@ -17,9 +17,12 @@ import Layout from "./pages/layout/layout"; // Import the Layout component
 import ActorDetailPage from "./pages/actorDetailPage/actorDetailPage";
 import DirectorDetailPage from "./pages/directorDetailPage/directorDetailpage";
 import ProtectedRoute from "./utils/protectedRoute/protectedRoute";
+import { Provider } from "react-redux";
+import store from "./store"; 
 function App() {
   return (
-    <AuthProvider>
+    <Provider store={store}>
+<AuthProvider>
       <Router>
         <Routes>
           {/* Route for LogInPage without the Layout */}
@@ -90,6 +93,8 @@ function App() {
         </Routes>
       </Router>
     </AuthProvider>
+    </Provider>
+    
   );
 }
 
