@@ -18,7 +18,7 @@ import {
   fetchCreditsSuccess,
 } from "../slices/movieCreditsSlice";
 
-const serverUrl = "https://localhost:32768/api";
+const serverUrl = "https://localhost:32774/api";
 
 export const fetchMovie = (movieId: string) => {
   return async (dispatch: Dispatch) => {

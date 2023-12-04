@@ -34,6 +34,7 @@ const AccountPage: React.FC = () => {
     }
     return true;
   };
+
   const handleProfileUpdate = async () => {
     if (validate()) {
       try {
