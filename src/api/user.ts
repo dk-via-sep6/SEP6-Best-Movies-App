@@ -13,18 +13,19 @@ export const sendUserToServer = async (user: User) => {
   }
   // Remember to replace the URL below with your own API URL
   try {
-    const response = await fetch("https://localhost:32768/api/user", {
+    const response = await fetch("https://localhost:32774/api/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`, // Sending the token in the header
       },
       body: JSON.stringify({
-        email: user.email,
-        username: user.username, // User data excluding the token
+        Id: user.id,
+        EmailAddress: user.email, // Change this to match the backend DTO
+        Username: user.username,
       }),
     });
-
+    console.log(token, "token");
     if (!response.ok) {
       throw new Error("Server responded with an error!");
     }
