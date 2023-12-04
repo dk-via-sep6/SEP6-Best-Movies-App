@@ -1,17 +1,19 @@
+// directorCast.tsx
 import React from "react";
 import { Grid, Card, CardMedia, CardContent, Typography } from "@mui/material";
-import { Director } from "../../model/director";
+import { CrewMember } from "../../model/CrewMember"; // import CrewMember
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
+
 interface DirectorCastProps {
-  directors: Director[];
+  directors: CrewMember[];
 }
 
 const DirectorCast: React.FC<DirectorCastProps> = ({ directors }) => {
   const navigate = useNavigate();
 
-  const navigateToDirectorPage = (directorId: number) => {
-    navigate(`/director/${directorId}`);
+  const navigateToDirectorPage = (personId: number) => {
+    navigate(`/director/${personId}`);
   };
   return (
     <div className="directorsCastContainer">
@@ -19,11 +21,11 @@ const DirectorCast: React.FC<DirectorCastProps> = ({ directors }) => {
       <div className="directorsCastContainer">
         <Grid container spacing={2}>
           {directors.map((director) => (
-            <Grid item key={director.id}>
+            <Grid item key={director.personId}>
               <div
                 className="directorCard"
                 onClick={() => {
-                  navigateToDirectorPage(director.id);
+                  navigateToDirectorPage(director.personId);
                 }}
               >
                 <Card
@@ -38,7 +40,7 @@ const DirectorCast: React.FC<DirectorCastProps> = ({ directors }) => {
                   <CardMedia
                     component="img"
                     height="140"
-                    image={director.profilePath}
+                    image={"https://image.tmdb.org/t/p/w500"+director.profilePath}
                     alt={director.name}
                   />
                   <div className="directorCardContent">

@@ -15,7 +15,7 @@ const ActorsPage: React.FC = () => {
     <Container>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Carousel />
+      {/*     <Carousel /> */}
         </Grid>
         <Grid item xs={12}>
           {/* <Autocomplete

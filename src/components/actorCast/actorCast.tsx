@@ -1,24 +1,19 @@
+// actorCast.tsx
 import React from "react";
-import {
-  Grid,
-  Card,
-  CardMedia,
-  CardContent,
-  Typography,
-  Tooltip,
-} from "@mui/material";
-import { Actor } from "../../model/actor";
+import { Grid, Card, CardMedia, CardContent, Typography, Tooltip } from "@mui/material";
+import { CastMember } from "../../model/CastMember"; // import CastMember
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
+
 interface ActorCastProps {
-  actors: Actor[];
+  actors: CastMember[];
 }
 
 const ActorCast: React.FC<ActorCastProps> = ({ actors }) => {
   const navigate = useNavigate();
 
-  const handleActorClick = (actorId: number) => {
-    navigate(`/actor/${actorId}`);
+  const handleActorClick = (personId: number) => {
+    navigate(`/actor/${personId}`);
   };
 
   return (
@@ -27,10 +22,10 @@ const ActorCast: React.FC<ActorCastProps> = ({ actors }) => {
       <div className="actorCastContainer">
         <Grid container spacing={2}>
           {actors.map((actor) => (
-            <Grid item key={actor.id}>
+            <Grid item key={actor.personId}>
               <div
                 className="actorCard"
-                onClick={() => handleActorClick(actor.id)}
+                onClick={() => handleActorClick(actor.personId)}
               >
                 <Card
                   sx={{
@@ -44,7 +39,7 @@ const ActorCast: React.FC<ActorCastProps> = ({ actors }) => {
                   <CardMedia
                     component="img"
                     height="100"
-                    image={actor.profilePath}
+                    image={"https://image.tmdb.org/t/p/w500"+actor.profilePath}
                     alt={actor.name}
                   />
                   <div className="cardContent">
