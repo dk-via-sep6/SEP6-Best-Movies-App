@@ -14,7 +14,7 @@ const DirectorsPage: React.FC = () => {
   return (
     <Container>
       <Grid item xs={12}>
-        <Carousel />
+ {/*        <Carousel /> */}
       </Grid>
       <Grid item xs={12}>
         {/* <Autocomplete
