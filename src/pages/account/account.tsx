@@ -12,7 +12,9 @@ import {
   DialogActions,
 } from "@mui/material";
 import { useAuth } from "../../context/authContext"; // Adjust the path as needed
-
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { useNavigate } from "react-router-dom";
+import { deleteUser as deleteUserThunk } from "../../thunks/userThunks";
 const AccountPage: React.FC = () => {
   const [showAccountDialog, setShowAccountDialog] = useState(false);
   const { updateUserPassword, updateUserEmail } = useAuth();
@@ -21,7 +23,8 @@ const AccountPage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [showReAuthDialog, setShowReAuthDialog] = useState(false);
-
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const validate = () => {
     if (!emailPattern.test(email)) {
@@ -73,16 +76,20 @@ const AccountPage: React.FC = () => {
 
   const handleConfirmDelete = async () => {
     try {
-      await deleteUser();
+      if (!currentUser?.uid) {
+        throw new Error("User ID is not available");
+      }
+
+      await dispatch(deleteUserThunk(currentUser.uid));
       alert("Account deleted");
       handleDeleteDialogClose();
-      // Redirect to login or another appropriate page
-      // navigate('/login'); // Uncomment this if you have useNavigate
+      navigate("/login"); // Redirect to login page
     } catch (error) {
       console.error("Error deleting account: ", error);
       // Handle error (show error message)
     }
   };
+
   const handleReAuthenticate = async () => {
     try {
       // Assuming you have a reAuthenticate method in your authContext
