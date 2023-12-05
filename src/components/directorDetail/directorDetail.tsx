@@ -13,7 +13,7 @@ const sampleDirector: Director = {
   dateOfBirth: "1980-01-01",
   movies: [
     // Array of movies directed by Jane Smith
-    {
+/*     {
       id: 1,
       title: "Interstellar",
       posterPath:
@@ -64,7 +64,7 @@ const sampleDirector: Director = {
       voteAverage: 8.1,
       voteCount: 20245,
       originalLanguage: "en",
-    },
+    }, */
     // ... other movies
   ],
 };
