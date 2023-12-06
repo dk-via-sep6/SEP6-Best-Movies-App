@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextField, Button, Container, IconButton } from "@mui/material";
 import "./style.css";
 import { placeholderMovies } from "../movies/placeholderMovies";
@@ -12,16 +12,26 @@ import {
   DialogActions,
 } from "@mui/material";
 import { useAuth } from "../../context/authContext"; // Adjust the path as needed
-
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { useNavigate } from "react-router-dom";
+import {
+  deleteUser as deleteUserThunk,
+  fetchUserById,
+} from "../../thunks/userThunks";
+import { User } from "../../model/user";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 const AccountPage: React.FC = () => {
   const [showAccountDialog, setShowAccountDialog] = useState(false);
   const { updateUserPassword, updateUserEmail } = useAuth();
   const { currentUser, deleteUser, reAuthenticate } = useAuth();
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [showReAuthDialog, setShowReAuthDialog] = useState(false);
-
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const validate = () => {
     if (!emailPattern.test(email)) {
@@ -34,6 +44,25 @@ const AccountPage: React.FC = () => {
     }
     return true;
   };
+
+  const fetchedUser = useSelector((state: RootState) => state.users.data); // Access the user state from Redux
+
+  useEffect(() => {
+    if (currentUser?.uid) {
+      dispatch(fetchUserById(currentUser.uid)); // Dispatch the action to fetch user data
+    }
+  }, [dispatch, currentUser?.uid]);
+
+  useEffect(() => {
+    // Prefill the fields when the dialog is opened and user data is fetched
+    if (showAccountDialog && fetchedUser) {
+      setEmail(fetchedUser.email || "");
+      setUsername(fetchedUser.username || ""); // Assuming 'username' is a field in fetchedUser
+      setPassword("");
+      setRepeatPassword("");
+    }
+  }, [showAccountDialog, fetchedUser]);
+
   const handleProfileUpdate = async () => {
     if (validate()) {
       try {
@@ -72,16 +101,20 @@ const AccountPage: React.FC = () => {
 
   const handleConfirmDelete = async () => {
     try {
-      await deleteUser();
+      if (!currentUser?.uid) {
+        throw new Error("User ID is not available");
+      }
+      deleteUser();
+      await dispatch(deleteUserThunk(currentUser.uid));
       alert("Account deleted");
       handleDeleteDialogClose();
-      // Redirect to login or another appropriate page
-      // navigate('/login'); // Uncomment this if you have useNavigate
+      navigate("/login"); // Redirect to login page
     } catch (error) {
       console.error("Error deleting account: ", error);
       // Handle error (show error message)
     }
   };
+
   const handleReAuthenticate = async () => {
     try {
       // Assuming you have a reAuthenticate method in your authContext
@@ -187,8 +220,9 @@ const AccountPage: React.FC = () => {
         </DialogTitle>
 
         <DialogContent>
-          <TextField label="name" fullWidth margin="dense" />
+          <TextField label="name" fullWidth margin="dense" value={username} />
           <TextField
+            value={currentUser?.email || ""}
             type="email"
             label="email"
             fullWidth

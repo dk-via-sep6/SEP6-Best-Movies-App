@@ -14,8 +14,21 @@ import { auth } from "../firebase/firebase";
 import { deleteUser as firebaseDeleteUser } from "firebase/auth";
 // Example implementations in authServices.ts (or wherever your auth functions are)
 
-export const login = async (email: string, password: string): Promise<void> => {
-  await signInWithEmailAndPassword(auth, email, password);
+export const login = async (
+  email: string,
+  password: string
+): Promise<UserCredential> => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    return userCredential;
+  } catch (error: any) {
+    console.error("Login Error:", error);
+    throw error; // Re-throw the error to be handled where the function is called
+  }
 };
 
 export const signUp = async (
