@@ -1,16 +1,8 @@
-import {  useSelector } from "react-redux";
-import {  RootState } from "../../../store";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  styled,
-  tableCellClasses,
-} from "@mui/material";
-import Paper from "@mui/material/Paper";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import { DataGrid } from "@mui/x-data-grid";
+import { CastColumns } from "./columns/castColumns";
+import { useNavigate } from "react-router-dom";
 
 const PersonCastCreditsList: React.FC = () => {
   const cast = useSelector((state: RootState) => state.personCredits.cast);
@@ -22,6 +14,11 @@ const PersonCastCreditsList: React.FC = () => {
     (state: RootState) => state.personCredits.error
   );
 
+  const navigate = useNavigate();
+
+  function handleMovieClick(id: number) {
+    navigate(`/movie/${id}`);
+  }
 
   if (creditsLoading) {
     return <div>Loading...</div>;
@@ -31,49 +28,20 @@ const PersonCastCreditsList: React.FC = () => {
     return <div>Error: {creditsError}</div>;
   }
 
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
+  const rows = cast.map((cast) => ({
+    id: cast.movieId,
+    title: cast.title,
+    character: cast.character,
+    releaseDate: cast.releaseDate,
   }));
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Title</StyledTableCell>
-            <StyledTableCell align="right">Character</StyledTableCell>
-            <StyledTableCell align="right">Release Date</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {cast.map((cast) => (
-            <StyledTableRow key={cast.movieId}>
-              <StyledTableCell component="th" scope="row">
-                {cast.title}
-              </StyledTableCell>
-              <StyledTableCell align="right">{cast.character}</StyledTableCell>
-              <StyledTableCell align="right">{cast.releaseDate}</StyledTableCell>             
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <DataGrid
+      rows={rows}
+      columns={CastColumns}
+      onRowClick={(params: any) => handleMovieClick(params.row.id)}
+      pageSizeOptions={[10, 20, 30, 100]}
+    />
   );
 };
 

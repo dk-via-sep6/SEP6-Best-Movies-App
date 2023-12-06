@@ -1,7 +1,8 @@
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../store";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, styled, tableCellClasses } from "@mui/material";
-import Paper from '@mui/material/Paper';
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import { DataGrid } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
+import { CrewColumns } from "./columns/crewColumns"
 
 const PersonCrewCreditsList: React.FC = () => {
   const crew = useSelector((state: RootState) => state.personCredits.crew);
@@ -13,6 +14,12 @@ const PersonCrewCreditsList: React.FC = () => {
     (state: RootState) => state.personCredits.error
   );
 
+  const navigate = useNavigate();
+
+  function handleMovieClick(id: number) {
+    navigate(`/movie/${id}`);
+  }
+
   // Handle loading and error states
   if (creditsLoading) {
     return <div>Loading...</div>;
@@ -22,53 +29,22 @@ const PersonCrewCreditsList: React.FC = () => {
     return <div>Error: {creditsError}</div>;
   }
 
-
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
+  const rows = crew.map((crew) => ({
+    id: crew.movieId,
+    title: crew.title,
+    job: crew.job,
+    department: crew.department,
+    releaseDate: crew.releaseDate,
   }));
-  
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    '&:last-child td, &:last-child th': {
-      border: 0,
-    },
-  })); 
 
-  return (  
-    <TableContainer component={Paper}>
-   <Table sx={{ minWidth: 700 }} aria-label="customized table">
-    <TableHead>
-      <TableRow>
-        <StyledTableCell>Title</StyledTableCell>
-        <StyledTableCell align="right">Job</StyledTableCell>
-        <StyledTableCell align="right">Department</StyledTableCell>
-        <StyledTableCell align="right">Release Date</StyledTableCell>
-
-      </TableRow>
-    </TableHead>
-    <TableBody>
-      {crew.map((crew) => (
-        <StyledTableRow key={crew.movieId}>
-          <StyledTableCell component="th" scope="row">
-            {crew.title}
-          </StyledTableCell>
-          <StyledTableCell align="right">{crew.job}</StyledTableCell>
-          <StyledTableCell align="right">{crew.department}</StyledTableCell>
-          <StyledTableCell align="right">{crew.releaseDate}</StyledTableCell>
-        </StyledTableRow>
-      ))}
-    </TableBody>
-  </Table> 
-</TableContainer>);
+  return (
+    <DataGrid
+      rows={rows}
+      columns={CrewColumns}
+      onRowClick={(params: any) => handleMovieClick(params.row.id)}
+      pageSizeOptions={[10, 20, 30, 100]}
+    />
+  );
 };
 
 export default PersonCrewCreditsList;
