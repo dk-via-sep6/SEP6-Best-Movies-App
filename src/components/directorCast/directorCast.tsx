@@ -1,7 +1,7 @@
 // directorCast.tsx
 import React from "react";
 import { Grid, Card, CardMedia, CardContent, Typography } from "@mui/material";
-import { CrewMember } from "../../model/CrewMember"; // import CrewMember
+import { CrewMember } from "../../model/crewMember"; // import CrewMember
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
 

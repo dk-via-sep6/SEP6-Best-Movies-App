@@ -16,9 +16,9 @@ const ITEMS_PER_PAGE = 12; // Adjust as needed
 
 const MoviesPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { movies, loading, error } = useSelector((state: RootState) => state.movies);
+  const { currentMovies, loading, error } = useSelector((state: RootState) => state.movies);
   const [page, setPage] = useState(1);
-  const pageCount = Math.ceil(movies.length / ITEMS_PER_PAGE);
+  const pageCount = Math.ceil((currentMovies?.length ?? 0) / ITEMS_PER_PAGE);
 
   useEffect(() => {
     dispatch(fetchNowPlayingMovies());
@@ -31,10 +31,10 @@ const MoviesPage: React.FC = () => {
     setPage(newPage);
   };
 
-  const moviesToShow = movies.slice(
+  const moviesToShow = currentMovies ? currentMovies.slice(
     (page - 1) * ITEMS_PER_PAGE,
     page * ITEMS_PER_PAGE
-  );
+  ) : [];
 
   // Optional: Handle loading and error states
   if (loading) return <p>Loading...</p>;

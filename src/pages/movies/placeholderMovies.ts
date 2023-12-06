@@ -2,7 +2,7 @@ import { Movie } from "../../model/movie";
 
 
 export const placeholderMovies: Movie[] = [
-  {
+/*   {
     id: 666,
     title: 'Interstellar',
     posterPath: 'https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg',
@@ -347,6 +347,6 @@ export const placeholderMovies: Movie[] = [
     voteAverage: 8.5,
     voteCount: 21465,
     originalLanguage: 'en',
-  },
+  }, */
   ];
   

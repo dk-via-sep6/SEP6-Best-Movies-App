@@ -9,30 +9,35 @@ import ActorCast from "../actorCast/actorCast";
 import DirectorCast from "../directorCast/directorCast";
 import UserRating from "./userRating";
 import AddMovieToWatchlist from "../addMovieToWatchlist/addToWatchlist";
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../store';
-import { fetchMovie, fetchMovieCredits } from '../../thunks/movieThunks';
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
+import { fetchMovie, fetchMovieCredits } from "../../thunks/movieThunks";
 
 const MovieDetail: React.FC = () => {
   let { id } = useParams();
   const dispatch = useDispatch<AppDispatch>();
- // Movie data selectors
- const movie = useSelector((state: RootState) => state.movie.currentMovie);
- const movieLoading = useSelector((state: RootState) => state.movie.loading);
- const movieError = useSelector((state: RootState) => state.movie.error);
 
- // Movie credits selectors
- const cast = useSelector((state: RootState) => state.movieCredits.cast);
- const crew = useSelector((state: RootState) => state.movieCredits.crew);
- const creditsLoading = useSelector((state: RootState) => state.movieCredits.loading);
- const creditsError = useSelector((state: RootState) => state.movieCredits.error);
+  // Movie data selectors
+  const movie = useSelector((state: RootState) => state.movie.currentMovie);
+  const movieLoading = useSelector((state: RootState) => state.movie.loading);
+  const movieError = useSelector((state: RootState) => state.movie.error);
 
- useEffect(() => {
-   if (id) {
-     dispatch(fetchMovie(id));
-     dispatch(fetchMovieCredits(id));
-   }
- }, [id, dispatch]);
+  // Movie credits selectors
+  const cast = useSelector((state: RootState) => state.movieCredits.cast);
+  const crew = useSelector((state: RootState) => state.movieCredits.crew);
+  const creditsLoading = useSelector(
+    (state: RootState) => state.movieCredits.loading
+  );
+  const creditsError = useSelector(
+    (state: RootState) => state.movieCredits.error
+  );
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchMovie(id));
+      dispatch(fetchMovieCredits(id));
+    }
+  }, [id, dispatch]);
 
   // Handle loading and error states
   if (movieLoading || creditsLoading) {
@@ -52,14 +57,17 @@ const MovieDetail: React.FC = () => {
       <div className="movieImageContainer">
         <img
           className="movieDetailImage"
-          src={"https://image.tmdb.org/t/p/w500"+movie.posterPath}
+          src={"https://image.tmdb.org/t/p/w500" + movie.posterPath}
           alt={movie.title}
         />
       </div>
       <div className="movieDetails">
         <div className="movieTextDetails">
           <Typography fontSize={"2em"}>{movie.title}</Typography>
-      {/*     <Typography fontSize={"0.9em"}>{movie.genres.join(", ")}</Typography> */}
+          <Typography fontSize={"0.9em"}>
+            {movie.genres.map((genre) => genre.name).join(", ")}
+          </Typography>
+
           <Typography fontSize={"1em"}>
             Release Date: {dayjs(movie.releaseDate).format("DD MMMM YYYY")}
           </Typography>
@@ -78,9 +86,10 @@ const MovieDetail: React.FC = () => {
           <Typography>{movie.overview}</Typography>
         </div>
         <div className="cast">
-        <ActorCast actors={cast} />
-    <DirectorCast directors={crew.filter(member => member.job === 'Director')} />
-   
+          <ActorCast actors={cast} />
+          <DirectorCast
+            directors={crew.filter((member) => member.job === "Director")}
+          />
         </div>
       </div>
     </div>

@@ -13,12 +13,12 @@ import {
   fetchNowPlayingMoviesSuccess,
 } from "../slices/moviesSlice";
 import {
-  fetchCreditsFailure,
-  fetchCreditsStart,
-  fetchCreditsSuccess,
+  fetchMovieCreditsFailure,
+  fetchMovieCreditsStart,
+  fetchMovieCreditsSuccess,
 } from "../slices/movieCreditsSlice";
 
-const serverUrl = "https://localhost:32772/api";
+const serverUrl = "https://localhost:32778/api";
 
 export const fetchMovie = (movieId: string) => {
   return async (dispatch: Dispatch) => {
@@ -66,7 +66,7 @@ export const fetchNowPlayingMovies = () => {
 
 export const fetchMovieCredits = (movieId: string) => {
   return async (dispatch: Dispatch) => {
-    dispatch(fetchCreditsStart());
+    dispatch(fetchMovieCreditsStart());
 
     try {
       const response = await fetch(`${serverUrl}/movies/credits/${movieId}`, {
@@ -79,10 +79,10 @@ export const fetchMovieCredits = (movieId: string) => {
       const data = await response.json();
       console.log(data);
       dispatch(
-        fetchCreditsSuccess({ cast: data.castMembers, crew: data.crewMembers })
+        fetchMovieCreditsSuccess({ cast: data.castMembers, crew: data.crewMembers })
       );
     } catch (error) {
-      dispatch(fetchCreditsFailure("Network error. Please try again"));
+      dispatch(fetchMovieCreditsFailure("Network error. Please try again"));
     }
   };
 };

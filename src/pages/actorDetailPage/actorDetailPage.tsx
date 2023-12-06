@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Grid } from "@mui/material";
 import Carousel from "../../components/carousel/carousel";
-import ActorDetails from "../../components/actorDetail/actorDetail";
+import ActorDetails from "../../components/person/personDetail/personDetail";
 
 const ActorDetailPage: React.FC = () => {
   return (
