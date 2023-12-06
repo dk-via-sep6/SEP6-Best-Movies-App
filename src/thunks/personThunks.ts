@@ -54,7 +54,7 @@ export const fetchPersonCredits = (personId: string) => {
 
       const data = await response.json();
       console.log(data);
-      dispatch(fetchPersonCreditsSuccess(data));
+      dispatch(fetchPersonCreditsSuccess({ cast: data.castRoles, crew: data.crewRoles }));
     } catch (error) {
       dispatch(fetchPersonCreditsFailure("Network error. Please try again"));
     }
