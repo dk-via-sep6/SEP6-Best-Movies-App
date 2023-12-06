@@ -20,9 +20,12 @@ import {
 import GoogleIcon from "@mui/icons-material/Google"; // Import Google icon
 import IncognitoIcon from "@mui/icons-material/VisibilityOff"; // Example icon for anonymous login
 import { useAuth } from "../../context/authContext";
-import { sendUserToServer } from "../../api";
+import { useDispatch } from "react-redux";
+import { createUser, fetchUserById } from "../../thunks/userThunks";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
 const Login: FunctionComponent = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [value, setValue] = useState("login");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -56,11 +59,12 @@ const Login: FunctionComponent = () => {
       try {
         const userCredential = await signUp(email, password);
         const user = {
-          id: userCredential.user?.uid,
-          email: email,
-          username: username,
+          Id: userCredential.user?.uid,
+          EmailAddress: email,
+          Username: username,
         };
-        await sendUserToServer(user);
+        // Dispatch createUser thunk instead of sendUserToServer
+        await dispatch(createUser(user));
 
         navigate("/movies");
       } catch (error: any) {
@@ -90,7 +94,10 @@ const Login: FunctionComponent = () => {
   const handleLogin = async () => {
     if (validateInputs()) {
       try {
-        await login(email, password);
+        const userCredential = await login(email, password);
+        // Dispatch fetchUserById thunk after successful login
+        await dispatch(fetchUserById(userCredential.user?.uid));
+
         navigate("/movies");
       } catch (error: any) {
         setError(error.message);
