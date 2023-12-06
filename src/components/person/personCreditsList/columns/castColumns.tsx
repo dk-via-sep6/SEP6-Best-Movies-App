@@ -6,19 +6,19 @@ export const CastColumns: GridColDef[] = [
   {
     field: "title",
     headerName: "Title",
-    width: 200,
+    flex: 2,
   },
   {
     field: "character",
     headerName: "Character",
-    width: 200,
+    flex: 1,
     align: "right",
     headerAlign: "right",
   },
   {
     field: "releaseDate",
     headerName: "Release Date",
-    width: 130,
+    flex: 1,
     align: "right",
     headerAlign: "right",
     renderCell: (params) => {

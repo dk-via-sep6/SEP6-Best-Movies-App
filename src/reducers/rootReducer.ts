@@ -6,6 +6,7 @@ import movieCreditsReducer from '../slices/movieCreditsSlice'
 import personReducer from '../slices/personSlice'
 import personCreditsReducer from '../slices/personCreditsSlice'
 import userReducer from '../slices/userSlice'
+import personSearchReducer from '../slices/personSearchSlice'
 
 
 const rootReducer = combineReducers({
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   person: personReducer,
   personCredits: personCreditsReducer,
   users: userReducer,
+  personSearch: personSearchReducer,
 });
 
 export default rootReducer;

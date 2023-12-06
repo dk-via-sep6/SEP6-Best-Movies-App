@@ -16,8 +16,8 @@ const PersonCrewCreditsList: React.FC = () => {
 
   const navigate = useNavigate();
 
-  function handleMovieClick(id: number) {
-    navigate(`/movie/${id}`);
+  function handleMovieClick(movieId: number) {
+    navigate(`/movie/${movieId}`);
   }
 
   // Handle loading and error states
@@ -30,7 +30,8 @@ const PersonCrewCreditsList: React.FC = () => {
   }
 
   const rows = crew.map((crew) => ({
-    id: crew.movieId,
+    id: crew.creditId,
+    movieId: crew.movieId,
     title: crew.title,
     job: crew.job,
     department: crew.department,
@@ -38,12 +39,15 @@ const PersonCrewCreditsList: React.FC = () => {
   }));
 
   return (
+    <div style={{height: "600px"}}>
     <DataGrid
       rows={rows}
       columns={CrewColumns}
-      onRowClick={(params: any) => handleMovieClick(params.row.id)}
+      onRowClick={(params: any) => handleMovieClick(params.row.movieId)}
       pageSizeOptions={[10, 20, 30, 100]}
+      autoPageSize
     />
+      </div>
   );
 };
 

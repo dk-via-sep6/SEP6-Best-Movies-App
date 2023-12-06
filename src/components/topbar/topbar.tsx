@@ -1,232 +1,101 @@
-//topbar.tsx
-
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+// TopBar.tsx
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Icon from "../../assets/images/best_movie_invert_16x16.png";
 import { useAuth } from "../../context/authContext";
-import "./style.css";
-import {
-  Tooltip,
-  Avatar,
-  Menu,
-  MenuItem,
-  Typography,
-  ThemeProvider,
-  createTheme,
-  Autocomplete,
-  TextField,
+import { 
+  AppBar, Box, Toolbar, IconButton, Tooltip, Avatar, Menu, MenuItem, Typography, 
+  ThemeProvider, createTheme 
 } from "@mui/material";
-import { placeholderMovies } from "../../pages/movies/placeholderMovies";
-import { placeholderActors } from "../../pages/actors/placeholderActors";
-import { placeholderDirectors } from "../../pages/directors/placeholderDirectors";
-import { Actor } from "../../model/actor";
-import { Director } from "../../model/director";
-import { Movie } from "../../model/movie";
+import MenuIcon from "@mui/icons-material/Menu";
+import Icon from "../../assets/images/best_movie_invert_16x16.png";
+import "./style.css";
+import SearchBar, { SearchItem } from "./searchbar/searchbar";
+
 
 interface TopBarProps {
   onMenuClick: () => void;
 }
 
 const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
-  const { currentUser, isAnonymous } = useAuth();
+  const navigate = useNavigate();
+  const { currentUser, isAnonymous, logout } = useAuth();
   const settings = !isAnonymous ? ["Profile", "Logout"] : ["Login"];
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const darkTheme = createTheme({
     palette: {
       mode: "dark",
-      primary: {
-        main: "#1976d2",
-      },
+      primary: { main: "#1976d2" },
     },
   });
-  const getAvatarContent = () => {
-    if (isAnonymous) {
-      return "?";
-    } else {
-      return currentUser?.email?.charAt(0).toUpperCase() || "";
-    }
-  };
-  const navigate = useNavigate();
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
+
+  const getAvatarContent = () => isAnonymous ? "?" : currentUser?.email?.charAt(0).toUpperCase() || "";
+
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
+
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const { logout } = useAuth();
-  interface SearchItem {
-    type: string;
-
-    name: string;
-    id: number;
-  }
-
-  const searchData: SearchItem[] = [
-    ...placeholderMovies.map((movie: Movie) => {
-      return {
-        type: "movie",
-
-        name: movie.title,
-        id: movie.id,
-      };
-    }),
-    ...placeholderActors.map((actor: Actor) => {
-      return {
-        type: "actor",
-
-        name: actor.name,
-        id: actor.id,
-      };
-    }),
-    ...placeholderDirectors.map((director: Director) => {
-      return {
-        type: "director",
-
-        name: director.name,
-        id: director.id,
-      };
-    }),
-  ];
 
   const handleMenuItemClick = async (setting: string) => {
     handleCloseUserMenu();
-    switch (setting) {
-      case "Profile":
-        navigate("/account");
-        break;
-      case "Logout":
-        // Handle logout logic here
-        await logout();
-        navigate("/login");
-        break;
-      default:
-        // Default action or navigation if needed
-        break;
-      case "Login":
-        await logout();
-        navigate("/login");
-        break;
+    if (setting === "Profile") navigate("/account");
+    if (setting === "Logout") {
+      await logout();
+      navigate("/login");
+    }
+    if (setting === "Login") {
+      await logout();
+      navigate("/login");
     }
   };
+
   const handleIconClick = () => {
     navigate("/movies");
   };
-  const handleSearchSelect = (
-    event: React.SyntheticEvent<Element, Event>,
-    value: SearchItem | null
-  ) => {
-    if (!value) return; // Do nothing if no value is selected
 
-    // Navigate based on the type of the selected item
-    switch (value.type) {
-      case "movie":
-        navigate(`/movie/${value.id}`);
-        break;
-      case "actor":
-        navigate(`/actor/${value.id}`);
-        break;
-      case "director":
-        navigate(`/director/${value.id}`);
-        break;
-      default:
-        break;
-    }
+  const handleSearchSelect = (value: SearchItem | null) => {
+    if (!value) return;
+    const { type, id } = value;
+    const url = type === "movie" ? `/movie/${id}` : type === "personInfo" ? `/actor/${id}` : `/director/${id}`;
+    navigate(url);
   };
+
   return (
     <ThemeProvider theme={darkTheme}>
       <AppBar position="fixed" component="nav">
         <Toolbar disableGutters>
           <div className="left-section">
             <Box className="menu-box">
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={onMenuClick}
-                color="inherit"
-                className="menu-icon"
-              >
+              <IconButton size="large" aria-label="open menu" onClick={onMenuClick} color="inherit" className="menu-icon">
                 <MenuIcon />
               </IconButton>
             </Box>
-            <img
-              src={Icon}
-              alt="BMD"
-              className="icon"
-              onClick={handleIconClick}
-              style={{ cursor: "pointer" }}
-            />
-
-            <div>
-              <Autocomplete
-                className="searchbar"
-                options={searchData}
-                onChange={handleSearchSelect}
-                sx={{
-                  width: 400,
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Search Movies" />
-                )}
-                getOptionLabel={(option: SearchItem) => {
-                  return option.name;
-                }}
-                clearOnEscape
-                noOptionsText=""
-                filterOptions={(options, { inputValue }) => {
-                  // Only show options if there is some input
-                  if (inputValue === "") {
-                    return [];
-                  }
-                  // Filter options based on the input value
-                  return options.filter((option) =>
-                    option.name.toLowerCase().includes(inputValue.toLowerCase())
-                  );
-                }}
-              />
-            </div>
+            <img src={Icon} alt="BMD" className="icon" onClick={handleIconClick} style={{ cursor: "pointer" }} />
+            <SearchBar onSearchSelect={handleSearchSelect} />
           </div>
 
           <div className="right-section">
             <Box className="user-box">
               <Tooltip title="Open settings">
-                <IconButton
-                  onClick={handleOpenUserMenu}
-                  className="avatar-icon"
-                >
+                <IconButton onClick={handleOpenUserMenu} className="avatar-icon">
                   <Avatar alt="User Avatar">{getAvatarContent()}</Avatar>
                 </IconButton>
               </Tooltip>
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
+                anchorOrigin={{ vertical: "top", horizontal: "right" }}
                 keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
+                transformOrigin={{ vertical: "top", horizontal: "right" }}
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
                 className="menu-dropdown"
               >
                 {settings.map((setting) => (
-                  <MenuItem
-                    key={setting}
-                    onClick={() => handleMenuItemClick(setting)}
-                  >
+                  <MenuItem key={setting} onClick={() => handleMenuItemClick(setting)}>
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}

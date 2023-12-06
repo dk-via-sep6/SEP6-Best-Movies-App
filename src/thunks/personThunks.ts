@@ -11,6 +11,11 @@ import {
   fetchPersonCreditsSuccess,
   fetchPersonCreditsFailure,
 } from "../slices/personCreditsSlice";
+import {
+  fetchPersonSearchFailure,
+  fetchPersonSearchStart,
+  fetchPersonSearchSuccess,
+} from "../slices/personSearchSlice";
 
 const serverUrl = "https://localhost:32778/api";
 
@@ -54,9 +59,37 @@ export const fetchPersonCredits = (personId: string) => {
 
       const data = await response.json();
       console.log(data);
-      dispatch(fetchPersonCreditsSuccess({ cast: data.castRoles, crew: data.crewRoles }));
+      dispatch(
+        fetchPersonCreditsSuccess({
+          cast: data.castRoles,
+          crew: data.crewRoles,
+        })
+      );
     } catch (error) {
       dispatch(fetchPersonCreditsFailure("Network error. Please try again"));
+    }
+  };
+};
+
+export const fetchPersonSearchResults = (searchText: string) => {
+  return async (dispatch: Dispatch) => {
+    dispatch(fetchPersonSearchStart());
+
+    try {
+      const response = await fetch(`${serverUrl}/person/search/${searchText}`, {
+        method: "GET",
+      });
+
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch search results");
+      }
+
+      const data = await response.json();
+      console.log(data);
+      dispatch(fetchPersonSearchSuccess(data));
+    } catch (error) {
+      dispatch(fetchPersonSearchFailure("Network error. Please try again"));
     }
   };
 };
