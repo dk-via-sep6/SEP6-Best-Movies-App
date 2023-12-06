@@ -1,14 +1,14 @@
 // movieCreditsSlice.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CastMember } from '../model/castMember';
-import { CrewMember } from '../model/crewMember';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { CastMember } from "../model/castMember";
+import { CrewMember } from "../model/crewMember";
 
 interface MovieCreditsState {
   cast: CastMember[];
   crew: CrewMember[];
   loading: boolean;
   error: string | null;
-}
+};
 
 const initialState: MovieCreditsState = {
   cast: [],
@@ -18,28 +18,36 @@ const initialState: MovieCreditsState = {
 };
 
 const movieCreditsSlice = createSlice({
-  name: 'movieCredits',
+  name: "movieCredits",
   initialState,
   reducers: {
-    fetchCreditsStart: (state) => {
+    fetchMovieCreditsStart: (state) => {
       state.loading = true;
       state.error = null;
     },
-    fetchCreditsSuccess: (state, action: PayloadAction<{cast: CastMember[], crew: CrewMember[]}>) => {
+    fetchMovieCreditsSuccess: (
+      state,
+      action: PayloadAction<{ cast: CastMember[]; crew: CrewMember[] }>
+    ) => {
       state.cast = action.payload.cast;
       state.crew = action.payload.crew;
       state.loading = false;
     },
-    fetchCreditsFailure: (state, action: PayloadAction<string>) => {
+    fetchMovieCreditsFailure: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
       state.loading = false;
     },
-    clearCredits: (state) => {
+    clearMovieCredits: (state) => {
       state.cast = [];
       state.crew = [];
     },
   },
 });
 
-export const { fetchCreditsStart, fetchCreditsSuccess, fetchCreditsFailure, clearCredits } = movieCreditsSlice.actions;
+export const {
+  fetchMovieCreditsStart,
+  fetchMovieCreditsSuccess,
+  fetchMovieCreditsFailure,
+  clearMovieCredits,
+} = movieCreditsSlice.actions;
 export default movieCreditsSlice.reducer;

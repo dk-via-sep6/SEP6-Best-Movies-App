@@ -2,10 +2,11 @@ import { Grid, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./style.css";
-import ActorMovies from "./actorMovies";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { fetchPerson } from "../../thunks/personThunks";
+import { fetchPerson, fetchPersonCredits } from "../../thunks/personThunks";
+import dayjs from "dayjs";
+import ActorMovies from "./actorMovies";
 
 const ActorDetails: React.FC = () => {
   let { actorId } = useParams();
@@ -15,18 +16,24 @@ const ActorDetails: React.FC = () => {
   const personLoading = useSelector((state: RootState) => state.person.loading);
   const personError = useSelector((state: RootState) => state.person.error);
 
+  const cast = useSelector((state: RootState) => state.personCredits.cast);
+  const crew = useSelector((state: RootState) => state.personCredits.crew);
+  const creditsLoading = useSelector((state: RootState) => state.personCredits.loading);
+  const creditsError = useSelector((state: RootState) => state.personCredits.error);
+
   useEffect(()=>{
     if(actorId){
       dispatch(fetchPerson(actorId));
+      dispatch(fetchPersonCredits(actorId));
     }
   },[actorId, dispatch]);
 
     // Handle loading and error states
-    if (personLoading) {
+    if (personLoading || creditsLoading) {
       return <div>Loading...</div>;
     }
-  
-    if (personError) {
+   
+    if (personError || creditsError) {
       return <div>Error: {personError}</div>;
     }
   
@@ -52,7 +59,7 @@ const ActorDetails: React.FC = () => {
             Nationality: {person.placeOfBirth}
           </Typography>
           <Typography variant="body1" color="textSecondary">
-            Date of Birth: {person.birthday}
+            Date of Birth: {dayjs(person.birthday).format("DD MMM YYYY")}
           </Typography>
           <Typography variant="body2">{person.biography}</Typography>
         </Grid>
@@ -60,7 +67,7 @@ const ActorDetails: React.FC = () => {
       <Typography gutterBottom variant="h6">
         Movies
       </Typography>
-     {/*  <ActorMovies movies={actor.movies} /> */}
+{/*       <ActorMovies movies={cast} />  */}
       <Grid container spacing={2}>
         <div></div>
       </Grid>

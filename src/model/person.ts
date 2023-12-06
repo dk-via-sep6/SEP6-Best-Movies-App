@@ -5,7 +5,6 @@ export enum Gender
     Male
 }
 
-
 export interface Person{
     id: number;
     name: string;
