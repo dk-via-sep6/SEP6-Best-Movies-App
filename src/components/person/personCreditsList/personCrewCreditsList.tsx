@@ -1,0 +1,50 @@
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import { DataGrid } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
+import { CrewColumns } from "./columns/crewColumns"
+
+const PersonCrewCreditsList: React.FC = () => {
+  const crew = useSelector((state: RootState) => state.personCredits.crew);
+
+  const creditsLoading = useSelector(
+    (state: RootState) => state.personCredits.loading
+  );
+  const creditsError = useSelector(
+    (state: RootState) => state.personCredits.error
+  );
+
+  const navigate = useNavigate();
+
+  function handleMovieClick(id: number) {
+    navigate(`/movie/${id}`);
+  }
+
+  // Handle loading and error states
+  if (creditsLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (creditsError) {
+    return <div>Error: {creditsError}</div>;
+  }
+
+  const rows = crew.map((crew) => ({
+    id: crew.movieId,
+    title: crew.title,
+    job: crew.job,
+    department: crew.department,
+    releaseDate: crew.releaseDate,
+  }));
+
+  return (
+    <DataGrid
+      rows={rows}
+      columns={CrewColumns}
+      onRowClick={(params: any) => handleMovieClick(params.row.id)}
+      pageSizeOptions={[10, 20, 30, 100]}
+    />
+  );
+};
+
+export default PersonCrewCreditsList;

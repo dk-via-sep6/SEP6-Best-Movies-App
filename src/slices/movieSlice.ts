@@ -1,6 +1,6 @@
 //movieSlice.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Movie } from '../model/movie';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Movie } from "../model/movie";
 
 interface MovieState {
   currentMovie: Movie | null;
@@ -15,7 +15,7 @@ const initialState: MovieState = {
 };
 
 const movieSlice = createSlice({
-  name: 'movie',
+  name: "movie",
   initialState,
   reducers: {
     fetchMovieStart: (state) => {
@@ -36,5 +36,10 @@ const movieSlice = createSlice({
   },
 });
 
-export const { fetchMovieStart, fetchMovieSuccess, fetchMovieFailure, clearMovie } = movieSlice.actions;
+export const {
+  fetchMovieStart,
+  fetchMovieSuccess,
+  fetchMovieFailure,
+  clearMovie,
+} = movieSlice.actions;
 export default movieSlice.reducer;

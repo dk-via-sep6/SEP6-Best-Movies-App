@@ -1,7 +1,7 @@
 // actorCast.tsx
 import React from "react";
 import { Grid, Card, CardMedia, CardContent, Typography, Tooltip } from "@mui/material";
-import { CastMember } from "../../model/CastMember"; // import CastMember
+import { CastMember } from "../../model/castMember"; // import CastMember
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
 

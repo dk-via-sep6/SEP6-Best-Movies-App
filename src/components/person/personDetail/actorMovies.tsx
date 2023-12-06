@@ -1,6 +1,6 @@
 import React from "react";
-import { Movie } from "../../model/movie";
-import MoviesParticipated from "../moviesParticipated/moviesParticipated";
+import { Movie } from "../../../model/movie";
+import MoviesParticipated from "../../moviesParticipated/moviesParticipated";
 
 interface ActorMovieProps {
   movies: Movie[];

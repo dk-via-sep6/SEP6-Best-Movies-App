@@ -1,8 +1,8 @@
-.actorImage {
+.personImage {
   height: 500px;
   width: auto !important;
 }
-.actorDetailsContainer {
+.personDetailsContainer {
   display: flex;
   flex-direction: column;
   padding: 10px;
