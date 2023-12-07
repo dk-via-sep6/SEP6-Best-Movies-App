@@ -1,14 +1,14 @@
 //rootReducer.ts
 
 import commentsReducer from "../slices/commentSlice";
-import { combineReducers } from '@reduxjs/toolkit';
-import movieReducer from '../slices/movieSlice';
-import moviesReducer from '../slices/moviesSlice';
-import movieCreditsReducer from '../slices/movieCreditsSlice'
-import personReducer from '../slices/personSlice'
-import personCreditsReducer from '../slices/personCreditsSlice'
-import userReducer from '../slices/userSlice'
-
+import { combineReducers } from "@reduxjs/toolkit";
+import movieReducer from "../slices/movieSlice";
+import moviesReducer from "../slices/moviesSlice";
+import movieCreditsReducer from "../slices/movieCreditsSlice";
+import personReducer from "../slices/personSlice";
+import personCreditsReducer from "../slices/personCreditsSlice";
+import userReducer from "../slices/userSlice";
+import ratingsReducer from "../slices/ratingSlice";
 const rootReducer = combineReducers({
   movie: movieReducer,
   movies: moviesReducer,
@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
   person: personReducer,
   personCredits: personCreditsReducer,
   users: userReducer,
-
+  ratings: ratingsReducer,
 });
 
 export default rootReducer;

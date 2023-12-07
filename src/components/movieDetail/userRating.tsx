@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Rating from "@mui/material/Rating";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -8,22 +8,46 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useAuth } from "../../context/authContext";
 import FeatureRestrictedDialog from "../featureRestrictedDialog/featureRestrictedDialog";
+import {
+  fetchUserRatingForMovie,
+  postRating,
+  updateRating,
+} from "../../thunks/ratingThunks";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { useSelector } from "react-redux";
 
 interface MovieRatingProps {
-  rating: number | null; // assuming the rating is out of 10
+  movieId: number;
 }
 
-const UserRating: React.FC<MovieRatingProps> = ({ rating }) => {
+const UserRating: React.FC<MovieRatingProps> = ({ movieId }) => {
   const [open, setOpen] = useState(false);
-  const [userRating, setUserRating] = useState<number | null>(null); // User's rating
-  const { isAnonymous } = useAuth();
+  const [localUserRating, setLocalUserRating] = useState<number | null>(null); // Added local state for user rating
+  const { isAnonymous, currentUser } = useAuth();
   const [guestUserDialog, setGuestUserDialog] = useState(false);
+  const dispatch = useAppDispatch();
+  const userRating = useSelector((state: any) => state.ratings.userRating);
+
+  useEffect(() => {
+    if (currentUser?.uid && movieId) {
+      dispatch(fetchUserRatingForMovie(currentUser.uid, movieId));
+    }
+  }, [dispatch, currentUser, movieId]);
+
+  useEffect(() => {
+    // Reset the rating if the movie ID does not match
+    if (userRating && userRating.movieId !== movieId) {
+      setLocalUserRating(null);
+    } else if (userRating && userRating.movieId === movieId) {
+      setLocalUserRating(userRating.rating);
+    }
+  }, [userRating, movieId]);
 
   const handleOpen = () => {
     if (!isAnonymous) {
       setOpen(true);
     } else {
-      handleGuestUserDialogOpen();
+      setGuestUserDialog(true);
     }
   };
 
@@ -31,18 +55,29 @@ const UserRating: React.FC<MovieRatingProps> = ({ rating }) => {
     setOpen(false);
   };
 
-  const handleGuestUserDialogOpen = () => {
-    setGuestUserDialog(true);
-  };
-  const handleGuestUserDialogClose = () => {
-    setGuestUserDialog(false);
-  };
-
   const handleRatingChange = (
     event: React.ChangeEvent<{}>,
     newValue: number | null
   ) => {
-    setUserRating(newValue);
+    setLocalUserRating(newValue);
+  };
+
+  const handleSubmitRating = () => {
+    if (localUserRating !== null && currentUser?.uid) {
+      const ratingData = {
+        id: userRating?.id || 0,
+        movieId: movieId,
+        userId: currentUser.uid,
+        rating: localUserRating,
+      };
+
+      if (userRating && userRating.id) {
+        dispatch(updateRating(userRating.id, ratingData));
+      } else {
+        dispatch(postRating(ratingData));
+      }
+    }
+    setOpen(false);
   };
 
   return (
@@ -54,16 +89,10 @@ const UserRating: React.FC<MovieRatingProps> = ({ rating }) => {
     >
       <FeatureRestrictedDialog
         open={guestUserDialog}
-        onClose={handleGuestUserDialogClose}
+        onClose={() => setGuestUserDialog(false)}
       />
-      Your Rating: {userRating}
-      <Button
-        sx={{
-          marginLeft: 2,
-        }}
-        variant="outlined"
-        onClick={handleOpen}
-      >
+      Your Rating: {localUserRating ?? "Not rated"}
+      <Button sx={{ marginLeft: 2 }} variant="outlined" onClick={handleOpen}>
         Rate
       </Button>
       <Dialog open={open} onClose={handleClose}>
@@ -73,15 +102,15 @@ const UserRating: React.FC<MovieRatingProps> = ({ rating }) => {
             <Rating
               max={10}
               name="user-rating"
-              value={userRating}
-              precision={0.5} // Allow half-star increments
+              value={localUserRating ?? 0}
+              precision={0.5}
               onChange={handleRatingChange}
             />
           </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Submit</Button>
+          <Button onClick={handleSubmitRating}>Submit</Button>
         </DialogActions>
       </Dialog>
     </Box>
