@@ -12,7 +12,8 @@ import AddMovieToWatchlist from "../addMovieToWatchlist/addToWatchlist";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { fetchMovie, fetchMovieCredits } from "../../thunks/movieThunks";
-
+import { fetchUserRatingForMovie } from "../../thunks/ratingThunks";
+import { useAuth } from "../../context/authContext";
 const MovieDetail: React.FC = () => {
   let { id } = useParams();
   const dispatch = useDispatch<AppDispatch>();
@@ -21,7 +22,9 @@ const MovieDetail: React.FC = () => {
   const movie = useSelector((state: RootState) => state.movie.currentMovie);
   const movieLoading = useSelector((state: RootState) => state.movie.loading);
   const movieError = useSelector((state: RootState) => state.movie.error);
-
+  const userRating = useSelector(
+    (state: RootState) => state.ratings.userRating
+  );
   // Movie credits selectors
   const cast = useSelector((state: RootState) => state.movieCredits.cast);
   const crew = useSelector((state: RootState) => state.movieCredits.crew);
@@ -31,11 +34,14 @@ const MovieDetail: React.FC = () => {
   const creditsError = useSelector(
     (state: RootState) => state.movieCredits.error
   );
-
+  const currentUser = useAuth();
   useEffect(() => {
     if (id) {
       dispatch(fetchMovie(id));
       dispatch(fetchMovieCredits(id));
+      if (currentUser.currentUser?.uid) {
+        dispatch(fetchUserRatingForMovie(currentUser.currentUser?.uid, +id));
+      }
     }
   }, [id, dispatch]);
 
@@ -78,7 +84,7 @@ const MovieDetail: React.FC = () => {
             </Typography>
             <MovieRating rating={movie.voteAverage} />
             <div className="userRatingDiv">
-              <UserRating rating={null} />
+              <UserRating movieId={movie.id} />
               <AddMovieToWatchlist movieId={movie.id} />
             </div>
           </div>

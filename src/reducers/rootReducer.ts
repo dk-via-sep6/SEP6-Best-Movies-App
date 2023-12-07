@@ -8,17 +8,21 @@ import personCreditsReducer from '../slices/personCreditsSlice'
 import userReducer from '../slices/userSlice'
 import personSearchReducer from '../slices/personSearchSlice'
 import movieSearchReducer from '../slices/movieSearchSlice'
-
-
+import commentsReducer from "../slices/commentSlice";
+import ratingsReducer from "../slices/ratingSlice";
+import watchlistReducer from "../slices/watchlistSlice";
 const rootReducer = combineReducers({
   movie: movieReducer,
   movies: moviesReducer,
   movieCredits: movieCreditsReducer,
+  comments: commentsReducer,
   person: personReducer,
   personCredits: personCreditsReducer,
   users: userReducer,
   personSearch: personSearchReducer,
   movieSearch: movieSearchReducer,
+  ratings: ratingsReducer,
+  watchlists: watchlistReducer,
 });
 
 export default rootReducer;

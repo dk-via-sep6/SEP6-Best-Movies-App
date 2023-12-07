@@ -21,7 +21,7 @@ import {
   fetchMovieSearchFailure,
 } from "../slices/movieSearchSlice";
 
-const serverUrl = "https://localhost:32778/api";
+const serverUrl = "https://localhost:32772/api";
 
 export const fetchMovie = (movieId: string) => {
   return async (dispatch: Dispatch) => {

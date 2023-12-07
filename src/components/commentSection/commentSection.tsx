@@ -1,7 +1,19 @@
 // CommentSection.tsx
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import {
+  fetchCommentsByMovieId,
+  postComment,
+  likeComment,
+  unlikeComment,
+} from "../../thunks/commentThunks";
+import { Comment as CommentModel } from "../../model/comment";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import { useAuth } from "../../context/authContext";
+import FeatureRestrictedDialog from "../featureRestrictedDialog/featureRestrictedDialog";
 import Avatar from "@mui/material/Avatar";
-
 import {
   TextField,
   Button,
@@ -14,40 +26,30 @@ import {
   Typography,
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { Comment } from "../../model/comment";
-import dayjs from "dayjs";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import "./styles.css";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"; // New import for the unliked icon
-import relativeTime from "dayjs/plugin/relativeTime";
-import { useAuth } from "../../context/authContext";
-import FeatureRestrictedDialog from "../featureRestrictedDialog/featureRestrictedDialog";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
 
 dayjs.extend(relativeTime);
-const initialComments: Comment[] = [
-  {
-    id: "1",
-    author: "Zser 1",
-    text: "Great movie, had a lot of fun watching it!",
-    timestamp: dayjs("2021-10-01T12:00:00Z"),
-    likes: 0,
-    isLiked: false,
-  },
-  {
-    id: "2",
-    author: "User 2",
-    text: "Interesting plot, but the pacing was a bit slow for my taste.",
-    timestamp: dayjs("2021-10-01T12:00:00Z"),
-    likes: 0,
-    isLiked: true,
-  },
-  // ...more comments
-];
 
 const CommentSection: React.FC = () => {
-  const [comments, setComments] = useState<Comment[]>(initialComments);
   const [newComment, setNewComment] = useState("");
   const { isAnonymous, currentUser } = useAuth();
   const [guestUserDialog, setGuestUserDialog] = useState(false);
+  const dispatch = useAppDispatch();
+  const movieId = useSelector(
+    (state: RootState) => state.movie.currentMovie?.id
+  );
+
+  const loading = useSelector((state: RootState) => state.comments.loading);
+
+  useEffect(() => {
+    if (movieId) {
+      dispatch(fetchCommentsByMovieId(movieId));
+    }
+  }, [dispatch, movieId]);
+
+  const comments = useSelector((state: RootState) => state.comments.comments);
   const handleCommentChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNewComment(event.target.value);
   };
@@ -55,28 +57,29 @@ const CommentSection: React.FC = () => {
   const handleGuestUserDialogOpen = () => {
     setGuestUserDialog(true);
   };
+
   const handleGuestUserDialogClose = () => {
     setGuestUserDialog(false);
   };
 
   const handleCommentSubmit = (event: FormEvent) => {
-    event.preventDefault(); // Prevent default form submission behavior
-
+    event.preventDefault();
     if (isAnonymous) {
       handleGuestUserDialogOpen();
     } else {
       if (!newComment.trim()) return;
 
-      const newCommentObj: Comment = {
-        id: Date.now().toString(),
-        author: currentUser?.email || "Anonymous", // Use email as author
-        text: newComment.trim(),
-        timestamp: dayjs(),
-        likes: 0,
-        isLiked: false,
+      const newCommentObj: CommentModel = {
+        id: 0,
+        authorId: currentUser?.uid ?? "",
+        movieId: movieId ?? 0,
+        content: newComment.trim(),
+        timestamp: dayjs().toString(),
+        likedBy: [],
+        authorUsername: "",
       };
-
-      setComments([...comments, newCommentObj]);
+      // Dispatch the action to post the new comment
+      dispatch(postComment(newCommentObj));
       setNewComment("");
     }
   };
@@ -84,26 +87,25 @@ const CommentSection: React.FC = () => {
     return author.charAt(0).toUpperCase();
   };
 
-  const handleLike = (id: string) => {
-    if (!isAnonymous) {
-      setComments(
-        comments.map((comment) =>
-          comment.id === id
-            ? {
-                ...comment,
-                likes: comment.isLiked ? comment.likes - 1 : comment.likes + 1,
-                isLiked: !comment.isLiked,
-              }
-            : comment
-        )
-      );
-    } else {
+  const handleLike = (commentId: number) => {
+    if (isAnonymous) {
       handleGuestUserDialogOpen();
+      return;
+    }
+    const userId = currentUser?.uid ?? "";
+    const comment = comments.find((c) => c.id === commentId);
+    if (comment) {
+      if (comment.likedBy.includes(userId)) {
+        // User already liked the comment, so dispatch unlike action
+        dispatch(unlikeComment(commentId, userId));
+      } else {
+        // User hasn't liked the comment, so dispatch like action
+        dispatch(likeComment(commentId, userId));
+      }
     }
   };
   return (
     <Box className="commentSection">
-      {/* Form for new comment */}
       <FeatureRestrictedDialog
         open={guestUserDialog}
         onClose={handleGuestUserDialogClose}
@@ -125,52 +127,53 @@ const CommentSection: React.FC = () => {
       </form>
       <div className="commentList">
         <List>
-          {comments.map((comment) => (
-            <React.Fragment key={comment.id}>
-              <ListItem
-                alignItems="flex-start"
-                secondaryAction={
+          {comments.map((comment) => {
+            const isLiked = currentUser
+              ? comment.likedBy.includes(currentUser.uid)
+              : false;
+
+            return (
+              <React.Fragment>
+                <ListItem alignItems="flex-start">
+                  <Avatar>{getAvatarLetter(comment.authorUsername)}</Avatar>
+                  <div className="listItemText">
+                    <ListItemText
+                      primary={
+                        <>
+                          {comment.authorUsername} -{" "}
+                          <Typography component="span" color="textSecondary">
+                            {dayjs(comment.timestamp?.toString()).fromNow()}
+                          </Typography>
+                        </>
+                      }
+                      secondary={
+                        <>
+                          <Typography component="span" color="textSecondary">
+                            {comment.likedBy.length} likes
+                          </Typography>
+                          {" - "}
+                          <Typography component="span">
+                            {comment.content}
+                          </Typography>
+                        </>
+                      }
+                    />
+                  </div>
                   <IconButton
-                    onClick={() => handleLike(comment.id)}
+                    onClick={() => handleLike(comment.id ?? 0)}
                     size="small"
                   >
-                    {comment.isLiked ? (
+                    {isLiked ? (
                       <FavoriteIcon color="primary" />
                     ) : (
                       <FavoriteBorderIcon color="info" />
                     )}
                   </IconButton>
-                }
-              >
-                <Avatar>{getAvatarLetter(comment.author)}</Avatar>
-                <div className="listItemText">
-                  <ListItemText
-                    primary={
-                      <>
-                        {comment.author} -{" "}
-                        <Typography component="span" color="textSecondary">
-                          {dayjs(comment.timestamp).fromNow()}
-                        </Typography>
-                      </>
-                    }
-                    secondary={
-                      <>
-                        <Typography component="span" color="textSecondary">
-                          {comment.likes} likes
-                        </Typography>
-                        {" - "}
-                        <Typography component="span">
-                          {" "}
-                          {comment.text}
-                        </Typography>
-                      </>
-                    }
-                  />
-                </div>
-              </ListItem>
-              <Divider variant="inset" component="li" />
-            </React.Fragment>
-          ))}
+                </ListItem>
+                <Divider variant="inset" component="li" />
+              </React.Fragment>
+            );
+          })}
         </List>
       </div>
     </Box>
