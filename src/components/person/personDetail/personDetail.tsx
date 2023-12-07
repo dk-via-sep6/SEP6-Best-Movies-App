@@ -68,9 +68,6 @@ const PersonDetails: React.FC = () => {
         Crew
       </Typography>
       <PersonCrewCreditsList/>
-      <Grid container spacing={2}>
-        <div></div>
-      </Grid>
     </div>
   );
 };

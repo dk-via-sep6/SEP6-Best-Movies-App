@@ -4,9 +4,7 @@ import {
   fetchMovieFailure,
   fetchMovieStart,
   fetchMovieSuccess,
-  clearMovie,
 } from "../slices/movieSlice";
-
 import {
   fetchNowPlayingMoviesFailure,
   fetchNowPlayingMoviesStart,
@@ -17,6 +15,11 @@ import {
   fetchMovieCreditsStart,
   fetchMovieCreditsSuccess,
 } from "../slices/movieCreditsSlice";
+import {
+  fetchMovieSearchStart,
+  fetchMovieSearchSuccess,
+  fetchMovieSearchFailure,
+} from "../slices/movieSearchSlice";
 
 const serverUrl = "https://localhost:32772/api";
 
@@ -86,6 +89,28 @@ export const fetchMovieCredits = (movieId: string) => {
       );
     } catch (error) {
       dispatch(fetchMovieCreditsFailure("Network error. Please try again"));
+    }
+  };
+};
+
+export const fetchMovieSearchResults = (searchText: string) => {
+  return async (dispatch: Dispatch) => {
+    dispatch(fetchMovieSearchStart());
+    try {
+      const encodedSearchText = encodeURIComponent(searchText);
+      const response = await fetch(`${serverUrl}/movies/search/${encodedSearchText}`, {
+        method: "GET",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch search results");
+      }
+
+      const data = await response.json();
+      console.log(data);
+      dispatch(fetchMovieSearchSuccess(data));
+    } catch (error) {
+      dispatch(fetchMovieSearchFailure("Network error. Please try again"));
     }
   };
 };

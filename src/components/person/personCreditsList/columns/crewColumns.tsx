@@ -6,26 +6,26 @@ export const CrewColumns: GridColDef[] = [
   {
     field: "title",
     headerName: "Title",
-    width: 200,
+    flex: 2,
   },
   {
     field: "job",
     headerName: "Job",
-    width: 200,
+    flex: 1,
     align: "right",
     headerAlign: "right",
   },
   {
     field: "department",
     headerName: "Department",
-    width: 200,
+    flex: 1,
     align: "right",
     headerAlign: "right",
   },
   {
     field: "releaseDate",
     headerName: "Release Date",
-    width: 130,
+    flex: 1,
     align: "right",
     headerAlign: "right",
     renderCell: (params) => {

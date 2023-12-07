@@ -31,7 +31,6 @@ const PersonCreditsSlice = createSlice({
     ) => {
       state.cast = action.payload.cast;
       state.crew = action.payload.crew;
-      console.log("Slice ---> "+ state.crew + " "+ state.cast)
       state.loading = false;
     },
     fetchPersonCreditsFailure: (state, action: PayloadAction<string>) => {

@@ -36,12 +36,16 @@ const PersonCastCreditsList: React.FC = () => {
   }));
 
   return (
-    <DataGrid
+    <div style={{height: "600px"}}>
+      <DataGrid
       rows={rows}
       columns={CastColumns}
       onRowClick={(params: any) => handleMovieClick(params.row.id)}
-      pageSizeOptions={[10, 20, 30, 100]}
+      pageSizeOptions={[10, 20, 30, 100]} 
+      autoPageSize
     />
+    </div>
+    
   );
 };
 

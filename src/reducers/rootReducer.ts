@@ -1,13 +1,14 @@
 //rootReducer.ts
-
+import { combineReducers } from '@reduxjs/toolkit';
+import movieReducer from '../slices/movieSlice';
+import moviesReducer from '../slices/moviesSlice';
+import movieCreditsReducer from '../slices/movieCreditsSlice'
+import personReducer from '../slices/personSlice'
+import personCreditsReducer from '../slices/personCreditsSlice'
+import userReducer from '../slices/userSlice'
+import personSearchReducer from '../slices/personSearchSlice'
+import movieSearchReducer from '../slices/movieSearchSlice'
 import commentsReducer from "../slices/commentSlice";
-import { combineReducers } from "@reduxjs/toolkit";
-import movieReducer from "../slices/movieSlice";
-import moviesReducer from "../slices/moviesSlice";
-import movieCreditsReducer from "../slices/movieCreditsSlice";
-import personReducer from "../slices/personSlice";
-import personCreditsReducer from "../slices/personCreditsSlice";
-import userReducer from "../slices/userSlice";
 import ratingsReducer from "../slices/ratingSlice";
 import watchlistReducer from "../slices/watchlistSlice";
 const rootReducer = combineReducers({
@@ -18,6 +19,8 @@ const rootReducer = combineReducers({
   person: personReducer,
   personCredits: personCreditsReducer,
   users: userReducer,
+  personSearch: personSearchReducer,
+  movieSearch: movieSearchReducer,
   ratings: ratingsReducer,
   watchlists: watchlistReducer,
 });
