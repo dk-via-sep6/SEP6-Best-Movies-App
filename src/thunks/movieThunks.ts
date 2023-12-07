@@ -18,7 +18,7 @@ import {
   fetchMovieCreditsSuccess,
 } from "../slices/movieCreditsSlice";
 
-const serverUrl = "https://localhost:32778/api";
+const serverUrl = "https://localhost:32772/api";
 
 export const fetchMovie = (movieId: string) => {
   return async (dispatch: Dispatch) => {
@@ -79,7 +79,10 @@ export const fetchMovieCredits = (movieId: string) => {
       const data = await response.json();
       console.log(data);
       dispatch(
-        fetchMovieCreditsSuccess({ cast: data.castMembers, crew: data.crewMembers })
+        fetchMovieCreditsSuccess({
+          cast: data.castMembers,
+          crew: data.crewMembers,
+        })
       );
     } catch (error) {
       dispatch(fetchMovieCreditsFailure("Network error. Please try again"));
