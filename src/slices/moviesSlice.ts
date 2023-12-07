@@ -29,7 +29,7 @@ const moviesSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
-    clearMovie: (state) => {
+    clearMovies: (state) => {
       state.currentMovies = null;
     },
   },
@@ -39,5 +39,6 @@ export const {
   fetchNowPlayingMoviesStart,
   fetchNowPlayingMoviesSuccess,
   fetchNowPlayingMoviesFailure,
+  clearMovies,
 } = moviesSlice.actions;
 export default moviesSlice.reducer;
