@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   IconButton,
   Dialog,
@@ -15,7 +15,15 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import { useAuth } from "../../context/authContext";
 import FeatureRestrictedDialog from "../featureRestrictedDialog/featureRestrictedDialog";
-
+import {
+  fetchWatchlistsByUserId,
+  addWatchlist,
+  updateWatchlist,
+} from "../../thunks/watchlistThunks";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { Watchlist } from "../../model/watchlist";
 interface AddMovieToWatchlistProps {
   movieId: number; // Assuming you pass the movie ID as a prop
 }
@@ -25,12 +33,14 @@ const AddMovieToWatchlist: React.FC<AddMovieToWatchlistProps> = ({
 }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [guestUserDialog, setGuestUserDialog] = useState(false);
-  const [watchlists, setWatchlists] = useState<string[]>([
-    "Watchlist 1",
-    "Watchlist 2",
-  ]); // Example watchlists
+
   const [newWatchlistName, setNewWatchlistName] = useState("");
   const { isAnonymous } = useAuth();
+  const dispatch = useAppDispatch();
+  const watchlists = useSelector(
+    (state: RootState) => state.watchlists.watchlists
+  );
+  const currentUser = useAuth();
 
   const handleDialogOpen = () => {
     if (!isAnonymous) {
@@ -49,16 +59,30 @@ const AddMovieToWatchlist: React.FC<AddMovieToWatchlistProps> = ({
   const handleGuestUserDialogClose = () => {
     setGuestUserDialog(false);
   };
+  useEffect(() => {
+    if (currentUser) {
+      dispatch(fetchWatchlistsByUserId(currentUser.currentUser?.uid ?? ""));
+    }
+  }, [dispatch, currentUser]);
 
-  const handleAddToWatchlist = (watchlistName: string) => {
-    console.log(`Add movie ${movieId} to watchlist: ${watchlistName}`);
-    // Implement add to watchlist logic here
+  const handleAddToWatchlist = (watchlist: Watchlist) => {
+    const updatedWatchlist = {
+      ...watchlist,
+      movies: [...watchlist.movies, movieId],
+    };
+    dispatch(updateWatchlist(watchlist.id, updatedWatchlist));
     handleDialogClose();
   };
 
   const handleCreateNewWatchlist = () => {
     if (newWatchlistName.trim()) {
-      setWatchlists([...watchlists, newWatchlistName]);
+      const newWatchlist: Watchlist = {
+        id: 0,
+        name: newWatchlistName,
+        movies: [],
+        userId: currentUser.currentUser?.uid ?? "",
+      };
+      dispatch(addWatchlist(newWatchlist));
       setNewWatchlistName("");
     }
   };
@@ -85,7 +109,7 @@ const AddMovieToWatchlist: React.FC<AddMovieToWatchlistProps> = ({
                 key={index}
                 onClick={() => handleAddToWatchlist(watchlist)}
               >
-                <ListItemText primary={watchlist} />
+                <ListItemText primary={watchlist.name} />
               </ListItem>
             ))}
           </List>
