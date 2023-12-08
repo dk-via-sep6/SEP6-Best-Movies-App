@@ -13,9 +13,6 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  FormControl,
-  InputLabel,
-  Select,
   Typography,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -59,7 +56,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSelect }) => {
 
   // State for the anchor element of the dropdown menu
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
-  const menuOpen = Boolean(menuAnchorEl);
 
   // New state to store combined search items
   const [combinedSearchItems, setCombinedSearchItems] = useState<SearchItem[]>(
@@ -143,7 +139,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSelect }) => {
             key={option.id}
           >
             <img
-              style={{transform: "scale(0.9)"}}
+              style={{ transform: "scale(0.9)" }}
               loading="lazy"
               width="20"
               srcSet={

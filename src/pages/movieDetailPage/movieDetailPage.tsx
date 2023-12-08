@@ -1,6 +1,5 @@
 import React from "react";
 import { Container, Grid } from "@mui/material";
-import Carousel from "../../components/carousel/carousel";
 import MovieDetail from "../../components/movieDetail/movieDetail";
 import CommentSection from "../../components/commentSection/commentSection";
 
@@ -12,7 +11,7 @@ const MovieDetailPage: React.FC = () => {
     <Container>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-       {/*    <Carousel /> */}
+          {/*    <Carousel /> */}
         </Grid>
         <Grid item xs={12}>
           <MovieDetail />

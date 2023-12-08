@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Container,
-  Grid,
-  Autocomplete,
-  TextField,
-  Pagination,
-} from "@mui/material";
-import Carousel from "../../components/carousel/carousel";
+import { Container, Grid, Pagination } from "@mui/material";
 import ActorGrid from "../../components/actorGrid/actorGrid";
 import { placeholderActors } from "./placeholderActors";
 
@@ -15,7 +8,7 @@ const ActorsPage: React.FC = () => {
     <Container>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-      {/*     <Carousel /> */}
+          {/*     <Carousel /> */}
         </Grid>
         <Grid item xs={12}>
           {/* <Autocomplete

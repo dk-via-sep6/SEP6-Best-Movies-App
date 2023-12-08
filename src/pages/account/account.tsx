@@ -21,10 +21,7 @@ import {
 } from "../../thunks/userThunks";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import {
-  fetchWatchlistsByUserId,
-  fetchWatchlistById,
-} from "../../thunks/watchlistThunks";
+import { fetchWatchlistsByUserId } from "../../thunks/watchlistThunks";
 import { Movie } from "../../model/movie";
 import "./style.css";
 import { Watchlist } from "../../model/watchlist";
@@ -38,8 +35,7 @@ const AccountPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
-  const [isDataFetched, setIsDataFetched] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+
   const [aggregatedMovies, setAggregatedMovies] = useState<Movie[]>([]);
   const {
     currentUser,
