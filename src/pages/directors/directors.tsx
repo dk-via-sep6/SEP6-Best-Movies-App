@@ -1,20 +1,13 @@
-import {
-  Autocomplete,
-  Container,
-  Grid,
-  Pagination,
-  TextField,
-} from "@mui/material";
+import { Container, Grid, Pagination } from "@mui/material";
 
 import "./style.css";
-import Carousel from "../../components/carousel/carousel";
 import DirectorGrid from "../../components/directorGrid/directorGrid";
 import { placeholderDirectors } from "./placeholderDirectors";
 const DirectorsPage: React.FC = () => {
   return (
     <Container>
       <Grid item xs={12}>
- {/*        <Carousel /> */}
+        {/*        <Carousel /> */}
       </Grid>
       <Grid item xs={12}>
         {/* <Autocomplete

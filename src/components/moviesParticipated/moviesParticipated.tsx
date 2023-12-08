@@ -1,6 +1,5 @@
 import { Grid, Card, CardContent, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import movies from "../../pages/movies/movies";
 import MovieRating from "../movieDetail/movieRating";
 import { Movie } from "../../model/movie";
 import { useNavigate } from "react-router-dom";
