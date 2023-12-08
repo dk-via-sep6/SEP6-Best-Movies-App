@@ -31,11 +31,11 @@ const AccountPage: React.FC = () => {
   const [showAccountDialog, setShowAccountDialog] = useState(false);
   const [showReAuthDialog, setShowReAuthDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [username, setUsername] = useState("");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
-
+  const username = "";
   const [aggregatedMovies, setAggregatedMovies] = useState<Movie[]>([]);
   const {
     currentUser,

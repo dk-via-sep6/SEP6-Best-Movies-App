@@ -22,9 +22,7 @@ const MovieDetail: React.FC = () => {
   const movie = useSelector((state: RootState) => state.movie.currentMovie);
   const movieLoading = useSelector((state: RootState) => state.movie.loading);
   const movieError = useSelector((state: RootState) => state.movie.error);
-  const userRating = useSelector(
-    (state: RootState) => state.ratings.userRating
-  );
+
   // Movie credits selectors
   const cast = useSelector((state: RootState) => state.movieCredits.cast);
   const crew = useSelector((state: RootState) => state.movieCredits.crew);
@@ -43,7 +41,7 @@ const MovieDetail: React.FC = () => {
         dispatch(fetchUserRatingForMovie(currentUser.currentUser?.uid, +id));
       }
     }
-  }, [id, dispatch]);
+  }, [id, dispatch, currentUser]);
 
   // Handle loading and error states
   if (movieLoading || creditsLoading) {

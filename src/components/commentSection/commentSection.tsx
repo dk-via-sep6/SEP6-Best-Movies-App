@@ -41,7 +41,7 @@ const CommentSection: React.FC = () => {
     (state: RootState) => state.movie.currentMovie?.id
   );
 
-  const loading = useSelector((state: RootState) => state.comments.loading);
+  // const loading = useSelector((state: RootState) => state.comments.loading);
 
   useEffect(() => {
     if (movieId) {
