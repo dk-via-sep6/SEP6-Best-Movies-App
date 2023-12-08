@@ -20,7 +20,6 @@ import {
 import GoogleIcon from "@mui/icons-material/Google"; // Import Google icon
 import IncognitoIcon from "@mui/icons-material/VisibilityOff"; // Example icon for anonymous login
 import { useAuth } from "../../context/authContext";
-import { useDispatch } from "react-redux";
 import { createUser, fetchUserById } from "../../thunks/userThunks";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 const Login: FunctionComponent = () => {
