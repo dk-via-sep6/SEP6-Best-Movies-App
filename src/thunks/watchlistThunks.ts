@@ -7,6 +7,7 @@ import {
   addWatchlistSuccess,
   updateWatchlistSuccess,
   deleteWatchlistSuccess,
+  fetchWatchlistSuccess,
   // Import other actions as needed
 } from "../slices/watchlistSlice";
 import { Watchlist } from "../model/watchlist";
@@ -102,5 +103,31 @@ export const deleteWatchlist = (id: number) => {
     }
   };
 };
+// ... other imports
+
+// This function fetches a single watchlist by its ID
+export const fetchWatchlistById = (id: number) => {
+  return async (dispatch: Dispatch) => {
+    dispatch(fetchWatchlistsStart());
+
+    try {
+      const response = await fetch(`${serverUrl}/Watchlist/${id}`, {
+        method: "GET",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch watchlist.");
+      }
+
+      const data = (await response.json()) as Watchlist;
+      // Assuming you have a suitable action in your watchlist slice to handle fetching a single watchlist
+      dispatch(fetchWatchlistSuccess(data)); // Replace with your actual action for success
+    } catch (error: any) {
+      dispatch(fetchWatchlistsFailure(error.message));
+    }
+  };
+};
+
+// ... other thunks
 
 // Implement other thunks for creating, updating, and deleting watchlists

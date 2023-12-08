@@ -3,13 +3,13 @@ import MovieRating from "../movieDetail/movieRating";
 import dayjs from "dayjs";
 
 import CloseIcon from "@mui/icons-material/Close";
-const handleRemove = (id: number) => {
-  // Implement the logic to remove the movie with the given id from the list
-  // This might involve updating the state or making an API call
-  alert(`Remove movie with id ${id}`);
-};
+import { updateWatchlist } from "../../thunks/watchlistThunks";
 
-export const columns = [
+export const columns = (
+  watchlistId: number,
+  watchlists: any[],
+  dispatch: Function
+) => [
   { field: "title", headerName: "Title", width: 200 },
   { field: "originalLanguage", headerName: "Language", width: 100 },
   {
@@ -26,7 +26,7 @@ export const columns = [
       );
     },
   },
-  { field: "genres", headerName: "Genres", width: 200 },
+  // { field: "genres", headerName: "Genres", width: 200 },
   {
     field: "voteAverage",
     headerName: "Vote Average",
@@ -47,8 +47,33 @@ export const columns = [
     headerName: "Remove",
     width: 100,
     renderCell: (params: any) => {
+      const handleRemove = (watchlistId: number, movieId: number) => {
+        // Get the current state of the watchlist
+        const watchlist = watchlists.find((w) => w.id === watchlistId);
+        if (!watchlist) return;
+
+        // Remove the movie ID from the watchlist
+        const updatedMovies = watchlist.movies.filter(
+          (id: number) => id !== movieId
+        );
+
+        // Create the updated watchlist object for the request
+        const updatedWatchlist = {
+          ...watchlist, // spread the existing properties of the watchlist
+          movies: updatedMovies, // only update the movies array
+        };
+
+        dispatch(updateWatchlist(watchlistId, updatedWatchlist));
+      };
       return (
-        <IconButton onClick={() => handleRemove(params.id)} aria-label="delete">
+        <IconButton
+          className="remove-button"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleRemove(watchlistId, params.row.id);
+          }}
+          aria-label="delete"
+        >
           <CloseIcon />
         </IconButton>
       );

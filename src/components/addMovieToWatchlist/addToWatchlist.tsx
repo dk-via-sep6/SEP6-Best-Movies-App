@@ -84,6 +84,9 @@ const AddMovieToWatchlist: React.FC<AddMovieToWatchlistProps> = ({
       };
       dispatch(addWatchlist(newWatchlist));
       setNewWatchlistName("");
+      setTimeout(() => {
+        debugger;
+      }, 1000);
     }
   };
 

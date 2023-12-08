@@ -6,12 +6,14 @@ interface WatchlistState {
   watchlists: Watchlist[];
   loading: boolean;
   error: string | null;
+  selectedWatchlist: Watchlist | null;
 }
 
 const initialState: WatchlistState = {
   watchlists: [],
   loading: false,
   error: null,
+  selectedWatchlist: null,
 };
 
 const watchlistSlice = createSlice({
@@ -21,6 +23,10 @@ const watchlistSlice = createSlice({
     fetchWatchlistsStart(state) {
       state.loading = true;
       state.error = null;
+    },
+    fetchWatchlistSuccess(state, action: PayloadAction<Watchlist>) {
+      state.selectedWatchlist = action.payload;
+      state.loading = false;
     },
     fetchWatchlistsSuccess(state, action: PayloadAction<Watchlist[]>) {
       state.watchlists = action.payload;
@@ -60,6 +66,7 @@ export const {
   addWatchlistSuccess,
   updateWatchlistSuccess,
   deleteWatchlistSuccess,
+  fetchWatchlistSuccess,
   // Export other actions here
 } = watchlistSlice.actions;
 

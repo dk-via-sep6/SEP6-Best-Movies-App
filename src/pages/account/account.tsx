@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { TextField, Button, Container, IconButton } from "@mui/material";
-import "./style.css";
-import { placeholderMovies } from "../movies/placeholderMovies";
-import MovieWatchlist from "../../components/movieWatchlist/movieWatchlist";
-import CloseIcon from "@mui/icons-material/Close";
 import {
+  TextField,
+  Button,
+  Container,
+  IconButton,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogContentText,
   DialogActions,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import MovieWatchlist from "../../components/movieWatchlist/movieWatchlist";
 import { useAuth } from "../../context/authContext"; // Adjust the path as needed
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useNavigate } from "react-router-dom";
@@ -18,23 +19,85 @@ import {
   deleteUser as deleteUserThunk,
   fetchUserById,
 } from "../../thunks/userThunks";
-import { User } from "../../model/user";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import {
+  fetchWatchlistsByUserId,
+  fetchWatchlistById,
+} from "../../thunks/watchlistThunks";
+import { Movie } from "../../model/movie";
+import "./style.css";
+import { Watchlist } from "../../model/watchlist";
+
 const AccountPage: React.FC = () => {
+  // State declarations and other hooks
   const [showAccountDialog, setShowAccountDialog] = useState(false);
-  const { updateUserPassword, updateUserEmail } = useAuth();
-  const { currentUser, deleteUser, reAuthenticate } = useAuth();
+  const [showReAuthDialog, setShowReAuthDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
-  const [showReAuthDialog, setShowReAuthDialog] = useState(false);
-  const dispatch = useAppDispatch();
+  const [isDataFetched, setIsDataFetched] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [aggregatedMovies, setAggregatedMovies] = useState<Movie[]>([]);
+  const {
+    currentUser,
+    deleteUser,
+    reAuthenticate,
+    updateUserPassword,
+    updateUserEmail,
+  } = useAuth();
   const navigate = useNavigate();
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const dispatch = useAppDispatch();
+  // const watchlists = useSelector(
+  //   (state: RootState) => state.watchlists.watchlists
+  // );
+  // const movies = useSelector((state: RootState) => state.movies.currentMovies);
+
+  const fetchedUser = useSelector((state: RootState) => state.users.data);
+
+  useEffect(() => {
+    if (currentUser?.uid) {
+      dispatch(fetchUserById(currentUser.uid));
+    }
+  }, [currentUser, dispatch]);
+
+  useEffect(() => {
+    if (fetchedUser?.id) {
+      dispatch(fetchWatchlistsByUserId(fetchedUser.id));
+    }
+  }, [fetchedUser, dispatch]);
+  const watchlists = useSelector(
+    (state: RootState) => state.watchlists.watchlists
+  );
+
+  const allMovies = useSelector(
+    (state: RootState) => state.movies.currentMovies
+  );
+
+  useEffect(() => {
+    if (allMovies?.length)
+      if (watchlists.length > 0 && allMovies?.length > 0) {
+        const moviesFromWatchlists = watchlists
+          .flatMap((watchlist) =>
+            watchlist.movies.map((movieId) =>
+              allMovies?.find((movie) => movie.id === movieId)
+            )
+          )
+          .filter((movie) => movie !== undefined) as Movie[];
+
+        setAggregatedMovies(moviesFromWatchlists);
+      }
+  }, [watchlists, allMovies]);
+  console.log(watchlists, " watchlists");
+  // Handle profile update validation
+  if (!fetchedUser || watchlists.length === 0 || allMovies?.length === 0) {
+    // Show a loading indicator or a message until the data is loaded
+    return <div>Loading...</div>;
+  }
   const validate = () => {
-    if (!emailPattern.test(email)) {
+    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       alert("Please enter a valid email address.");
       return false;
     }
@@ -45,24 +108,6 @@ const AccountPage: React.FC = () => {
     return true;
   };
 
-  const fetchedUser = useSelector((state: RootState) => state.users.data); // Access the user state from Redux
-
-  useEffect(() => {
-    if (currentUser?.uid) {
-      dispatch(fetchUserById(currentUser.uid)); // Dispatch the action to fetch user data
-    }
-  }, [dispatch, currentUser?.uid]);
-
-  useEffect(() => {
-    // Prefill the fields when the dialog is opened and user data is fetched
-    if (showAccountDialog && fetchedUser) {
-      setEmail(fetchedUser.email || "");
-      setUsername(fetchedUser.username || ""); // Assuming 'username' is a field in fetchedUser
-      setPassword("");
-      setRepeatPassword("");
-    }
-  }, [showAccountDialog, fetchedUser]);
-
   const handleProfileUpdate = async () => {
     if (validate()) {
       try {
@@ -72,10 +117,9 @@ const AccountPage: React.FC = () => {
         );
         await updateUserPassword(password);
         alert("Account updated successfully");
-        // Reset state or additional logic
       } catch (error: any) {
         if (error.code === "auth/requires-recent-login") {
-          setShowReAuthDialog(true); // Show re-authentication dialog
+          setShowReAuthDialog(true);
         } else {
           console.error("Error updating account: ", error);
           alert("Error updating account");
@@ -83,21 +127,38 @@ const AccountPage: React.FC = () => {
       }
     }
   };
-  const handleUpdateClick = () => {
-    setShowAccountDialog(true);
+
+  const handleReAuthenticate = async () => {
+    try {
+      await reAuthenticate(email, password);
+      setShowReAuthDialog(false);
+    } catch (error) {
+      console.error("Re-authentication failed: ", error);
+    }
   };
 
-  const handleCancelClick = () => {
-    setShowAccountDialog(false);
+  const handleMovieRemoval = async (watchlistId: number, movieId: number) => {
+    // Step 1: Update the watchlists state locally
+    const updatedWatchlists = watchlists.map((watchlist: Watchlist) => {
+      if (watchlist.id === watchlistId) {
+        return {
+          ...watchlist,
+          movies: watchlist.movies.filter((id) => id !== movieId),
+        };
+      }
+      return watchlist;
+    });
+    const moviesFromWatchlists = updatedWatchlists
+      .flatMap((watchlist) =>
+        watchlist.movies.map((movieId) =>
+          allMovies?.find((movie) => movie.id === movieId)
+        )
+      )
+      .filter((movie) => movie !== undefined) as Movie[];
+    setAggregatedMovies(moviesFromWatchlists);
   };
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const handleDeleteDialogOpen = () => {
-    setShowDeleteDialog(true);
-  };
-
-  const handleDeleteDialogClose = () => {
-    setShowDeleteDialog(false);
-  };
+  const handleDeleteDialogOpen = () => setShowDeleteDialog(true);
+  const handleDeleteDialogClose = () => setShowDeleteDialog(false);
 
   const handleConfirmDelete = async () => {
     try {
@@ -108,101 +169,37 @@ const AccountPage: React.FC = () => {
       await dispatch(deleteUserThunk(currentUser.uid));
       alert("Account deleted");
       handleDeleteDialogClose();
-      navigate("/login"); // Redirect to login page
+      navigate("/login");
     } catch (error) {
       console.error("Error deleting account: ", error);
-      // Handle error (show error message)
     }
+    // Your existing logic for confirming account deletion
   };
 
-  const handleReAuthenticate = async () => {
-    try {
-      // Assuming you have a reAuthenticate method in your authContext
-      await reAuthenticate(email, password);
-      setShowReAuthDialog(false);
-      // Retry the sensitive operation here, like updating email or password
-    } catch (error) {
-      console.error("Re-authentication failed: ", error);
-      // Handle re-authentication errors
-    }
-  };
+  const handleUpdateClick = () => setShowAccountDialog(true);
+  const handleCancelClick = () => setShowAccountDialog(false);
 
   return (
     <Container className="accountContainer">
-      <Dialog
-        open={showReAuthDialog}
-        onClose={() => setShowReAuthDialog(false)}
-      >
-        <DialogTitle>Re-authenticate</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Please enter your credentials to update your account settings.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Email Address"
-            type="email"
-            fullWidth
-            variant="outlined"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <TextField
-            margin="dense"
-            label="Password"
-            type="password"
-            fullWidth
-            variant="outlined"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setShowReAuthDialog(false)} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleReAuthenticate} color="primary">
-            Re-authenticate
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <h2>Hello, {currentUser ? currentUser.email : "Guest"}!</h2>
-      {/* Display the user's email */}
+      <h2>Hello, {fetchedUser?.username}!</h2>
       <div className="movieLists">
-        <MovieWatchlist listName="Watchlist" movies={placeholderMovies} />
-        <MovieWatchlist
-          listName="Halloween movies"
-          movies={placeholderMovies}
-        />
-        <MovieWatchlist
-          listName="Christmas Movies"
-          movies={placeholderMovies}
-        />
+        {watchlists.map((watchlist, index) => (
+          <MovieWatchlist
+            key={index}
+            watchlistId={watchlist.id}
+            listName={watchlist.name}
+            movies={
+              watchlist.movies
+                .map((movieId) =>
+                  aggregatedMovies?.find((movie) => movie.id === movieId)
+                )
+                .filter((movie) => movie !== undefined) as Movie[]
+            }
+            onMovieRemove={handleMovieRemoval}
+          />
+        ))}
       </div>
-      {showDeleteDialog && (
-        <Dialog
-          open={showDeleteDialog}
-          onClose={handleDeleteDialogClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{"Delete Account"}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Are you sure you want to delete your account? This action cannot
-              be undone.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleDeleteDialogClose}>Cancel</Button>
-            <Button onClick={handleConfirmDelete} autoFocus>
-              Confirm
-            </Button>
-          </DialogActions>
-        </Dialog>
-      )}
+
       <Button variant="contained" onClick={handleUpdateClick}>
         Update Account
       </Button>
@@ -258,6 +255,66 @@ const AccountPage: React.FC = () => {
             variant="outlined"
           >
             Delete Account
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={showDeleteDialog}
+        onClose={handleDeleteDialogClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Delete Account"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to delete your account? This action cannot be
+            undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDeleteDialogClose}>Cancel</Button>
+          <Button onClick={handleConfirmDelete} autoFocus>
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={showReAuthDialog}
+        onClose={() => setShowReAuthDialog(false)}
+      >
+        <DialogTitle>Re-authenticate</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please enter your credentials to update your account settings.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Email Address"
+            type="email"
+            fullWidth
+            variant="outlined"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            margin="dense"
+            label="Password"
+            type="password"
+            fullWidth
+            variant="outlined"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShowReAuthDialog(false)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleReAuthenticate} color="primary">
+            Re-authenticate
           </Button>
         </DialogActions>
       </Dialog>
