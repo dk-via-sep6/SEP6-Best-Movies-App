@@ -43,7 +43,7 @@ jobs:
     needs: build
     environment:
       name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      url: 'https://SEP6-Best-Movies.azurewebsites.net'
 
     steps:
       - name: Download build zip from build job
@@ -53,6 +53,7 @@ jobs:
           path: .
 
       - name: 'Deploy to Azure Web App'
+        id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'SEP6-Best-Movies'
