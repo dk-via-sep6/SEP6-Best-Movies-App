@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,33 +25,12 @@ jobs:
           npm run build --if-present
           npm run test --if-present -- --passWithNoTests
 
-      - name: Upload build directory for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-artifact
-          path: build/
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
-    steps:
-      - name: Download build artifact from build job
-        uses: actions/download-artifact@v3
-        with:
-          name: build-artifact
-
-      - name: List files in downloaded build artifact
-        run: ls -R
+      # Remove the upload-artifact step since we are not using it
 
       - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'SEP6-Best-Movies'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_90EE345CF1F549FBB1D905F53B7655DE }}
-          package: .  # Deploy the artifact content in the current directory
+          package: build/ # This should point directly to the build directory
