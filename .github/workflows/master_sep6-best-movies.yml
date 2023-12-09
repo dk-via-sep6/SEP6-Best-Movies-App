@@ -57,6 +57,7 @@ jobs:
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
+        id: deploy-to-webapp
         with:
           app-name: 'SEP6-Best-Movies'
           slot-name: 'Production'
