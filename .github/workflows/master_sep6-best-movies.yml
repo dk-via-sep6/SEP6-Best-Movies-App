@@ -61,4 +61,4 @@ jobs:
           app-name: 'SEP6-Best-Movies'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_90EE345CF1F549FBB1D905F53B7655DE }}
-          package: build/
+          package: .
