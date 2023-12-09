@@ -25,6 +25,10 @@ jobs:
           npm run build --if-present
           npm run test --if-present -- --passWithNoTests
 
+      # Ensure that the build folder is not empty
+      - name: List build directory
+        run: ls -l build
+
       - name: Zip build artifacts for deployment
         run: zip -r build.zip build/
 
@@ -43,7 +47,7 @@ jobs:
 
     steps:
       - name: Download build zip from build job
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v2
         with:
           name: build-zip
           path: .
