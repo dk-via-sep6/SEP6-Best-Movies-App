@@ -9,10 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
@@ -32,6 +30,9 @@ jobs:
           npm install
           npm run build --if-present
           npm run test --if-present -- --passWithNoTests
+
+      - name: List build directory contents
+        run: ls -l build/
 
       - name: Zip the build directory
         run: zip -r build.zip build/
@@ -54,6 +55,9 @@ jobs:
 
       - name: Unzip build directory
         run: unzip build.zip
+
+      - name: List unzipped build directory contents
+        run: ls -l build/
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
