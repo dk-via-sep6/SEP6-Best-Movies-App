@@ -36,10 +36,29 @@ jobs:
       - name: Zip the build directory
         run: zip -r build.zip build/
 
+      - name: Upload build zip for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-zip
+          path: build.zip
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build zip from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: build-zip
+          path: .
+
+      - name: Unzip build directory
+        run: unzip build.zip
+
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'SEP6-Best-Movies'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_90EE345CF1F549FBB1D905F53B7655DE }}
-          package: build.zip
+          package: build/
