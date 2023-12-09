@@ -33,11 +33,13 @@ jobs:
           npm run build --if-present
           npm run test --if-present -- --passWithNoTests
 
-      - name: 'Deploy build directory to Azure Web App'
+      - name: Zip the build directory
+        run: zip -r build.zip build/
+
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'SEP6-Best-Movies'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_90EE345CF1F549FBB1D905F53B7655DE }}
-          package: './build' # Deploy only the build directory
-
+          package: build.zip
