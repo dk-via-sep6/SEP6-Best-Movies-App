@@ -12,7 +12,7 @@ import {
 } from "../slices/watchlistSlice";
 import { Watchlist } from "../model/watchlist";
 
-const serverUrl = "https://localhost:32772/api";
+const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 export const fetchWatchlistsByUserId = (userId: string) => {
   return async (dispatch: Dispatch) => {
