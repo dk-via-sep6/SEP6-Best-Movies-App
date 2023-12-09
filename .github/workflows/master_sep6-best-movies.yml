@@ -35,7 +35,7 @@ jobs:
           npm run test --if-present -- --passWithNoTests
 
       - name: 'Deploy to Azure Web App'
-        uses: azure/webapps-deploy@v3`
+        uses: azure/webapps-deploy@v2
         with:
           app-name: 'SEP6-Best-Movies'
           slot-name: 'Production'
