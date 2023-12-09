@@ -21,8 +21,9 @@ import {
   fetchMovieSearchFailure,
 } from "../slices/movieSearchSlice";
 
-const serverUrl = "https://localhost:32772/api";
+const serverUrl = process.env.REACT_APP_SERVER_URL;
 
+console.log(serverUrl, "serverUrl");
 export const fetchMovie = (movieId: string) => {
   return async (dispatch: Dispatch) => {
     dispatch(fetchMovieStart());
@@ -98,9 +99,12 @@ export const fetchMovieSearchResults = (searchText: string) => {
     dispatch(fetchMovieSearchStart());
     try {
       const encodedSearchText = encodeURIComponent(searchText);
-      const response = await fetch(`${serverUrl}/movies/search/${encodedSearchText}`, {
-        method: "GET",
-      });
+      const response = await fetch(
+        `${serverUrl}/movies/search/${encodedSearchText}`,
+        {
+          method: "GET",
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch search results");

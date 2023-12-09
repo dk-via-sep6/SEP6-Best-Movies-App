@@ -12,7 +12,7 @@ import {
   // ... other related actions from your comment slice
 } from "../slices/commentSlice";
 
-const serverUrl = "https://localhost:32772/api";
+const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 export const fetchCommentsByMovieId = (movieId: number) => {
   return async (dispatch: Dispatch) => {

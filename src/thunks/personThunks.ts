@@ -17,7 +17,7 @@ import {
   fetchPersonSearchSuccess,
 } from "../slices/personSearchSlice";
 
-const serverUrl = "https://localhost:32778/api";
+const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 export const fetchPerson = (personId: string) => {
   return async (dispatch: Dispatch) => {
@@ -79,7 +79,6 @@ export const fetchPersonSearchResults = (searchText: string) => {
       const response = await fetch(`${serverUrl}/person/search/${searchText}`, {
         method: "GET",
       });
-
 
       if (!response.ok) {
         throw new Error("Failed to fetch search results");

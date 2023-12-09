@@ -3,7 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getAuth } from "firebase/auth";
 import { User } from "../model/user";
 
-const apiBaseUrl = "https://localhost:32772/api";
+const apiBaseUrl = process.env.REACT_APP_SERVER_URL;
 
 export const createUser = createAsyncThunk(
   "user/create",
