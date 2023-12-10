@@ -13,7 +13,7 @@ import {
 import { Watchlist } from "../model/watchlist";
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
-
+const apiKey = process.env.REACT_APP_API_KEY;
 export const fetchWatchlistsByUserId = (userId: string) => {
   return async (dispatch: Dispatch) => {
     dispatch(fetchWatchlistsStart());
@@ -21,6 +21,9 @@ export const fetchWatchlistsByUserId = (userId: string) => {
     try {
       const response = await fetch(`${serverUrl}/Watchlist/user/${userId}`, {
         method: "GET",
+        headers: {
+          "API-Key": `${apiKey}`,
+        },
       });
 
       if (!response.ok) {
@@ -44,6 +47,7 @@ export const addWatchlist = (watchlistData: Watchlist) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "API-Key": `${apiKey}`,
         },
         body: JSON.stringify(watchlistData),
       });
@@ -68,6 +72,7 @@ export const updateWatchlist = (id: number, watchlistData: Watchlist) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "API-Key": `${apiKey}`,
         },
         body: JSON.stringify(watchlistData),
       });
@@ -91,6 +96,9 @@ export const deleteWatchlist = (id: number) => {
     try {
       const response = await fetch(`${serverUrl}/Watchlist/${id}`, {
         method: "DELETE",
+        headers: {
+          "API-Key": `${apiKey}`,
+        },
       });
 
       if (!response.ok) {
@@ -113,6 +121,9 @@ export const fetchWatchlistById = (id: number) => {
     try {
       const response = await fetch(`${serverUrl}/Watchlist/${id}`, {
         method: "GET",
+        headers: {
+          "API-Key": `${apiKey}`,
+        },
       });
 
       if (!response.ok) {

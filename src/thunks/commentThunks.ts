@@ -13,6 +13,7 @@ import {
 } from "../slices/commentSlice";
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
+const apiKey = process.env.REACT_APP_API_KEY;
 
 export const fetchCommentsByMovieId = (movieId: number) => {
   return async (dispatch: Dispatch) => {
@@ -21,6 +22,9 @@ export const fetchCommentsByMovieId = (movieId: number) => {
     try {
       const response = await fetch(`${serverUrl}/Comment/movie/${movieId}`, {
         method: "GET",
+        headers: {
+          "API-Key": `${apiKey}`,
+        },
       });
 
       if (!response.ok) {
@@ -53,6 +57,7 @@ export const postComment = (commentData: {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "API-Key": `${apiKey}`,
         },
         body: JSON.stringify(payload),
       });
@@ -79,6 +84,7 @@ export const updateComment = (
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "API-Key": `${apiKey}`,
         },
         body: JSON.stringify(commentData),
       });
@@ -100,6 +106,9 @@ export const deleteComment = (commentId: string) => {
     try {
       const response = await fetch(`${serverUrl}/Comment/${commentId}`, {
         method: "DELETE",
+        headers: {
+          "API-Key": `${apiKey}`,
+        },
       });
 
       if (!response.ok) {
@@ -120,6 +129,7 @@ export const likeComment = (commentId: number, userId: string) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "API-Key": `${apiKey}`,
         },
         body: JSON.stringify(userId),
       });
@@ -142,6 +152,7 @@ export const unlikeComment = (commentId: number, userId: string) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "API-Key": `${apiKey}`,
         },
         body: JSON.stringify(userId),
       });

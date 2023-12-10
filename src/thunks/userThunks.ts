@@ -4,7 +4,7 @@ import { getAuth } from "firebase/auth";
 import { User } from "../model/user";
 
 const apiBaseUrl = process.env.REACT_APP_SERVER_URL;
-
+const apiKey = process.env.REACT_APP_API_KEY;
 export const createUser = createAsyncThunk(
   "user/create",
   async (
@@ -23,6 +23,7 @@ export const createUser = createAsyncThunk(
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "API-Key": `${apiKey}`,
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(userData),
@@ -45,7 +46,8 @@ export const fetchUserById = createAsyncThunk(
     try {
       const response = await fetch(`${apiBaseUrl}/user/${userId}`, {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+
+        headers: { "Content-Type": "application/json", "API-Key": `${apiKey}` },
       });
 
       if (!response.ok) {
@@ -74,6 +76,7 @@ export const updateUser = createAsyncThunk(
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "API-Key": `${apiKey}`,
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(userData),
@@ -105,6 +108,7 @@ export const deleteUser = createAsyncThunk(
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
+          "API-Key": `${apiKey}`,
         },
       });
 
