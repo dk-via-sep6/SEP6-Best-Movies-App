@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Print non-sensitive environment variables
         run: |
-          echo "Firebase API Key: ${{ env.REACT_APP_FIREBASE_API_KEY }}"
+          echo "Firebase API Key: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}"
           echo "Firebase App ID: ${{ env.REACT_APP_FIREBASE_APP_ID }}"
           echo "Firebase Auth Domain: ${{ env.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
           # Add other non-sensitive variables here
