@@ -22,8 +22,8 @@ import {
 } from "../slices/movieSearchSlice";
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
+const apiKey = process.env.REACT_APP_API_KEY;
 
-console.log(serverUrl, "serverUrl");
 export const fetchMovie = (movieId: string) => {
   return async (dispatch: Dispatch) => {
     dispatch(fetchMovieStart());
@@ -31,6 +31,9 @@ export const fetchMovie = (movieId: string) => {
     try {
       const response = await fetch(`${serverUrl}/movies/${movieId}`, {
         method: "GET",
+        headers: {
+          "API-Key": `${apiKey}`,
+        },
       });
 
       if (!response.ok) {
@@ -53,6 +56,9 @@ export const fetchNowPlayingMovies = () => {
     try {
       const response = await fetch(`${serverUrl}/movies/nowplaying`, {
         method: "GET",
+        headers: {
+          "API-Key": `${apiKey}`,
+        },
       });
 
       if (!response.ok) {
@@ -75,6 +81,9 @@ export const fetchMovieCredits = (movieId: string) => {
     try {
       const response = await fetch(`${serverUrl}/movies/credits/${movieId}`, {
         method: "GET",
+        headers: {
+          "API-Key": `${apiKey}`,
+        },
       });
 
       if (!response.ok) {
@@ -103,6 +112,9 @@ export const fetchMovieSearchResults = (searchText: string) => {
         `${serverUrl}/movies/search/${encodedSearchText}`,
         {
           method: "GET",
+          headers: {
+            "API-Key": `${apiKey}`,
+          },
         }
       );
 

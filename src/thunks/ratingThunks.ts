@@ -12,7 +12,7 @@ import {
 import { Rating } from "../model/rating";
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
-
+const apiKey = process.env.REACT_APP_API_KEY;
 export const fetchRatingsByMovieId = (movieId: number) => {
   return async (dispatch: Dispatch) => {
     dispatch(fetchRatingsStart());
@@ -20,6 +20,9 @@ export const fetchRatingsByMovieId = (movieId: number) => {
     try {
       const response = await fetch(`${serverUrl}/Ratings/movie/${movieId}`, {
         method: "GET",
+        headers: {
+          "API-Key": `${apiKey}`,
+        },
       });
 
       if (!response.ok) {
@@ -43,6 +46,7 @@ export const postRating = (ratingData: Rating) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "API-Key": `${apiKey}`,
         },
         body: JSON.stringify(ratingData),
       });
@@ -68,6 +72,7 @@ export const updateRating = (id: number, ratingData: Rating) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          "API-Key": `${apiKey}`,
         },
         body: JSON.stringify(ratingData),
       });
@@ -91,6 +96,9 @@ export const deleteRating = (id: number) => {
     try {
       const response = await fetch(`${serverUrl}/Ratings/${id}`, {
         method: "DELETE",
+        headers: {
+          "API-Key": `${apiKey}`,
+        },
       });
 
       if (!response.ok) {
@@ -114,6 +122,9 @@ export const fetchUserRatingForMovie = (userId: string, movieId: number) => {
         `${serverUrl}/Ratings/user/${userId}/movie/${movieId}`,
         {
           method: "GET",
+          headers: {
+            "API-Key": `${apiKey}`,
+          },
         }
       );
 

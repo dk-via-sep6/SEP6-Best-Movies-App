@@ -18,7 +18,7 @@ import {
 } from "../slices/personSearchSlice";
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
-
+const apiKey = process.env.REACT_APP_API_KEY;
 export const fetchPerson = (personId: string) => {
   return async (dispatch: Dispatch) => {
     dispatch(fetchPersonStart());
@@ -26,6 +26,9 @@ export const fetchPerson = (personId: string) => {
     try {
       const response = await fetch(`${serverUrl}/person/${personId}`, {
         method: "GET",
+        headers: {
+          "API-Key": `${apiKey}`,
+        },
       });
 
       if (!response.ok) {
@@ -50,6 +53,9 @@ export const fetchPersonCredits = (personId: string) => {
         `${serverUrl}/person/credits/movie/${personId}`,
         {
           method: "GET",
+          headers: {
+            "API-Key": `${apiKey}`,
+          },
         }
       );
 
@@ -78,6 +84,9 @@ export const fetchPersonSearchResults = (searchText: string) => {
     try {
       const response = await fetch(`${serverUrl}/person/search/${searchText}`, {
         method: "GET",
+        headers: {
+          "API-Key": `${apiKey}`,
+        },
       });
 
       if (!response.ok) {
