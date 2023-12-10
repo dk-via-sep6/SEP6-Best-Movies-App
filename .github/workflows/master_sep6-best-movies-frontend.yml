@@ -18,10 +18,12 @@ jobs:
         with:
           node-version: '18.x'
 
-      # Example step to print an environment variable
+      # Corrected step to print an environment variable
       - name: Print Environment Variable
-        run: echo "Example Variable: ${{ secrets.REACT_APP_SERVER_URL }}"
-        
+        run: echo "Example Variable: ${{ env.EXAMPLE_VARIABLE }}"
+        env:
+          EXAMPLE_VARIABLE: ${{ secrets.REACT_APP_SERVER_URL }}
+
       - name: npm install, build, and test
         run: |
           npm install
