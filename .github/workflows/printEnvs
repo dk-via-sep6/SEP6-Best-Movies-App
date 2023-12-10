@@ -1,0 +1,20 @@
+name: Print Environment Variables
+
+on: [push]
+
+jobs:
+  print-env-vars:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print non-sensitive environment variables
+        run: |
+          echo "Firebase API Key: ${{ env.REACT_APP_FIREBASE_API_KEY }}"
+          echo "Firebase App ID: ${{ env.REACT_APP_FIREBASE_APP_ID }}"
+          echo "Firebase Auth Domain: ${{ env.REACT_APP_FIREBASE_AUTH_DOMAIN }}"
+          # Add other non-sensitive variables here
+        env:
+          REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
+          REACT_APP_FIREBASE_APP_ID: ${{ secrets.REACT_APP_FIREBASE_APP_ID }}
+          REACT_APP_FIREBASE_AUTH_DOMAIN: ${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}
+          # Map other non-sensitive variables here
