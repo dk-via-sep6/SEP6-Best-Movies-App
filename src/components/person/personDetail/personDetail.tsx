@@ -10,7 +10,7 @@ import PersonCastCreditsList from "../personCreditsList/personCastCreditsList";
 import PersonCrewCreditsList from "../personCreditsList/personCrewCreditsList";
 
 const PersonDetails: React.FC = () => {
-  let { actorId } = useParams();
+  let { personId } = useParams();
   const dispatch = useDispatch<AppDispatch>();
 
   const person = useSelector((state: RootState) => state.person.currentPerson);
@@ -18,11 +18,11 @@ const PersonDetails: React.FC = () => {
   const personError = useSelector((state: RootState) => state.person.error); 
 
   useEffect(() => {
-    if (actorId) {
-      dispatch(fetchPerson(actorId));
-      dispatch(fetchPersonCredits(actorId));
+    if (personId) {
+      dispatch(fetchPerson(personId));
+      dispatch(fetchPersonCredits(personId));
     }
-  }, [actorId, dispatch]);
+  }, [personId, dispatch]);
 
   // Handle loading and error states
   if (personLoading) {

@@ -11,6 +11,9 @@ import movieSearchReducer from '../slices/movieSearchSlice'
 import commentsReducer from "../slices/commentSlice";
 import ratingsReducer from "../slices/ratingSlice";
 import watchlistReducer from "../slices/watchlistSlice";
+import peopleListSlice from '../slices/peopleListSlice';
+
+
 const rootReducer = combineReducers({
   movie: movieReducer,
   movies: moviesReducer,
@@ -23,6 +26,7 @@ const rootReducer = combineReducers({
   movieSearch: movieSearchReducer,
   ratings: ratingsReducer,
   watchlists: watchlistReducer,
+  peopleList: peopleListSlice,
 });
 
 export default rootReducer;

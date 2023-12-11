@@ -1,7 +1,7 @@
 // actorCast.tsx
 import React from "react";
 import { Grid, Card, CardMedia, CardContent, Typography, Tooltip } from "@mui/material";
-import { CastMember } from "../../model/castMember"; // import CastMember
+import { CastMember } from "../../model/castMember"; 
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
 
@@ -13,7 +13,7 @@ const ActorCast: React.FC<ActorCastProps> = ({ actors }) => {
   const navigate = useNavigate();
 
   const handleActorClick = (personId: number) => {
-    navigate(`/actor/${personId}`);
+    navigate(`/person/${personId}`);
   };
 
   return (
@@ -39,7 +39,7 @@ const ActorCast: React.FC<ActorCastProps> = ({ actors }) => {
                   <CardMedia
                     component="img"
                     height="100"
-                    image={"https://image.tmdb.org/t/p/w500"+actor.profilePath}
+                    image={actor.profilePath ? "https://image.tmdb.org/t/p/w500"+actor.profilePath : "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/120px-User-avatar.svg.png?20201213175635"}
                     alt={actor.name}
                   />
                   <div className="cardContent">

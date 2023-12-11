@@ -1,5 +1,6 @@
 //personThunks.ts
 import { Dispatch } from "redux";
+
 import {
   fetchPersonStart,
   fetchPersonSuccess,
@@ -11,11 +12,18 @@ import {
   fetchPersonCreditsSuccess,
   fetchPersonCreditsFailure,
 } from "../slices/personCreditsSlice";
+
 import {
   fetchPersonSearchFailure,
   fetchPersonSearchStart,
   fetchPersonSearchSuccess,
 } from "../slices/personSearchSlice";
+
+import {
+  fetchTrendingPeopleFailure,
+  fetchTrendingPeopleStart,
+  fetchTrendingPeopleSuccess,
+} from "../slices/peopleListSlice";
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 const apiKey = process.env.REACT_APP_API_KEY;
@@ -98,6 +106,29 @@ export const fetchPersonSearchResults = (searchText: string) => {
       dispatch(fetchPersonSearchSuccess(data));
     } catch (error) {
       dispatch(fetchPersonSearchFailure("Network error. Please try again"));
+    }
+  };
+};
+
+export const fetchTrendingPeople = () => {
+  return async (dispatch: Dispatch) => {
+    dispatch(fetchTrendingPeopleStart());
+
+    try {
+      const response = await fetch(`${serverUrl}/person/trending`, {
+        method: "GET",
+        headers: { "API-Key": `${apiKey}` },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch search results");
+      }
+
+      const data = await response.json();
+      console.log(data);
+      dispatch(fetchTrendingPeopleSuccess(data));
+    } catch (error) {
+      dispatch(fetchTrendingPeopleFailure("Network error. Please try again"));
     }
   };
 };

@@ -1,42 +1,40 @@
-// MovieCard.tsx
+// PersonCard.tsx
 import React from "react";
 import Card from "@mui/material/Card";
-
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import "./style.css";
-interface ActorCardProps {
-  imageUrl: string;
-  name: string;
-  age: number;
-  nationality: string;
-  // ...other properties like rating, year, etc.
-}
+import { PeopleResult } from "../../../model/peopleList";
 
-const ActorCard: React.FC<ActorCardProps> = ({
-  imageUrl,
+const PersonCard: React.FC<PeopleResult> = ({
+  id,
   name,
-  age,
-  nationality,
+  profile_Path,
+  popularity,
+  topKnownForTitles,
 }) => {
   return (
     <Card>
-      <div className="actorContent">
+      <div className="personContent">
         <div className="moviePosterContainer">
-          <img className="actorPoster" src={imageUrl} alt={name} />
+          <img
+            className="personPoster"
+            src={"https://image.tmdb.org/t/p/w500" + profile_Path}
+            alt={name}
+          />
         </div>
         <CardContent>
-          <div className="actorText">
+          <div className="personText">
             <Typography
               align="center"
               gutterBottom
               variant="h6"
               component="div"
             >
-              {name + ", " + age}
+              {name}
             </Typography>
 
-            <Typography>{nationality}</Typography>
+            <Typography>{topKnownForTitles}</Typography>
           </div>
         </CardContent>
       </div>
@@ -44,4 +42,4 @@ const ActorCard: React.FC<ActorCardProps> = ({
   );
 };
 
-export default ActorCard;
+export default PersonCard;
