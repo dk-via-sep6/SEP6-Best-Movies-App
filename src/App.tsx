@@ -9,16 +9,17 @@ import {
 } from "react-router-dom";
 import LogInPage from "./pages/login/loginPage";
 import MoviesPage from "./pages/movies/movies";
-import DirectorsPage from "./pages/directors/directors";
-import ActorsPage from "./pages/actors/actors";
+
 import AccountPage from "./pages/account/account";
 import MovieDetailPage from "./pages/movieDetailPage/movieDetailPage";
 import Layout from "./pages/layout/layout"; // Import the Layout component
-import ActorDetailPage from "./pages/actorDetailPage/actorDetailPage";
-import DirectorDetailPage from "./pages/directorDetailPage/directorDetailpage";
+
 import ProtectedRoute from "./utils/protectedRoute/protectedRoute";
 import { Provider } from "react-redux";
 import store from "./store"; 
+import PeoplePage from "./pages/People/peoplePage";
+import PersonDetailsPage from "./pages/PersonDetailsPage/PersonDetailsPage";
+
 function App() {
   return (
     <Provider store={store}>
@@ -42,18 +43,10 @@ function App() {
               }
             />
             <Route
-              path="/actors"
+              path="/people"
               element={
                 <ProtectedRoute>
-                  <ActorsPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/directors"
-              element={
-                <ProtectedRoute>
-                  <DirectorsPage />
+                  <PeoplePage />
                 </ProtectedRoute>
               }
             />
@@ -74,21 +67,14 @@ function App() {
               }
             />
             <Route
-              path="/actor/:actorId"
+              path="/person/:personId"
               element={
                 <ProtectedRoute>
-                  <ActorDetailPage />
+                  <PersonDetailsPage/>
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="/director/:directorId"
-              element={
-                <ProtectedRoute>
-                  <DirectorDetailPage />
-                </ProtectedRoute>
-              }
-            />
+           
           </Route>
         </Routes>
       </Router>

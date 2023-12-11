@@ -1,0 +1,23 @@
+.personContent {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+  }
+  
+  .personPosterConainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .personPoster {
+    height: 250px;
+    width: auto !important;
+  }
+  .personText {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  

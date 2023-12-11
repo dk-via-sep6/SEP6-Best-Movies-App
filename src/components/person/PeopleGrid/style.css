@@ -1,20 +1,20 @@
-.directorContent {
+.personContent {
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  padding: 10px;
 }
-.directorPosterContainer {
+
+.personPosterConainer {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.directorPoster {
+.personPoster {
   height: 250px;
   width: auto !important;
 }
-.directorText {
+.personText {
   display: flex;
   flex-direction: column;
   align-items: center;

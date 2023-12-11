@@ -13,7 +13,7 @@ const DirectorCast: React.FC<DirectorCastProps> = ({ directors }) => {
   const navigate = useNavigate();
 
   const navigateToDirectorPage = (personId: number) => {
-    navigate(`/director/${personId}`);
+    navigate(`/person/${personId}`);
   };
   return (
     <div className="directorsCastContainer">
@@ -40,7 +40,7 @@ const DirectorCast: React.FC<DirectorCastProps> = ({ directors }) => {
                   <CardMedia
                     component="img"
                     height="140"
-                    image={"https://image.tmdb.org/t/p/w500"+director.profilePath}
+                    image={director.profilePath ? "https://image.tmdb.org/t/p/w500"+director.profilePath:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/120px-User-avatar.svg.png?20201213175635"}
                     alt={director.name}
                   />
                   <div className="directorCardContent">
