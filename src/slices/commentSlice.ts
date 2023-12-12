@@ -6,9 +6,9 @@ interface Comment {
   authorId: string;
   movieId: number;
   content: string;
-  timestamp?: Dayjs | null;
+  timestamp?: Dayjs | null | string;
   likedBy: string[];
-  authorUsername: string;
+  authorUsername?: string;
   // ... define comment structure
 }
 

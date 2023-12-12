@@ -29,6 +29,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import "./styles.css";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { fetchUserById } from "../../thunks/userThunks";
 
 dayjs.extend(relativeTime);
 
@@ -40,8 +41,6 @@ const CommentSection: React.FC = () => {
   const movieId = useSelector(
     (state: RootState) => state.movie.currentMovie?.id
   );
-
-  // const loading = useSelector((state: RootState) => state.comments.loading);
 
   useEffect(() => {
     if (movieId) {
@@ -62,27 +61,40 @@ const CommentSection: React.FC = () => {
     setGuestUserDialog(false);
   };
 
-  const handleCommentSubmit = (event: FormEvent) => {
+  const handleCommentSubmit = async (event: FormEvent) => {
     event.preventDefault();
     if (isAnonymous) {
       handleGuestUserDialogOpen();
     } else {
       if (!newComment.trim()) return;
 
-      const newCommentObj: CommentModel = {
-        id: 0,
-        authorId: currentUser?.uid ?? "",
-        movieId: movieId ?? 0,
-        content: newComment.trim(),
-        timestamp: dayjs().toString(),
-        likedBy: [],
-        authorUsername: "",
-      };
-      // Dispatch the action to post the new comment
-      dispatch(postComment(newCommentObj));
-      setNewComment("");
+      try {
+        // Fetch the user's details using the UID
+        const userResponse = await dispatch(
+          fetchUserById(currentUser?.uid ?? "")
+        ).unwrap();
+        const authorUsername = userResponse.username; // Replace 'username' with the actual property name
+
+        const newCommentObj: CommentModel = {
+          id: 0,
+          authorId: currentUser?.uid ?? "",
+          movieId: movieId ?? 0,
+          content: newComment.trim(),
+          timestamp: "", // This will likely be set server-side
+          likedBy: [],
+          authorUsername: authorUsername, // Set the author's username
+        };
+
+        // Dispatch the action to post the new comment
+        dispatch(postComment(newCommentObj));
+        setNewComment("");
+      } catch (error) {
+        console.error("Failed to fetch user details:", error);
+        // Handle the error appropriately
+      }
     }
   };
+
   const getAvatarLetter = (author: string) => {
     return author.charAt(0).toUpperCase();
   };
@@ -133,9 +145,11 @@ const CommentSection: React.FC = () => {
               : false;
 
             return (
-              <React.Fragment>
+              <React.Fragment key={comment.id}>
                 <ListItem alignItems="flex-start">
-                  <Avatar>{getAvatarLetter(comment.authorUsername)}</Avatar>
+                  <Avatar>
+                    {getAvatarLetter(comment.authorUsername ?? "?")}
+                  </Avatar>
                   <div className="listItemText">
                     <ListItemText
                       primary={
