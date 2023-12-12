@@ -2,15 +2,23 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
-import { 
-  AppBar, Box, Toolbar, IconButton, Tooltip, Avatar, Menu, MenuItem, Typography, 
-  ThemeProvider, createTheme 
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Tooltip,
+  Avatar,
+  Menu,
+  MenuItem,
+  Typography,
+  ThemeProvider,
+  createTheme,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Icon from "../../assets/images/best_movie_invert_16x16.png";
 import "./style.css";
 import SearchBar, { SearchItem } from "./searchbar/searchbar";
-
 
 interface TopBarProps {
   onMenuClick: () => void;
@@ -29,7 +37,8 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
     },
   });
 
-  const getAvatarContent = () => isAnonymous ? "?" : currentUser?.email?.charAt(0).toUpperCase() || "";
+  const getAvatarContent = () =>
+    isAnonymous ? "?" : currentUser?.email?.charAt(0).toUpperCase() || "";
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -59,7 +68,13 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
   const handleSearchSelect = (value: SearchItem | null) => {
     if (!value) return;
     const { type, id } = value;
-    const url = type === "movie" ? `/movie/${id}` : type === "personInfo" ? `/actor/${id}` : `/director/${id}`;
+
+    const url =
+      type === "movie"
+        ? `/movie/${id}`
+        : type === "personInfo"
+        ? `/person/${id}`
+        : ``;
     navigate(url);
   };
 
@@ -69,18 +84,33 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
         <Toolbar disableGutters>
           <div className="left-section">
             <Box className="menu-box">
-              <IconButton size="large" aria-label="open menu" onClick={onMenuClick} color="inherit" className="menu-icon">
+              <IconButton
+                size="large"
+                aria-label="open menu"
+                onClick={onMenuClick}
+                color="inherit"
+                className="menu-icon"
+              >
                 <MenuIcon />
               </IconButton>
             </Box>
-            <img src={Icon} alt="BMD" className="icon" onClick={handleIconClick} style={{ cursor: "pointer" }} />
+            <img
+              src={Icon}
+              alt="BMD"
+              className="icon"
+              onClick={handleIconClick}
+              style={{ cursor: "pointer" }}
+            />
             <SearchBar onSearchSelect={handleSearchSelect} />
           </div>
 
           <div className="right-section">
             <Box className="user-box">
               <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} className="avatar-icon">
+                <IconButton
+                  onClick={handleOpenUserMenu}
+                  className="avatar-icon"
+                >
                   <Avatar alt="User Avatar">{getAvatarContent()}</Avatar>
                 </IconButton>
               </Tooltip>
@@ -95,7 +125,10 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
                 className="menu-dropdown"
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={() => handleMenuItemClick(setting)}>
+                  <MenuItem
+                    key={setting}
+                    onClick={() => handleMenuItemClick(setting)}
+                  >
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}

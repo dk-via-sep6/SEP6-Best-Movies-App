@@ -1,5 +1,6 @@
-.personImage {
-  height: 500px;
+.PersonImage {
+  margin-top: 30px;
+  height: 500px !important;
   width: auto !important;
 }
 .personDetailsContainer {

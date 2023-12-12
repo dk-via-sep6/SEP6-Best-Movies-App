@@ -1,8 +1,8 @@
-// PersonCard.tsx
 import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
 import "./style.css";
 import { PeopleResult } from "../../../model/peopleList";
 
@@ -13,8 +13,37 @@ const PersonCard: React.FC<PeopleResult> = ({
   popularity,
   topKnownForTitles,
 }) => {
+  const titles = topKnownForTitles.split(", ");
+
+  // Function to render text with tooltip if necessary
+  const renderText = () => {
+    if (titles.length > 3) {
+      const displayedTitles = titles.slice(0, 3).join(", ");
+      return (
+        <Tooltip title={topKnownForTitles}>
+          <Typography
+            sx={{ alignContent: "center", textAlign: "center" }}
+            className="multiline-ellipsis"
+            lineHeight={"1.5rem"}
+          >
+            {displayedTitles}
+          </Typography>
+        </Tooltip>
+      );
+    } else {
+      return (
+        <Typography
+          sx={{ alignContent: "center", textAlign: "center" }}
+          lineHeight={"1.5rem"}
+        >
+          {topKnownForTitles}
+        </Typography>
+      );
+    }
+  };
+
   return (
-    <Card>
+    <Card className="personCard">
       <div className="personContent">
         <div className="moviePosterContainer">
           <img
@@ -33,8 +62,7 @@ const PersonCard: React.FC<PeopleResult> = ({
             >
               {name}
             </Typography>
-
-            <Typography>{topKnownForTitles}</Typography>
+            {renderText()}
           </div>
         </CardContent>
       </div>
