@@ -20,3 +20,8 @@
   align-items: center;
   justify-content: center;
 }
+.peopleGridContainer {
+  width: 100% !important;
+  display: flex;
+  justify-content: center !important;
+}

@@ -4,7 +4,7 @@ import { Container, Grid, Pagination } from "@mui/material";
 import PeopleGrid from "../../components/person/PeopleGrid/peopleGrid";
 import { fetchTrendingPeople } from "../../thunks/personThunks";
 import { AppDispatch, RootState } from "../../store";
-
+import "./style.css";
 const PeoplePage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const people = useSelector(
@@ -18,7 +18,7 @@ const PeoplePage: React.FC = () => {
   return (
     <Container>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid item xs={12} className="peopleGrid">
           <PeopleGrid peopleResult={people ? people.results : []} />
         </Grid>
         <Grid item xs={12}>

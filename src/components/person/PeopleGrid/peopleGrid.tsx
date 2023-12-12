@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid";
 import { useNavigate } from "react-router-dom";
 import { PeopleResult } from "../../../model/peopleList";
 import PersonCard from "../personCards/PersonCard";
-
+import "./style.css";
 interface PeopleGridProps {
   peopleResult: PeopleResult[];
 }
@@ -15,7 +15,7 @@ const PeopleGrid: React.FC<PeopleGridProps> = ({ peopleResult }) => {
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} className="peopleGridContainer">
       {peopleResult.map((person) => {
         return (
           <Grid item key={person.id}>

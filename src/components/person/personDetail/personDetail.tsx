@@ -15,7 +15,7 @@ const PersonDetails: React.FC = () => {
 
   const person = useSelector((state: RootState) => state.person.currentPerson);
   const personLoading = useSelector((state: RootState) => state.person.loading);
-  const personError = useSelector((state: RootState) => state.person.error); 
+  const personError = useSelector((state: RootState) => state.person.error);
 
   useEffect(() => {
     if (personId) {
@@ -47,12 +47,12 @@ const PersonDetails: React.FC = () => {
             alt={person.name}
           />
         </Grid>
-        <Grid item xs={12} md={8}>
-          <Typography gutterBottom variant="h5" component="div">
+        <Grid item xs={12} md={8} sx={{ marginTop: "30px" }}>
+          <Typography gutterBottom variant="h4" component="div">
             {person.name}
           </Typography>
           <Typography variant="body1" color="textSecondary">
-            Nationality: {person.placeOfBirth}
+            From: {person.placeOfBirth}
           </Typography>
           <Typography variant="body1" color="textSecondary">
             Date of Birth: {dayjs(person.birthday).format("DD MMM YYYY")}
@@ -60,14 +60,14 @@ const PersonDetails: React.FC = () => {
           <Typography variant="body2">{person.biography}</Typography>
         </Grid>
       </Grid>
-      <Typography gutterBottom variant="h6">
+      <Typography gutterBottom variant="h4">
         Movies
       </Typography>
       <PersonCastCreditsList />
       <Typography gutterBottom variant="h6">
         Crew
       </Typography>
-      <PersonCrewCreditsList/>
+      <PersonCrewCreditsList />
     </div>
   );
 };
