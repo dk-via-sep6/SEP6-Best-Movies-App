@@ -1,6 +1,10 @@
+import { Movie } from "./movie";
+
 export interface Watchlist {
   id: number;
   name: string;
-  movies: number[];
+  movies: Movie[];
   userId: string;
 }
+
+

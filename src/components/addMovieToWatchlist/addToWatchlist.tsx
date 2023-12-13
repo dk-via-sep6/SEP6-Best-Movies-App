@@ -24,13 +24,13 @@ import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { Watchlist } from "../../model/watchlist";
+import { Movie } from "../../model/movie";
+
 interface AddMovieToWatchlistProps {
-  movieId: number; // Assuming you pass the movie ID as a prop
+  movie: Movie;
 }
 
-const AddMovieToWatchlist: React.FC<AddMovieToWatchlistProps> = ({
-  movieId,
-}) => {
+const AddMovieToWatchlist: React.FC<AddMovieToWatchlistProps> = ({ movie }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [guestUserDialog, setGuestUserDialog] = useState(false);
 
@@ -66,27 +66,33 @@ const AddMovieToWatchlist: React.FC<AddMovieToWatchlistProps> = ({
   }, [dispatch, currentUser]);
 
   const handleAddToWatchlist = (watchlist: Watchlist) => {
-    const updatedWatchlist = {
-      ...watchlist,
-      movies: [...watchlist.movies, movieId],
-    };
-    dispatch(updateWatchlist(watchlist.id, updatedWatchlist));
-    handleDialogClose();
+    const isMovieInWatchlist = watchlist.movies.some((m) => m.id === movie.id);
+
+    if (!isMovieInWatchlist) {
+      const updatedWatchlist = {
+        ...watchlist,
+        movies: [...watchlist.movies, movie],
+      };
+      dispatch(updateWatchlist(updatedWatchlist));
+      handleDialogClose();
+    }
+    else 
+    {
+      alert("Already in List!!")
+    }
   };
 
   const handleCreateNewWatchlist = () => {
     if (newWatchlistName.trim()) {
       const newWatchlist: Watchlist = {
-        id: 0,
+        id: 0, 
         name: newWatchlistName,
-        movies: [],
+        movies: [movie], 
         userId: currentUser.currentUser?.uid ?? "",
       };
       dispatch(addWatchlist(newWatchlist));
       setNewWatchlistName("");
-      setTimeout(() => {
-        debugger;
-      }, 1000);
+      handleDialogClose();
     }
   };
 
