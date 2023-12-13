@@ -1,4 +1,4 @@
-// slices/watchlistSlice.ts
+//watchlistSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Watchlist } from "../model/watchlist";
 
@@ -36,7 +36,6 @@ const watchlistSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
-    // Add other actions like addWatchlistSuccess, updateWatchlistSuccess, etc.
     addWatchlistSuccess(state, action: PayloadAction<Watchlist>) {
       state.watchlists.push(action.payload);
       state.loading = false;
@@ -67,7 +66,6 @@ export const {
   updateWatchlistSuccess,
   deleteWatchlistSuccess,
   fetchWatchlistSuccess,
-  // Export other actions here
 } = watchlistSlice.actions;
 
 export default watchlistSlice.reducer;

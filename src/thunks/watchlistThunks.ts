@@ -1,4 +1,5 @@
 // thunks/watchlistThunks.ts
+
 import { Dispatch } from "redux";
 import {
   fetchWatchlistsStart,
@@ -8,12 +9,12 @@ import {
   updateWatchlistSuccess,
   deleteWatchlistSuccess,
   fetchWatchlistSuccess,
-  // Import other actions as needed
 } from "../slices/watchlistSlice";
 import { Watchlist } from "../model/watchlist";
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 const apiKey = process.env.REACT_APP_API_KEY;
+
 export const fetchWatchlistsByUserId = (userId: string) => {
   return async (dispatch: Dispatch) => {
     dispatch(fetchWatchlistsStart());
@@ -56,6 +57,7 @@ export const addWatchlist = (watchlistData: Watchlist) => {
         throw new Error("Failed to add watchlist.");
       }
 
+      console.log(JSON.stringify(watchlistData))
       const data = (await response.json()) as Watchlist;
       dispatch(addWatchlistSuccess(data));
     } catch (error: any) {
@@ -63,12 +65,13 @@ export const addWatchlist = (watchlistData: Watchlist) => {
     }
   };
 };
-export const updateWatchlist = (id: number, watchlistData: Watchlist) => {
+
+export const updateWatchlist = (watchlistData: Watchlist) => {
   return async (dispatch: Dispatch) => {
     dispatch(fetchWatchlistsStart());
 
     try {
-      const response = await fetch(`${serverUrl}/Watchlist/${id}`, {
+      const response = await fetch(`${serverUrl}/Watchlist`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -111,9 +114,7 @@ export const deleteWatchlist = (id: number) => {
     }
   };
 };
-// ... other imports
 
-// This function fetches a single watchlist by its ID
 export const fetchWatchlistById = (id: number) => {
   return async (dispatch: Dispatch) => {
     dispatch(fetchWatchlistsStart());
@@ -131,14 +132,9 @@ export const fetchWatchlistById = (id: number) => {
       }
 
       const data = (await response.json()) as Watchlist;
-      // Assuming you have a suitable action in your watchlist slice to handle fetching a single watchlist
-      dispatch(fetchWatchlistSuccess(data)); // Replace with your actual action for success
+      dispatch(fetchWatchlistSuccess(data)); 
     } catch (error: any) {
       dispatch(fetchWatchlistsFailure(error.message));
     }
   };
 };
-
-// ... other thunks
-
-// Implement other thunks for creating, updating, and deleting watchlists

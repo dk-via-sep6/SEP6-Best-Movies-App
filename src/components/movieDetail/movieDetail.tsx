@@ -14,6 +14,8 @@ import { AppDispatch, RootState } from "../../store";
 import { fetchMovie, fetchMovieCredits } from "../../thunks/movieThunks";
 import { fetchUserRatingForMovie } from "../../thunks/ratingThunks";
 import { useAuth } from "../../context/authContext";
+
+
 const MovieDetail: React.FC = () => {
   let { id } = useParams();
   const dispatch = useDispatch<AppDispatch>();
@@ -32,7 +34,9 @@ const MovieDetail: React.FC = () => {
   const creditsError = useSelector(
     (state: RootState) => state.movieCredits.error
   );
+
   const currentUser = useAuth();
+
   useEffect(() => {
     if (id) {
       dispatch(fetchMovie(id));
@@ -83,7 +87,7 @@ const MovieDetail: React.FC = () => {
             <MovieRating rating={movie.voteAverage} />
             <div className="userRatingDiv">
               <UserRating movieId={movie.id} />
-              <AddMovieToWatchlist movieId={movie.id} />
+              <AddMovieToWatchlist movie={movie} />
             </div>
           </div>
 
