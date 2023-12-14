@@ -1,4 +1,3 @@
-// MoviesGrid.tsx
 import React from "react";
 import Grid from "@mui/material/Grid";
 import MovieCard from "./movieCard";
@@ -6,10 +5,8 @@ import { Movie } from "../../model/movie";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 
-// Assuming you have a movie model
-
 interface MoviesGridProps {
-  movies: Movie[]; // An array of movie objects
+  movies: Movie[];
 }
 
 const MoviesGrid: React.FC<MoviesGridProps> = ({ movies }) => {

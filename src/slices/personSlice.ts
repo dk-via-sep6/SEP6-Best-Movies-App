@@ -1,4 +1,3 @@
-//personSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Person } from "../model/person";
 
@@ -36,5 +35,10 @@ const personSlice = createSlice({
   },
 });
 
-export const {fetchPersonStart, fetchPersonSuccess, fetchPersonFailure, clearPerson} = personSlice.actions;
+export const {
+  fetchPersonStart,
+  fetchPersonSuccess,
+  fetchPersonFailure,
+  clearPerson,
+} = personSlice.actions;
 export default personSlice.reducer;

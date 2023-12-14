@@ -6,7 +6,7 @@ import MovieGrid from "../../components/movieGrid/movieGrid";
 import { fetchNowPlayingMovies } from "../../thunks/movieThunks";
 import { AppDispatch, RootState } from "../../store";
 
-const ITEMS_PER_PAGE = 12; // Adjust as needed
+const ITEMS_PER_PAGE = 12;
 
 const MoviesPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -31,7 +31,6 @@ const MoviesPage: React.FC = () => {
     ? currentMovies.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
     : [];
 
-  // Optional: Handle loading and error states
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
@@ -41,15 +40,7 @@ const MoviesPage: React.FC = () => {
         <Grid item xs={12}>
           <Carousel movies={moviesToShow} />
         </Grid>
-        <Grid item xs={12}>
-          {/* <Autocomplete
-            fullWidth
-            renderInput={(params) => (
-              <TextField {...params} label="Search Movies" />
-            )}
-            options={placeholderMovies.map((movie) => movie.title)}
-          /> */}
-        </Grid>
+        <Grid item xs={12}></Grid>
         <Grid item xs={12}>
           <MovieGrid movies={moviesToShow} />
         </Grid>

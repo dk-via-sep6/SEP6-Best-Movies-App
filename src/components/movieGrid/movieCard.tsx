@@ -12,7 +12,6 @@ interface MovieCardProps {
   rating: number;
   year: number | string;
   voteCount: number;
-  // ...other properties like rating, year, etc.
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({
@@ -29,7 +28,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
           <img
             className="moviePoster"
             height="140"
-            src={"https://image.tmdb.org/t/p/w500"+imageUrl}
+            src={"https://image.tmdb.org/t/p/w500" + imageUrl}
             alt={title}
           />
         </div>

@@ -18,20 +18,20 @@
 }
 .actorName {
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* Number of lines after which to show ellipsis */
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: normal; /* Wrap text */
+  white-space: normal;
 }
 
 .actorCharacter {
-  display: block; /* Changed from -webkit-box to block */
-  white-space: normal; /* Prevents text from wrapping to a new line */
-  overflow: hidden; /* Hide overflow text */
-  text-overflow: ellipsis; /* Add ellipsis to overflow text */
-  line-height: 1.2em; /* Set line height */
-  max-height: 1.2em; /* Set maximum height to one line */
+  display: block;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2em;
+  max-height: 1.2em;
 }
 .cardContent {
   display: flex;

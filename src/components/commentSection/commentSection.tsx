@@ -1,4 +1,3 @@
-// CommentSection.tsx
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -69,28 +68,25 @@ const CommentSection: React.FC = () => {
       if (!newComment.trim()) return;
 
       try {
-        // Fetch the user's details using the UID
         const userResponse = await dispatch(
           fetchUserById(currentUser?.uid ?? "")
         ).unwrap();
-        const authorUsername = userResponse.username; // Replace 'username' with the actual property name
+        const authorUsername = userResponse.username;
 
         const newCommentObj: CommentModel = {
           id: 0,
           authorId: currentUser?.uid ?? "",
           movieId: movieId ?? 0,
           content: newComment.trim(),
-          timestamp: "", // This will likely be set server-side
+          timestamp: "",
           likedBy: [],
-          authorUsername: authorUsername, // Set the author's username
+          authorUsername: authorUsername,
         };
 
-        // Dispatch the action to post the new comment
         dispatch(postComment(newCommentObj));
         setNewComment("");
       } catch (error) {
         console.error("Failed to fetch user details:", error);
-        // Handle the error appropriately
       }
     }
   };
@@ -108,10 +104,8 @@ const CommentSection: React.FC = () => {
     const comment = comments.find((c) => c.id === commentId);
     if (comment) {
       if (comment.likedBy.includes(userId)) {
-        // User already liked the comment, so dispatch unlike action
         dispatch(unlikeComment(commentId, userId));
       } else {
-        // User hasn't liked the comment, so dispatch like action
         dispatch(likeComment(commentId, userId));
       }
     }

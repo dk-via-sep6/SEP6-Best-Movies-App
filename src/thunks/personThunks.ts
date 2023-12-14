@@ -1,4 +1,3 @@
-//personThunks.ts
 import { Dispatch } from "redux";
 
 import {

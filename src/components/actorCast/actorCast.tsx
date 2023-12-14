@@ -1,7 +1,13 @@
-// actorCast.tsx
 import React from "react";
-import { Grid, Card, CardMedia, CardContent, Typography, Tooltip } from "@mui/material";
-import { CastMember } from "../../model/castMember"; 
+import {
+  Grid,
+  Card,
+  CardMedia,
+  CardContent,
+  Typography,
+  Tooltip,
+} from "@mui/material";
+import { CastMember } from "../../model/castMember";
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
 
@@ -39,7 +45,11 @@ const ActorCast: React.FC<ActorCastProps> = ({ actors }) => {
                   <CardMedia
                     component="img"
                     height="100"
-                    image={actor.profilePath ? "https://image.tmdb.org/t/p/w500"+actor.profilePath : "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/120px-User-avatar.svg.png?20201213175635"}
+                    image={
+                      actor.profilePath
+                        ? "https://image.tmdb.org/t/p/w500" + actor.profilePath
+                        : "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/120px-User-avatar.svg.png?20201213175635"
+                    }
                     alt={actor.name}
                   />
                   <div className="cardContent">
@@ -56,17 +66,6 @@ const ActorCast: React.FC<ActorCastProps> = ({ actors }) => {
                           ))}
                         </Typography>
                       </Tooltip>
-                      {/* <div className="actorCharacter">
-                        <Tooltip title={actor.name} placement="bottom">
-                          <Typography
-                            variant="body2"
-                            color="textSecondary"
-                            className="actorCharacter"
-                          >
-                            as {actor.name}
-                          </Typography>
-                        </Tooltip>
-                      </div> */}
                     </CardContent>
                   </div>
                 </Card>

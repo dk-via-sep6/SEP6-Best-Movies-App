@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
-import { CrewColumns } from "./columns/crewColumns"
+import { CrewColumns } from "./columns/crewColumns";
 
 const PersonCrewCreditsList: React.FC = () => {
   const crew = useSelector((state: RootState) => state.personCredits.crew);
@@ -20,7 +20,6 @@ const PersonCrewCreditsList: React.FC = () => {
     navigate(`/movie/${movieId}`);
   }
 
-  // Handle loading and error states
   if (creditsLoading) {
     return <div>Loading...</div>;
   }
@@ -39,15 +38,15 @@ const PersonCrewCreditsList: React.FC = () => {
   }));
 
   return (
-    <div style={{height: "600px"}}>
-    <DataGrid
-      rows={rows}
-      columns={CrewColumns}
-      onRowClick={(params: any) => handleMovieClick(params.row.movieId)}
-      pageSizeOptions={[10, 20, 30, 100]}
-      autoPageSize
-    />
-      </div>
+    <div style={{ height: "600px" }}>
+      <DataGrid
+        rows={rows}
+        columns={CrewColumns}
+        onRowClick={(params: any) => handleMovieClick(params.row.movieId)}
+        pageSizeOptions={[10, 20, 30, 100]}
+        autoPageSize
+      />
+    </div>
   );
 };
 

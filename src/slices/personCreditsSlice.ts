@@ -1,4 +1,3 @@
-// personCreditsSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CastRoles } from "../model/castRoles";
 import { CrewRoles } from "../model/crewRoles";

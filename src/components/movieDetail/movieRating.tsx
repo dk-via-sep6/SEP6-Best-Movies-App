@@ -2,7 +2,7 @@ import React from "react";
 import Rating from "@mui/material/Rating";
 import Box from "@mui/material/Box";
 interface MovieRatingProps {
-  rating: number; // assuming the rating is out of 10
+  rating: number;
 }
 
 const MovieRating: React.FC<MovieRatingProps> = ({ rating }) => {

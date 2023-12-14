@@ -1,4 +1,3 @@
-//watchlistSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Watchlist } from "../model/watchlist";
 

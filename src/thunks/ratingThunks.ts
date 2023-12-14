@@ -1,4 +1,3 @@
-// thunks/ratingThunks.js
 import { Dispatch } from "redux";
 import {
   fetchRatingsStart,
@@ -112,7 +111,6 @@ export const deleteRating = (id: number) => {
   };
 };
 
-// Add any additional thunks as needed
 export const fetchUserRatingForMovie = (userId: string, movieId: number) => {
   return async (dispatch: Dispatch) => {
     dispatch(fetchRatingsStart());

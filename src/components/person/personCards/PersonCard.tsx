@@ -15,7 +15,6 @@ const PersonCard: React.FC<PeopleResult> = ({
 }) => {
   const titles = topKnownForTitles.split(", ");
 
-  // Function to render text with tooltip if necessary
   const renderText = () => {
     if (titles.length > 3) {
       const displayedTitles = titles.slice(0, 3).join(", ");

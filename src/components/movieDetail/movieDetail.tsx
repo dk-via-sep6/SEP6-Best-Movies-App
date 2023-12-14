@@ -15,17 +15,14 @@ import { fetchMovie, fetchMovieCredits } from "../../thunks/movieThunks";
 import { fetchUserRatingForMovie } from "../../thunks/ratingThunks";
 import { useAuth } from "../../context/authContext";
 
-
 const MovieDetail: React.FC = () => {
   let { id } = useParams();
   const dispatch = useDispatch<AppDispatch>();
 
-  // Movie data selectors
   const movie = useSelector((state: RootState) => state.movie.currentMovie);
   const movieLoading = useSelector((state: RootState) => state.movie.loading);
   const movieError = useSelector((state: RootState) => state.movie.error);
 
-  // Movie credits selectors
   const cast = useSelector((state: RootState) => state.movieCredits.cast);
   const crew = useSelector((state: RootState) => state.movieCredits.crew);
   const creditsLoading = useSelector(
@@ -47,7 +44,6 @@ const MovieDetail: React.FC = () => {
     }
   }, [id, dispatch, currentUser]);
 
-  // Handle loading and error states
   if (movieLoading || creditsLoading) {
     return <div>Loading...</div>;
   }

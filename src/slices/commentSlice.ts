@@ -2,14 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Dayjs } from "dayjs";
 
 interface Comment {
-  id?: number; // Assuming each comment has a unique ID
+  id?: number;
   authorId: string;
   movieId: number;
   content: string;
   timestamp?: Dayjs | null | string;
   likedBy: string[];
   authorUsername?: string;
-  // ... define comment structure
 }
 
 interface CommentState {

@@ -1,35 +1,35 @@
 import { FunctionComponent } from "react";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import "./styles.css";
-import { Movie } from '../../model/movie';
+import { Movie } from "../../model/movie";
 
 type CarouselProps = {
   movies: Movie[];
 };
 
-const Carousel: FunctionComponent<CarouselProps> = ({movies}) => {
-  const navigate = useNavigate(); // useNavigate hook
-
+const Carousel: FunctionComponent<CarouselProps> = ({ movies }) => {
+  const navigate = useNavigate();
   const handleMovieClick = (movieId: number) => {
-    navigate(`/movie/${movieId}`); // Navigate to movie details page
+    navigate(`/movie/${movieId}`);
   };
 
-  const handleDragStart = (e: React.DragEvent<HTMLImageElement>) => e.preventDefault();
+  const handleDragStart = (e: React.DragEvent<HTMLImageElement>) =>
+    e.preventDefault();
 
   const items = movies.map((movie) => (
     <img
       key={movie.id}
-      src={"https://image.tmdb.org/t/p/w500"+movie.posterPath}
+      src={"https://image.tmdb.org/t/p/w500" + movie.posterPath}
       alt={movie.title}
       onDragStart={handleDragStart}
-      onClick={() => handleMovieClick(movie.id)} // Add onClick event
+      onClick={() => handleMovieClick(movie.id)}
       role="presentation"
-      style={{ cursor: 'pointer' }} // Optional: Change cursor to indicate clickable
+      style={{ cursor: "pointer" }}
     />
   ));
-  
+
   return (
     <div className="innerCarouselContainer">
       <AliceCarousel

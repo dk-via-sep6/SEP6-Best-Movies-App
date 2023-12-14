@@ -11,7 +11,6 @@ interface MoviesParticipatedProps {
 const MoviesParticipated: React.FC<MoviesParticipatedProps> = ({ movies }) => {
   const navigate = useNavigate();
   const handleMovieClick = (movieId: number) => {
-    // Navigate to the movie details page
     navigate(`/movie/${movieId}`);
   };
   return (
