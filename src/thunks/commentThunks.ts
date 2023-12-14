@@ -39,7 +39,6 @@ export const fetchCommentsByMovieId = (movieId: number) => {
   };
 };
 export const postComment = (commentData: Comment) => {
-  console.log("post comment thunk");
   return async (dispatch: Dispatch) => {
     try {
       const payload = {

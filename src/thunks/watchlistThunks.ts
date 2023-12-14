@@ -55,7 +55,6 @@ export const addWatchlist = (watchlistData: Watchlist) => {
         throw new Error("Failed to add watchlist.");
       }
 
-      console.log(JSON.stringify(watchlistData));
       const data = (await response.json()) as Watchlist;
       dispatch(addWatchlistSuccess(data));
     } catch (error: any) {
