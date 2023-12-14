@@ -1,9 +1,8 @@
-// layout.tsx
 import React, { useState, useRef } from "react";
-import { Outlet } from "react-router-dom"; // Import Outlet
+import { Outlet } from "react-router-dom";
 import TopBar from "../../components/topbar/topbar";
 import Sidebar from "../../components/sidebar/sidebar";
-import useOutsideClick from "../../hooks/useOutsideClick"; // Import the hook
+import useOutsideClick from "../../hooks/useOutsideClick";
 import "./style.css";
 
 const Layout: React.FC = () => {
@@ -24,7 +23,7 @@ const Layout: React.FC = () => {
       <div className="layout-body">
         <Sidebar isOpen={isSidebarOpen} ref={sidebarRef} />
         <main className="main-content">
-          <Outlet /> {/* Use Outlet here to render the child routes */}
+          <Outlet />
         </main>
       </div>
     </div>

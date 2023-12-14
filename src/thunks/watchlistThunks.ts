@@ -1,5 +1,3 @@
-// thunks/watchlistThunks.ts
-
 import { Dispatch } from "redux";
 import {
   fetchWatchlistsStart,
@@ -57,7 +55,6 @@ export const addWatchlist = (watchlistData: Watchlist) => {
         throw new Error("Failed to add watchlist.");
       }
 
-      console.log(JSON.stringify(watchlistData))
       const data = (await response.json()) as Watchlist;
       dispatch(addWatchlistSuccess(data));
     } catch (error: any) {
@@ -132,7 +129,7 @@ export const fetchWatchlistById = (id: number) => {
       }
 
       const data = (await response.json()) as Watchlist;
-      dispatch(fetchWatchlistSuccess(data)); 
+      dispatch(fetchWatchlistSuccess(data));
     } catch (error: any) {
       dispatch(fetchWatchlistsFailure(error.message));
     }

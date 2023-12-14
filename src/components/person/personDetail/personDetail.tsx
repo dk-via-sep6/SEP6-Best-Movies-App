@@ -24,7 +24,6 @@ const PersonDetails: React.FC = () => {
     }
   }, [personId, dispatch]);
 
-  // Handle loading and error states
   if (personLoading) {
     return <div>Loading...</div>;
   }

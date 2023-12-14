@@ -1,4 +1,3 @@
-// slices/ratingSlice.js
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Rating } from "../model/rating";
 
@@ -49,11 +48,9 @@ const ratingSlice = createSlice({
       );
     },
     fetchUserRatingSuccess(state, action: PayloadAction<Rating>) {
-      state.userRating = action.payload; // Assuming you have a field in your state to hold this
+      state.userRating = action.payload;
       state.loading = false;
     },
-    // Optionally, add actions for user-specific interactions with ratings
-    // For example, userRatingUpdateSuccess to handle updates to the user's rating
   },
 });
 

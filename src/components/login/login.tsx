@@ -17,8 +17,8 @@ import {
   signInWithGoogle,
   signUp,
 } from "../../hooks/useAuth";
-import GoogleIcon from "@mui/icons-material/Google"; // Import Google icon
-import IncognitoIcon from "@mui/icons-material/VisibilityOff"; // Example icon for anonymous login
+import GoogleIcon from "@mui/icons-material/Google";
+import IncognitoIcon from "@mui/icons-material/VisibilityOff";
 import { useAuth } from "../../context/authContext";
 import { createUser, fetchUserById } from "../../thunks/userThunks";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
@@ -62,7 +62,6 @@ const Login: FunctionComponent = () => {
           EmailAddress: email,
           Username: username,
         };
-        // Dispatch createUser thunk instead of sendUserToServer
         await dispatch(createUser(user));
 
         navigate("/movies");
@@ -78,7 +77,6 @@ const Login: FunctionComponent = () => {
       navigate("/movies");
     } catch (error) {
       console.error(error);
-      // Handle errors here, such as displaying a notification to the user
     }
   };
   const handleAnonymousSignIn = async () => {
@@ -87,14 +85,12 @@ const Login: FunctionComponent = () => {
       navigate("/movies");
     } catch (error) {
       console.error(error);
-      // Handle errors here, such as displaying a notification to the user
     }
   };
   const handleLogin = async () => {
     if (validateInputs()) {
       try {
         const userCredential = await login(email, password);
-        // Dispatch fetchUserById thunk after successful login
         await dispatch(fetchUserById(userCredential.user?.uid));
 
         navigate("/movies");

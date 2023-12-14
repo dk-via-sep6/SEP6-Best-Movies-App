@@ -22,7 +22,7 @@ interface MovieRatingProps {
 
 const UserRating: React.FC<MovieRatingProps> = ({ movieId }) => {
   const [open, setOpen] = useState(false);
-  const [localUserRating, setLocalUserRating] = useState<number | null>(null); // Added local state for user rating
+  const [localUserRating, setLocalUserRating] = useState<number | null>(null);
   const { isAnonymous, currentUser } = useAuth();
   const [guestUserDialog, setGuestUserDialog] = useState(false);
   const dispatch = useAppDispatch();

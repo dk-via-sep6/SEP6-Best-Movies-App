@@ -1,7 +1,6 @@
-// directorCast.tsx
 import React from "react";
 import { Grid, Card, CardMedia, CardContent, Typography } from "@mui/material";
-import { CrewMember } from "../../model/crewMember"; // import CrewMember
+import { CrewMember } from "../../model/crewMember";
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
 
@@ -40,7 +39,12 @@ const DirectorCast: React.FC<DirectorCastProps> = ({ directors }) => {
                   <CardMedia
                     component="img"
                     height="140"
-                    image={director.profilePath ? "https://image.tmdb.org/t/p/w500"+director.profilePath:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/120px-User-avatar.svg.png?20201213175635"}
+                    image={
+                      director.profilePath
+                        ? "https://image.tmdb.org/t/p/w500" +
+                          director.profilePath
+                        : "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/120px-User-avatar.svg.png?20201213175635"
+                    }
                     alt={director.name}
                   />
                   <div className="directorCardContent">

@@ -1,4 +1,3 @@
-// movieCreditsSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CastMember } from "../model/castMember";
 import { CrewMember } from "../model/crewMember";
@@ -8,7 +7,7 @@ interface MovieCreditsState {
   crew: CrewMember[];
   loading: boolean;
   error: string | null;
-};
+}
 
 const initialState: MovieCreditsState = {
   cast: [],

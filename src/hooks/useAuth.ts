@@ -1,5 +1,3 @@
-// src/hooks/useAuth.ts
-
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -12,7 +10,6 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 import { deleteUser as firebaseDeleteUser } from "firebase/auth";
-// Example implementations in authServices.ts (or wherever your auth functions are)
 
 export const login = async (
   email: string,
@@ -27,7 +24,7 @@ export const login = async (
     return userCredential;
   } catch (error: any) {
     console.error("Login Error:", error);
-    throw error; // Re-throw the error to be handled where the function is called
+    throw error;
   }
 };
 
@@ -36,7 +33,7 @@ export const signUp = async (
   password: string
 ): Promise<UserCredential> => {
   const response = await createUserWithEmailAndPassword(auth, email, password);
-  return response; // Explicitly return the response
+  return response;
 };
 
 export const logout = async (): Promise<void> => {
@@ -52,7 +49,6 @@ export const signInAnonymously = async (): Promise<void> => {
   await firebaseSignInAnonymously(auth);
 };
 export const deleteUser = async (): Promise<void> => {
-  // Assuming 'auth' is the Firebase auth instance and currentUser is the current user
   if (auth.currentUser) {
     await firebaseDeleteUser(auth.currentUser);
   }

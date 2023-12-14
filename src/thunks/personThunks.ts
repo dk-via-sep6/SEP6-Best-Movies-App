@@ -1,4 +1,3 @@
-//personThunks.ts
 import { Dispatch } from "redux";
 
 import {
@@ -44,7 +43,6 @@ export const fetchPerson = (personId: string) => {
       }
 
       const data = await response.json();
-      console.log(data);
       dispatch(fetchPersonSuccess(data));
     } catch (error) {
       dispatch(fetchPersonFailure("Network error. Please try again"));
@@ -72,7 +70,6 @@ export const fetchPersonCredits = (personId: string) => {
       }
 
       const data = await response.json();
-      console.log(data);
       dispatch(
         fetchPersonCreditsSuccess({
           cast: data.castRoles,
@@ -102,7 +99,6 @@ export const fetchPersonSearchResults = (searchText: string) => {
       }
 
       const data = await response.json();
-      console.log(data);
       dispatch(fetchPersonSearchSuccess(data));
     } catch (error) {
       dispatch(fetchPersonSearchFailure("Network error. Please try again"));
@@ -125,7 +121,6 @@ export const fetchTrendingPeople = () => {
       }
 
       const data = await response.json();
-      console.log(data);
       dispatch(fetchTrendingPeopleSuccess(data));
     } catch (error) {
       dispatch(fetchTrendingPeopleFailure("Network error. Please try again"));

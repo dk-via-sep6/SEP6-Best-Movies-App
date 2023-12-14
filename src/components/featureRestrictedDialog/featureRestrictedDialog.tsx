@@ -19,8 +19,8 @@ const FeatureRestrictedDialog: React.FC<FeatureRestrictedDialogProps> = ({
   const navigate = useNavigate();
 
   const handleLoginRedirect = () => {
-    onClose(); // Close the dialog first
-    navigate("/login"); // Then navigate to login page
+    onClose();
+    navigate("/login");
   };
 
   return (

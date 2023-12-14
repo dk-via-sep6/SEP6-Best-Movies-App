@@ -41,7 +41,6 @@ export const fetchMovie = (movieId: string) => {
       }
 
       const data = await response.json();
-      console.log(data);
       dispatch(fetchMovieSuccess(data));
     } catch (error) {
       dispatch(fetchMovieFailure("Network error. Please try again"));
@@ -66,7 +65,6 @@ export const fetchNowPlayingMovies = () => {
       }
 
       const data = await response.json();
-      console.log(data);
       dispatch(fetchNowPlayingMoviesSuccess(data));
     } catch (error) {
       dispatch(fetchNowPlayingMoviesFailure("Network error. Please try again"));
@@ -90,7 +88,6 @@ export const fetchMovieCredits = (movieId: string) => {
         throw new Error("Failed to fetch movie.");
       }
       const data = await response.json();
-      console.log(data);
       dispatch(
         fetchMovieCreditsSuccess({
           cast: data.castMembers,
@@ -123,7 +120,6 @@ export const fetchMovieSearchResults = (searchText: string) => {
       }
 
       const data = await response.json();
-      console.log(data);
       dispatch(fetchMovieSearchSuccess(data));
     } catch (error) {
       dispatch(fetchMovieSearchFailure("Network error. Please try again"));

@@ -1,5 +1,3 @@
-// src/context/AuthContext.tsx
-
 import React, {
   createContext,
   useContext,
@@ -19,11 +17,8 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
 } from "firebase/auth";
-import { auth } from "../firebase/firebase"; // adjust the path as needed
+import { auth } from "../firebase/firebase";
 import { deleteUser as firebaseDeleteUser } from "firebase/auth";
-// ... other imports
-
-// Define the shape of your context data
 interface AuthContextType {
   currentUser: User | null;
   isAnonymous: boolean;
@@ -44,7 +39,7 @@ const defaultAuthContext: AuthContextType = {
   isAnonymous: false,
   loading: true,
 
-  login: async () => {}, // Provide a default no-op async function
+  login: async () => {},
   signUp: async () => {},
   logout: async () => {},
   deleteUser: async () => {},
@@ -54,18 +49,14 @@ const defaultAuthContext: AuthContextType = {
   reAuthenticate: async () => {},
   sendForgotPasswordEmail: async () => {},
 };
-// Create the context with a default value that matches the shape
 export const AuthContext = createContext<AuthContextType>(defaultAuthContext!);
 
-// Hook to use the auth context
 export const useAuth = () => useContext(AuthContext);
 
-// Props type for the provider component
 type Props = {
   children: ReactNode;
 };
 
-// Provider component
 export const AuthProvider: React.FC<Props> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -78,38 +69,28 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       setLoading(false);
     });
 
-    // Cleanup subscription on unmount
     return unsubscribe;
   }, []);
 
-  // Implement the login function
   const login = async (email: string, password: string): Promise<void> => {
-    // Call the login function from your authServices and return the promise
     await signInWithEmailAndPassword(auth, email, password);
   };
 
-  // Implement the signUp function
   const signUp = async (email: string, password: string): Promise<void> => {
-    // Call the signUp function from your authServices and return the promise
     await createUserWithEmailAndPassword(auth, email, password);
   };
 
-  // Implement the logout function
   const logout = async (): Promise<void> => {
     await signOut(auth);
-    // Call the logout function from your authServices and return the promise
   };
 
   const deleteUser = async (): Promise<void> => {
     if (auth.currentUser) {
       try {
         await firebaseDeleteUser(auth.currentUser);
-        // Optionally, handle any post-deletion logic here
-        // e.g., logging out the user, redirecting, showing a message, etc.
       } catch (error) {
-        // Handle any errors that occur during deletion
         console.error("Error deleting account: ", error);
-        throw error; // Re-throw the error if needed
+        throw error;
       }
     }
   };
@@ -121,7 +102,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     if (auth.currentUser) {
       await updateProfile(auth.currentUser, {
         displayName,
-        photoURL: photoURL || auth.currentUser.photoURL, // Keep existing photoURL if not provided
+        photoURL: photoURL || auth.currentUser.photoURL,
       });
     }
   };
@@ -137,7 +118,6 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       await updatePassword(auth.currentUser, newPassword);
     }
   };
-  // Inside AuthProvider component
 
   const reAuthenticate = async (
     email: string,
@@ -145,7 +125,6 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   ): Promise<void> => {
     await signInWithEmailAndPassword(auth, email, password);
   };
-  // Inside AuthProvider component
 
   const sendForgotPasswordEmail = async (email: string): Promise<void> => {
     if (!email) {
@@ -154,7 +133,6 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     await sendPasswordResetEmail(auth, email);
   };
 
-  // Provide the current state and functions to the context
   const value = {
     currentUser,
     isAnonymous,
@@ -170,6 +148,5 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     sendForgotPasswordEmail,
   };
 
-  // Render the context provider with the state and functions
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -54,32 +54,26 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSelect }) => {
       state.personSearch.loading || state.movieSearch.loading
   );
 
-  // State for the anchor element of the dropdown menu
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
 
-  // New state to store combined search items
   const [combinedSearchItems, setCombinedSearchItems] = useState<SearchItem[]>(
     []
   );
 
-  // Function to handle opening the dropdown menu
   const handleMenuClick = (event: MouseEvent<HTMLButtonElement>) => {
     setMenuAnchorEl(event.currentTarget);
   };
 
-  // Function to handle closing the dropdown menu
   const handleMenuClose = () => {
     setMenuAnchorEl(null);
   };
 
-  // Function to handle selecting a search type (Movies or People)
   const handleSelect = (type: string) => {
     setSearchType(type);
     handleMenuClose();
   };
 
   useEffect(() => {
-    // Reset the search items when the search type changes
     setCombinedSearchItems([]);
     dispatch(clearMovieSearch());
     dispatch(clearPersonSearch());
@@ -92,7 +86,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSelect }) => {
     }
   }, [searchText, autocompleteOpen, searchType, dispatch]);
 
-  // Update combined search items when person or movie search results change
   useEffect(() => {
     const newSearchItems = [
       ...personSearchResults.map((personInfo: PersonInfo) => ({

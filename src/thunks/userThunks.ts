@@ -1,4 +1,3 @@
-// thunks/userThunks.ts
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getAuth } from "firebase/auth";
 import { User } from "../model/user";

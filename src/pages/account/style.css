@@ -1,27 +1,3 @@
-/* .closeIcon {
-  display: flex;
-  width: 100%;
-  align-items: flex-end;
-  justify-content: flex-end;
-} */
-/* .accountContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-} */
-/* .accountCard {
-  margin-top: 100px;
-  width: 450px;
-  height: fit-content;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-self: center;
-  align-content: center;
-
-  justify-content: center;
-} */
 .movieLists {
   margin-top: 100px;
   display: flex;
